@@ -12,7 +12,7 @@ module.exports = {
       options: { truncate: true },
     });
 
-    await queryInterface.createTable('ca_producto', {
+    await queryInterface.createTable('ca_productos', {
       id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -22,21 +22,21 @@ module.exports = {
       descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+        },
       precio: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+        },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-    },
-    },
-    {
-      charset: 'UTF8',
-      schema: schema
-  });
+        }
+      },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
   },
 
   async down(queryInterface, Sequelize) {}

@@ -4,44 +4,75 @@ const db = require('../models/index')
 const op = db.sequelize.Op
 
 // const model = require('../models/').ca_producto
-const model = require('../models/').ca_producto
+const model = require('../models/').ca_productos
 
 async function findAll(req, res) {
     try {
 
-        console.log('model', model)
+        console.log("Peticion")
 
-        let rows = await model.
+        let rows = await model.findAll()
 
-        console.log('rows', rows)
-
-        return res.status(200).send({rows: rows})
+        return res.status(200).json({rows: rows})
 
     } catch (error) {
-        // console.error(error)
+        console.error(error)
         return res.status(500).json({msg: error})
     }
 }
 
 async function create(req, res) {
     try {
-        res.send("Ruta activa desde controlador.")
+
+        console.log(req.body)
+
+        console.log(model)
+
+        let newProducto = await model.create({
+            descripcion: req.body.descripcion,
+            precio: req.body.precio,
+            estatus: true
+        })
+
+        return res.status(200).json({
+            msg: "Producto creado con exito.",
+            producto: newProducto
+        })
+
     } catch (error) {
-        
+        console.error(error)
+        return res.status(500).json({msg: error})
     }
 }
 async function update(req, res) {
     try {
-        res.send("Ruta activa desde controlador.")
+
+        await model.update({
+            descripcion: req.body.descripcion,
+            precio: req.body.precio
+        },
+        {where: {id: req.params.id}})
+
+        res.status(200).json({
+            msg: "Producto actualizado con exito.",
+        })
     } catch (error) {
-        
+        console.error(error)
+        return res.status(500).json({msg: error})
     }
 }
 async function remove(req, res) {
     try {
-        res.send("Ruta activa desde controlador.")
+
+        await model.destroy({
+            where: { id: req.params.id }
+        })
+
+        res.status(200).json({msg: "Producto eliminado con exito."})
+
     } catch (error) {
-        
+        console.error(error)
+        return res.status(500).json({msg: error})
     }
 }
 

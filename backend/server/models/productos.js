@@ -5,7 +5,7 @@ const config = require('../config/config');
 const schema = config.plataformas.dvpv;
 
 module.exports = (sequelize, DataTypes) => {
-    let ca_producto = sequelize.define('ca_producto', {
+    let ca_productos = sequelize.define('ca_productos', {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
@@ -31,5 +31,5 @@ module.exports = (sequelize, DataTypes) => {
         schema: schema
     });
 
-    return ca_producto;
+    return ca_productos;
 };
