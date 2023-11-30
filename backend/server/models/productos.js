@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        cantidad: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         estatus: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

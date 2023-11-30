@@ -9,11 +9,32 @@ const model = require('../models/').ca_productos
 async function findAll(req, res) {
     try {
 
-        console.log("Peticion")
+        let clausula = {}
 
-        let rows = await model.findAll()
+        clausula.descripcion = req.query.descripcion
 
-        return res.status(200).json({rows: rows})
+        let rows = await model.findAll({
+            // where: clausula
+        })
+
+        return res.status(200).json(rows)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({msg: error})
+    }
+}
+
+async function findById(req, res) {
+    try {
+
+        let row = await model.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        return res.status(200).json(row)
 
     } catch (error) {
         console.error(error)
@@ -78,6 +99,7 @@ async function remove(req, res) {
 
 module.exports = {
     findAll,
+    findById,
     create,
     update,
     remove

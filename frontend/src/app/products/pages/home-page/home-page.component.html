@@ -1,0 +1,32 @@
+<div id="tabla" class="container my-5">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Producto</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-active" *ngFor="let producto of ventaProductos">
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
+          <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<form (ngSubmit)='agregarProducto(1)'>
+  <div class="input-group mb-3">
+    <input name="productoInput" type="text" class="form-control" placeholder="Producto" aria-label="Producto"
+      [(ngModel)]="producto">
+    <button class="btn btn-primary" type="submit">Agregar</button>
+  </div>
+</form>
