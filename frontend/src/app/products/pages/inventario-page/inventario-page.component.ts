@@ -10,7 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class InventarioPageComponent implements OnInit {
 
-  listProductos: Productos[]
+  listProductos: Productos[] = []
   existe: boolean
   addProductoFlag: boolean = false
   editProductoFlag: boolean = false
@@ -68,14 +68,19 @@ export class InventarioPageComponent implements OnInit {
 
   editProducto() {
     this.productoService.editProducto(this.productoEditId, this.formEdit.value).subscribe()
+    this.change()
   }
 
   addProducto() {
     this.productoService.createProducto(this.formAdd.value).subscribe()
+    this.addProductoFlag = !this.addProductoFlag
+    this.getProdutos()
   }
 
-  changeFlags() {
-    
+  change() {
+    let producto = this.listProductos.find((producto) => producto.id === this.productoEditId)
+    producto.estatus = !producto.estatus
+    this.editProductoFlag = !this.editProductoFlag
   }
 
 }

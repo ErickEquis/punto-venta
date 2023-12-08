@@ -74,11 +74,12 @@ async function update(req, res) {
 
         await model.update({
             descripcion: req.body.descripcion,
-            precio: req.body.precio
+            precio: req.body.precio,
+            cantidad: req.body.cantidad,
         },
         {where: {id: req.params.id}})
 
-        res.status(200).json({
+        return res.status(200).json({
             msg: "Producto actualizado con exito.",
         })
     } catch (error) {
