@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Productos } from '../../interfaces/productos';
 import { ProductoService } from '../../services/producto-service.service';
+import { ProductosVenta } from '../../interfaces/productosVenta';
 
 @Component({
   selector: 'app-home-page',
@@ -9,33 +10,15 @@ import { ProductoService } from '../../services/producto-service.service';
 })
 export class HomePageComponent implements OnInit {
 
-  listProductos: Productos[]
+  listProductos: Productos[] = []
 
-  ventaProductos: Productos[] = [
-    {
-      id: 1,
-      descripcion: "producto1",
-      precio: 12.5,
-      cantidad: 1,
-      estatus: true
-    },
-    {
-      id: 3,
-      descripcion: "producto3",
-      precio: 2.5,
-      cantidad: 1,
-      estatus: true
-    },
-    {
-      id: 2,
-      descripcion: "producto2",
-      precio: 1.5,
-      cantidad: 1,
-      estatus: true
-    },
-  ]
+  ventaProductos: ProductosVenta[] = []
 
-  producto: string = ''
+  productoBuscado: string = ''
+
+  itemById: Productos[]
+
+  item: any = {}
 
   constructor(private productoService: ProductoService) { }
 
@@ -56,34 +39,39 @@ export class HomePageComponent implements OnInit {
     this.ventaProductos.splice(i, 1)
   }
 
-  agregarProducto(id: number) {
-    // this.getProductoId(id)
-    let p = this.ventaProductos.find(p => p.descripcion == this.producto)
-
-    let prueba = {
-      id: 3,
-      descripcion: this.producto,
-      precio: 2.5,
-      cantidad: 1,
-      estatus: true
+  agregarProducto() {
+    this.item = {
+      id: this.itemById['id'],
+      descripcion: this.itemById['descripcion'],
+      precio: this.itemById['precio'],
+      cantidad: 1
     }
-
-    p ? this.cantidadVenta(1, p) : this.ventaProductos.push(prueba)
-    this.producto = ''
+    let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion'])
+    )
+    p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item)
+    this.productoBuscado = ''
+    this.itemById = []
   }
 
   getProductos() {
-    this.productoService.getProdutos().subscribe((data: Productos[]) => {
-      this.listProductos = data
-    })
+    if (this.productoBuscado != '') {
+      this.productoService.getProdutos(this.productoBuscado).subscribe((data: Productos[]) => {
+        this.listProductos = data
+      })
+    }
+    this.listProductos = []
   }
 
-  getProductoId(id: number) {
-    this.productoService.getProductoId(id)
-      .subscribe((p: Productos[]) => {
-        console.log(p)
-        // this.ventaProductos.push(p)
+  getProductoId(item: any): void {
+    this.productoService.getProductoId(item.id)
+      .subscribe((dato: any) => {
+        this.itemById = dato
       })
+  }
+
+  selectProducto(item: any) {
+    this.productoBuscado = item.descripcion
+    this.getProductoId(item)
   }
 
 }

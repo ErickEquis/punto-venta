@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto-service.service';
 import { Productos } from '../../interfaces/productos';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-inventario-page',
@@ -11,34 +12,70 @@ export class InventarioPageComponent implements OnInit {
 
   listProductos: Productos[]
   existe: boolean
-  edit: boolean = false
+  addProductoFlag: boolean = false
+  editProductoFlag: boolean = false
+  productoBuscado: string = ''
+  productoEditId: number
+
+  formEdit: any
+  formAdd: any
 
   constructor(private productoService: ProductoService) { }
 
   ngOnInit(): void {
     this.getProdutos()
+
+    this.formEdit = new FormGroup({
+      descripcion: new FormControl(''),
+      precio: new FormControl(''),
+      cantidad: new FormControl(''),
+    })
+
+    this.formAdd = new FormGroup({
+      descripcion: new FormControl(''),
+      precio: new FormControl(''),
+      cantidad: new FormControl(''),
+    })
   }
 
-  getProdutos() {
-    this.productoService.getProdutos()
+  getProdutos(descripcion?: string) {
+    this.productoService.getProdutos(descripcion)
       .subscribe((data: Productos[]) => {
         this.listProductos = data
       })
   }
 
+  filtrarProductos() {
+    this.getProdutos(this.productoBuscado)
+  }
+
   deleteProducto(id: number) {
     this.productoService.deleteProducto(id).subscribe()
   }
-  
+
   eliminar(id: number) {
     this.deleteProducto(id)
     this.getProdutos()
   }
 
-  editState(producto): void {
-    this.edit = !this.edit
-    console.log(this.edit)
-    console.log(producto)
+  editState(producto: any): void {
+    this.listProductos.forEach((producto) => producto.estatus = true)
+    producto.estatus = !producto.estatus
+    this.editProductoFlag = !this.editProductoFlag
+    this.formEdit.setValue({descripcion: producto.descripcion, precio: producto.precio, cantidad: producto.cantidad})
+    this.productoEditId = producto.id
+  }
+
+  editProducto() {
+    this.productoService.editProducto(this.productoEditId, this.formEdit.value).subscribe()
+  }
+
+  addProducto() {
+    this.productoService.createProducto(this.formAdd.value).subscribe()
+  }
+
+  changeFlags() {
+    
   }
 
 }

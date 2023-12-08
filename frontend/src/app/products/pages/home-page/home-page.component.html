@@ -9,24 +9,37 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="table-active" *ngFor="let producto of ventaProductos">
-        <td>{{ producto.descripcion }}</td>
-        <td>{{ producto.precio }}</td>
-        <td>{{ producto.cantidad }}</td>
-        <td>
-          <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
-          <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
-          <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
-        </td>
-      </tr>
-    </tbody>
+        <tr class="table-active" *ngFor="let producto of ventaProductos">
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.precio }}</td>
+          <td>{{ producto.cantidad }}</td>
+          <td>
+            <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
+            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
+          </td>
+        </tr>
+        </tbody>
   </table>
 </div>
 
-<form (ngSubmit)='agregarProducto(1)'>
-  <div class="input-group mb-3">
-    <input name="productoInput" type="text" class="form-control" placeholder="Producto" aria-label="Producto"
-      [(ngModel)]="producto">
+  <div class="alert alert-dismissible alert-info my-5 py-5" *ngIf="!ventaProductos.length">
+    <strong>Heads up!</strong> This, but it's not super important.
+  </div>
+
+<form (ngSubmit)='agregarProducto(item)'>
+  <div class="input-group">
+    <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
+      [(ngModel)]="productoBuscado" (keyup)="getProductos()">
     <button class="btn btn-primary" type="submit">Agregar</button>
   </div>
 </form>
+
+<table class="table table-hover">
+  <tbody>
+    <tr *ngFor="let item of listProductos" class="table-info" (click)="selectProducto(item)">
+      <td>{{ item.descripcion }}</td>
+      <td>{{ item.precio }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -6,7 +6,7 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { InventarioPageComponent } from './pages/inventario-page/inventario-page.component';
 import { CardComponentComponent } from './components/card-component/card-component.component';
 import { NavbarComponentComponent } from './components/navbar-component/navbar-component.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [HomePageComponent, LayoutPageComponent, InventarioPageComponent, CardComponentComponent, NavbarComponentComponent],
@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ProductsRoutingModule,
+    ReactiveFormsModule,
     FormsModule
   ]
 })

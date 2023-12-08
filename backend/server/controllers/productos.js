@@ -1,21 +1,31 @@
 'use strict'
 
 const db = require('../models/index')
-const op = db.sequelize.Op
+const op = db.Sequelize.Op
 
-// const model = require('../models/').ca_producto
 const model = require('../models/').ca_productos
 
 async function findAll(req, res) {
     try {
 
-        let clausula = {}
-
-        clausula.descripcion = req.query.descripcion
+        req.query.descripcion ? req.query.descripcion : req.query.descripcion = '' 
 
         let rows = await model.findAll({
-            // where: clausula
-        })
+            where: {
+                [op.or]: [
+                    {
+                        descripcion: { [op.iLike]: '%' + req.query.descripcion + '%' }
+                    },
+                    db.Sequelize.where(
+                        db.Sequelize.fn('LOWER', db.Sequelize.fn('translate', db.Sequelize.col('descripcion'), 'áéíóúäëïöü', 'aeiouaeiou')),
+                        {
+                            [op.iLike]: '%' + req.query.descripcion + '%',
+                        },
+                    ),
+                ],
+            },
+            raw: true,
+        });
 
         return res.status(200).json(rows)
 
@@ -45,20 +55,14 @@ async function findById(req, res) {
 async function create(req, res) {
     try {
 
-        console.log(req.body)
-
-        console.log(model)
-
-        let newProducto = await model.create({
+        await model.create({
             descripcion: req.body.descripcion,
-            precio: req.body.precio,
+            precio: parseInt(req.body.precio),
+            cantidad: parseInt(req.body.cantidad),
             estatus: true
         })
 
-        return res.status(200).json({
-            msg: "Producto creado con exito.",
-            producto: newProducto
-        })
+        return res.status(200).json({ msg: "Producto creado con exito." })
 
     } catch (error) {
         console.error(error)
