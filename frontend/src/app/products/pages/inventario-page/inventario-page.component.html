@@ -39,8 +39,8 @@
 <div class="col-12 my-2" *ngIf="editProductoFlag">
     <form [formGroup]="formEdit" (ngSubmit)="editProducto()">
         <input class="col-3 mx-1" type="text" id="editDescripcion" formControlName="descripcion">
-        <input class="col-3 mx-1" type="text" id="editPrecio" formControlName="precio">
-        <input class="col-3 mx-1" type="text" id="editCantidad" formControlName="cantidad">
+        <input class="col-3 mx-1" type="number" id="editPrecio" formControlName="precio">
+        <input class="col-3 mx-1" type="number" id="editCantidad" formControlName="cantidad">
         <button type="submit" class="btn btn-danger btn-sm mx-1" (click)="editProducto()">Editar</button>
         <button type="button" class="btn btn-danger btn-sm mx-1" (click)="change()">Cancelar</button>
     </form>
@@ -49,8 +49,8 @@
 <div class="col-12 my-2" *ngIf="addProductoFlag">
   <form [formGroup]="formAdd" (ngSubmit)="addProducto()">
       <input class="col-3 mx-1" type="text" name="descripcion" placeholder="Descripcion" formControlName="descripcion">
-      <input class="col-3 mx-1" type="text" name="precio" placeholder="Precio" formControlName="precio">
-      <input class="col-3 mx-1" type="text" name="cantidad" placeholder="Cantidad" formControlName="cantidad">
+      <input class="col-3 mx-1" type="number" name="precio" placeholder="Precio" formControlName="precio">
+      <input class="col-3 mx-1" type="number" name="cantidad" placeholder="Cantidad" formControlName="cantidad">
       <button type="submit" class="btn btn-danger btn-sm mx-1">Agregar</button>
       <button type="button" class="btn btn-danger btn-sm mx-1" (click)="addProductoFlag = !addProductoFlag">Cancelar</button>
   </form>

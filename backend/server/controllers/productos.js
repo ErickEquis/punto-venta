@@ -77,8 +77,8 @@ async function create(req, res) {
 
         await model.create({
             descripcion: req.body.descripcion,
-            precio: parseInt(req.body.precio),
-            cantidad: parseInt(req.body.cantidad),
+            precio: req.body.precio,
+            cantidad: req.body.cantidad,
             estatus: true
         })
 
@@ -151,5 +151,5 @@ module.exports = {
     findById,
     create,
     update,
-    remove
+    remove,
 }

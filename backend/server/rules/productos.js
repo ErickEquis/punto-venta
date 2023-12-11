@@ -8,6 +8,8 @@ function findById(req) {
         json.mensaje = "Lo sentimos es necesario el id del producto"
         return json
     }
+
+    return json
 }
 
 function create(body) {
@@ -68,6 +70,8 @@ function remove(req) {
         json.mensaje = "Lo sentimos es necesario el id del producto"
         return json
     }
+
+    return json
 }
 
 module.exports = {
