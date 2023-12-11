@@ -5,6 +5,8 @@ const op = db.Sequelize.Op
 
 const model = require('../models/').ca_productos
 
+const rules = require('../rules/productos')
+
 async function findAll(req, res) {
     try {
 
@@ -36,7 +38,16 @@ async function findAll(req, res) {
 }
 
 async function findById(req, res) {
+    
+    let json = {}
+    
     try {
+
+        let rule = rules.findById(req)
+        if (rule.codigo != 0) {
+            json.mensaje = rule.mensaje
+            return res.status(401).json(json)
+        }
 
         let row = await model.findOne({
             where: {
@@ -53,7 +64,16 @@ async function findById(req, res) {
 }
 
 async function create(req, res) {
+
+    let json = {}
+
     try {
+
+        let rule = rules.create(req.body)
+        if (rule.codigo != 0) {
+            json.mensaje = rule.mensaje
+            return res.json(json)
+        }
 
         await model.create({
             descripcion: req.body.descripcion,
@@ -62,15 +82,27 @@ async function create(req, res) {
             estatus: true
         })
 
-        return res.status(200).json({ msg: "Producto creado con exito." })
+        json.mensaje = "Producto creado con éxito."
+
+        return res.status(200).json(json)
 
     } catch (error) {
         console.error(error)
         return res.status(500).json({msg: error})
     }
 }
+
 async function update(req, res) {
+
+    let json = {}
+
     try {
+
+        let rule = rules.update(req.body)
+        if (rule.codigo != 0) {
+            json.mensaje = rule.mensaje
+            return res.status(401).json(json)
+        }
 
         await model.update({
             descripcion: req.body.descripcion,
@@ -79,22 +111,34 @@ async function update(req, res) {
         },
         {where: {id: req.params.id}})
 
-        return res.status(200).json({
-            msg: "Producto actualizado con exito.",
-        })
+        json.mensaje = "Producto actualizado con exito."
+
+        return res.status(200).json(json)
     } catch (error) {
         console.error(error)
         return res.status(500).json({msg: error})
     }
 }
+
 async function remove(req, res) {
+    
+    let json = {}
+    
     try {
+
+        let rule = rules.remove(req)
+        if (rule.codigo != 0) {
+            json.mensaje = rule.mensaje
+            return res.status(401).json(json)
+        }
 
         await model.destroy({
             where: { id: req.params.id }
         })
 
-        res.status(200).json({msg: "Producto eliminado con exito."})
+        json.mensaje = "Producto eliminado con exito."
+
+        res.status(200).json(json)
 
     } catch (error) {
         console.error(error)
