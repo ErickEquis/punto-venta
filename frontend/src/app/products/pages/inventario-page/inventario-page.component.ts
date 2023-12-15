@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductoService } from '../../services/producto-service.service';
+import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
 import { FormControl, FormGroup } from '@angular/forms';
 

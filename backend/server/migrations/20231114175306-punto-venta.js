@@ -41,6 +41,77 @@ module.exports = {
         charset: 'UTF8',
         schema: schema
       });
+
+    await queryInterface.createTable('ca_roles', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      descripcion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      is_admin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      estatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
+
+    await queryInterface.createTable('ca_usuarios', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      id_rol: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_roles',
+          },
+          key: 'id',
+        },
+      },
+      nombre: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      contrasenia: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      correo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      estatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
+
+
+
   },
 
   async down(queryInterface, Sequelize) {}

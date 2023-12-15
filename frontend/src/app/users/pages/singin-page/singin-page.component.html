@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="container col" style="border: solid;">
+    <form [formGroup]="formSingIn" (ngSubmit)="singIn()">
+      <div class="mb-3 mt-3">
+        <label for="exampleInputPassword1" class="form-label">Nombre</label>
+        <input type="text" class="form-control" formControlName="nombre">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" formControlName="contrasenia">
+      </div>
+      <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+  </div>
+
+  <div class="col" style="border: solid;">
+    Imagen
+  </div>
+</div>
+
