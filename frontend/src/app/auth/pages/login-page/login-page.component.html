@@ -1,2 +1,26 @@
-<p>login-page works!</p>
-<h1>Hola</h1>
+<div id="log-in">
+  <h5>
+    Point
+  </h5>
+  <h3>
+    Inicia sesión con tu cuenta
+  </h3>
+  <p style="opacity: .8;">
+    Bienvenido de vuelta
+  </p>
+  <form [formGroup]="formSignIn" (ngSubmit)="signIn()">
+    <div class="mb-3 mt-3">
+      <input type="email" placeholder="Correo" class="form-control" formControlName="correo">
+    </div>
+    <div class="mb-3">
+      <input type="password" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
+    </div>
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['/auth/restore-password']">¿Olvidaste tu contraseña?</a>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+  </form>
+  <p class="center">
+    ¿No tienes una cuenta? <a [routerLink]="['/auth/sign-up']">Crear una cuenta</a>
+  </p>
+</div>

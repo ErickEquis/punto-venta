@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SingupPageComponent } from './pages/singup-page/singup-page.component';
-import { SinginPageComponent } from './pages/singin-page/singin-page.component';
 import { LayoutUsersPageComponent } from './pages/layout-users-page/layout-users-page.component';
 import { HomeUsersPageComponent } from './pages/home-users-page/home-users-page.component';
 import { EquipoPageComponent } from './pages/equipo-page/equipo-page.component';
@@ -10,12 +8,6 @@ const routes: Routes = [
   {
     path: '', component: LayoutUsersPageComponent,
     children: [
-      // {
-      //   path: "sing-up", component: SingupPageComponent,
-      // },
-      // {
-      //   path: "sing-in", component: SinginPageComponent,
-      // },
       {
         path: "home", component: HomeUsersPageComponent,
       },

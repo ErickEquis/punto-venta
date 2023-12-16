@@ -76,7 +76,7 @@ async function create(req, res) {
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
-            rol: 1,
+            id_rol: 10,
             estatus: true
         })
 

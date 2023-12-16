@@ -1,1 +1,30 @@
-<p>signup-page works!</p>
+
+<div style="margin: 0 20%;">
+  <h5>
+    Point
+  </h5>
+  <h3>
+    Crea una cuenta
+  </h3>
+  <p style="opacity: .8;">
+    !Bienvenido¡
+  </p>
+  <form [formGroup]="formSingUp" (ngSubmit)="createUser()">
+    <div class="mb-3 mt-3">
+      <input type="text" placeholder="Nombre" class="form-control" formControlName="nombre">
+    </div>
+    <div class="mb-3">
+      <input type="email" placeholder="Correo electronico" class="form-control" formControlName="correo">
+    </div>
+    <div class="mb-3">
+      <input type="password" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
+    </div>
+    <div class="mb-3">
+      <input type="password" placeholder="Confirmar contraseña" class="form-control" formControlName="contrasenia">
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+  </form>
+  <p class="center">
+    ¿Ya tienes una cuenta? <a [routerLink]="['/auth/sign-in']">Iniciar sesión</a>
+  </p>
+</div>

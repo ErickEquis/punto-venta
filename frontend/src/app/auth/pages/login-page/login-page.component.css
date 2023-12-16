@@ -1,0 +1,11 @@
+* {
+  margin: .5rem;
+}
+
+#log-in {
+  margin: 0 20%;
+  /* border: medium hsl(0, 0%, 100%, 0.1); */
+  padding: .5rem 1rem;
+  /* border-radius: 1rem; */
+  /* box-shadow: 0 0 0.4rem 0.001rem hsl(0, 0%, 100%, 0.1); */
+}
