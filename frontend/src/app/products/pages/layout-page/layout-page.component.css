@@ -1,0 +1,13 @@
+.cards {
+  border-right: solid hsl(0, 0%, 100%, 0.1);
+  overflow-y: scroll;
+}
+
+.cards::-webkit-scrollbar {
+  width: .1rem;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 100%, 0.4);
+  border-radius: .5rem;
+}

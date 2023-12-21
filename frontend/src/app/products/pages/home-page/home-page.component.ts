@@ -12,7 +12,14 @@ export class HomePageComponent implements OnInit {
 
   listProductos: Productos[] = []
 
-  ventaProductos: ProductosVenta[] = []
+  ventaProductos: ProductosVenta[] = [
+    // {
+    //   id: 1,
+    //   descripcion: "descripcion",
+    //   precio: 1,
+    //   cantidad: 1
+    // },
+  ]
 
   productoBuscado: string = ''
 

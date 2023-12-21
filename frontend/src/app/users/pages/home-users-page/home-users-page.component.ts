@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServices } from '../../services/user.service';
-import { Users } from '../../interfaces/users';
 
 @Component({
   selector: 'app-home-users-page',
@@ -9,11 +7,13 @@ import { Users } from '../../interfaces/users';
 })
 export class HomeUsersPageComponent implements OnInit {
 
-  constructor(private userService: UserServices) { }
+  user: any = []
+  identity_user: any
+
+  constructor() { }
 
   ngOnInit() {
+    this.identity_user = JSON.parse(localStorage.getItem('identity_user'))
   }
-
-
 
 }

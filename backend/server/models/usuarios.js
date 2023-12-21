@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            ultimo_acceso: {
+                type: DataTypes.DATE,
+                allowNull: true,
+            },
             estatus: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,

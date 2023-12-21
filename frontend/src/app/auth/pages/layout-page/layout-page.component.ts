@@ -9,8 +9,6 @@ export class LayoutPageComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log("Entra a auth")
-  }
+  ngOnInit() { }
 
 }

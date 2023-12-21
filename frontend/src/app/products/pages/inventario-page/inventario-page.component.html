@@ -2,29 +2,29 @@
   <h4 class="alert-heading">Sin inventario</h4>
 </div>
 
-<div id="tabla" class="container my-5" *ngIf="listProductos.length">
-  <table class="table table-hover">
+<div class="tab container my-3 h-75" *ngIf="listProductos.length">
+  <table class="table table-hover table-striped" style="border-radius: 1em; overflow: hidden;">
     <thead>
-      <tr>
-        <th scope="col">Producto</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Cantidad</th>
-        <th scope="col"></th>
+      <tr class="bg-primary">
+        <th class="col-3">Producto</th>
+        <th class="col-3">Precio</th>
+        <th class="col-3">Cantidad</th>
+        <th class="col-2"></th>
       </tr>
     </thead>
 
     <tbody *ngFor="let producto of listProductos" >
 
-      <tr *ngIf="producto.estatus">
-          <td  id="descripcion">
-            {{ producto.descripcion }}
-          </td>
-          <td id="precio">
-            {{ producto.precio | currency }}
-          </td>
-          <td id="cantidad">
-            {{ producto.cantidad }}
-          </td>
+      <tr class="table-primary" *ngIf="producto.estatus">
+        <td>
+          {{ producto.descripcion }}
+        </td>
+        <td>
+          {{ producto.precio | currency }}
+        </td>
+        <td>
+          {{ producto.cantidad }}
+        </td>
         <td>
           <button type="button" class="btn btn-danger btn-sm mx-1" (click)="editState(producto)" *ngIf="producto.estatus">
             Editar
@@ -36,27 +36,28 @@
   </table>
 </div>
 
-<div class="col-12 my-2" *ngIf="editProductoFlag">
-    <form [formGroup]="formEdit" (ngSubmit)="editProducto()">
-        <input class="col-3 mx-1" type="text" id="editDescripcion" formControlName="descripcion">
-        <input class="col-3 mx-1" type="number" id="editPrecio" formControlName="precio">
-        <input class="col-3 mx-1" type="number" id="editCantidad" formControlName="cantidad">
-        <button type="submit" class="btn btn-danger btn-sm mx-1" (click)="editProducto()">Editar</button>
-        <button type="button" class="btn btn-danger btn-sm mx-1" (click)="change()">Cancelar</button>
+<div class="mx-3 my-2" *ngIf="editProductoFlag">
+    <form class="row" [formGroup]="formEdit" (ngSubmit)="editProducto()">
+        <input class="col mx-1 form-control" type="text" formControlName="descripcion">
+        <input class="col mx-1 form-control" type="number" formControlName="precio">
+        <input class="col mx-1 form-control" type="number" formControlName="cantidad">
+        <button type="submit" class="col-1 btn btn-danger btn-sm mx-1" (click)="editProducto()">Editar</button>
+        <button type="button" class="col-1 btn btn-danger btn-sm mx-1" (click)="change()">Cancelar</button>
     </form>
 </div>
 
-<div class="col-12 my-2" *ngIf="addProductoFlag">
-  <form [formGroup]="formAdd" (ngSubmit)="addProducto()">
-      <input class="col-3 mx-1" type="text" name="descripcion" placeholder="Descripcion" formControlName="descripcion">
-      <input class="col-3 mx-1" type="number" name="precio" placeholder="Precio" formControlName="precio">
-      <input class="col-3 mx-1" type="number" name="cantidad" placeholder="Cantidad" formControlName="cantidad">
-      <button type="submit" class="btn btn-danger btn-sm mx-1">Agregar</button>
-      <button type="button" class="btn btn-danger btn-sm mx-1" (click)="addProductoFlag = !addProductoFlag">Cancelar</button>
+<div class="mx-2 my-2" *ngIf="addProductoFlag">
+  <form class="row" [formGroup]="formAdd" (ngSubmit)="addProducto()">
+    <input class="col mx-1 form-control" type="text" placeholder="Descripcion" formControlName="descripcion">
+    <input class="col mx-1 form-control" type="number" placeholder="Precio" formControlName="precio">
+    <input class="col mx-1 form-control" type="number" placeholder="Cantidad" formControlName="cantidad">
+    <button type="submit" class="col-1 btn btn-danger btn-sm mx-1">Agregar</button>
+    <button type="button" class="col-1 btn btn-danger btn-sm mx-1"
+      (click)="addProductoFlag = !addProductoFlag">Cancelar</button>
   </form>
 </div>
 
-<div class="input-group">
+<div class="input-group my-2">
   <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
     [(ngModel)]="productoBuscado" (keyup)="filtrarProductos()">
   <button class="btn btn-primary" type="submit" (click)="addProductoFlag = !addProductoFlag">Agregar nuevo producto</button>

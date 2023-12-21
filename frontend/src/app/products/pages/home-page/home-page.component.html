@@ -1,15 +1,15 @@
-<div id="tabla" class="container my-5">
-  <table class="table table-hover">
+<div class="tab container my-3 h-50 my-5">
+  <table class="table table-hover table-striped text-center" style="border-radius: 1em; overflow: hidden;">
     <thead>
       <tr>
-        <th scope="col">Producto</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Cantidad</th>
-        <th scope="col"></th>
+        <th class="col-3">Producto</th>
+        <th class="col-3">Precio</th>
+        <th class="col-3">Cantidad</th>
+        <th class="col-2"></th>
       </tr>
     </thead>
     <tbody>
-        <tr class="table-active" *ngFor="let producto of ventaProductos">
+        <tr class="table-info" *ngFor="let producto of ventaProductos">
           <td>{{ producto.descripcion }}</td>
           <td>{{ producto.precio }}</td>
           <td>{{ producto.cantidad }}</td>
@@ -21,11 +21,10 @@
         </tr>
         </tbody>
   </table>
-</div>
-
   <div class="alert alert-dismissible alert-info my-5 py-5" *ngIf="!ventaProductos.length">
-    <strong>Heads up!</strong> This, but it's not super important.
+    <strong>Vende!</strong> Escanea tus productos.
   </div>
+</div>
 
 <form (ngSubmit)='agregarProducto(item)'>
   <div class="input-group">
@@ -35,11 +34,13 @@
   </div>
 </form>
 
-<table class="table table-hover">
-  <tbody>
-    <tr *ngFor="let item of listProductos" class="table-info" (click)="selectProducto(item)">
-      <td>{{ item.descripcion }}</td>
-      <td>{{ item.precio }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="tab h-25">
+  <table class="table table-hover" style="border-radius: 1em; overflow: hidden;">
+    <tbody>
+      <tr *ngFor="let item of listProductos" class="table-info" (click)="selectProducto(item)">
+        <td>{{ item.descripcion }}</td>
+        <td>{{ item.precio }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

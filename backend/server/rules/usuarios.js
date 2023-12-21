@@ -3,9 +3,9 @@ function createSesion(body) {
         codigo: 0,
         mensaje: "Éxito"
     }
-    if (!body.nombre || typeof body.nombre !== "string") {
+    if (!body.correo || typeof body.correo !== "string") {
         json.codigo = 1
-        json.mensaje = "Lo sentimos es necesario el nombre del usuario"
+        json.mensaje = "Lo sentimos es necesario el correo del usuario"
         return json
     }
     if (!body.contrasenia || typeof body.contrasenia !== "string") {

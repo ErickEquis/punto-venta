@@ -12,11 +12,15 @@ export class UserServices {
   url: string
 
   constructor(private http: HttpClient) {
-    this.url = `${environment.endpoint}usuarios`
+    this.url = `${environment.endpoint}usuarios/`
   }
 
   getUsers(): Observable<Users[]>{
     return this.http.get<Users[]>(`${this.url}`)
+  }
+
+  getUserId(id: number): Observable<Users[]>{
+    return this.http.get<Users[]>(`${this.url}${id}`)
   }
 
   createUser(body: any): Observable<Users> {
@@ -26,7 +30,5 @@ export class UserServices {
   createSesion(body: any): Observable<Users> {
     return this.http.put<Users>(`${this.url}`, body)
   }
-
-
 
 }

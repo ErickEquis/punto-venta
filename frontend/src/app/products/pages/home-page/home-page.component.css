@@ -1,0 +1,13 @@
+.tab {
+  border-right: solid hsl(0, 0%, 100%, 0.1);
+  overflow-y: scroll;
+}
+
+.tab::-webkit-scrollbar {
+  width: .1rem;
+}
+
+.tab::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 100%, 0.4);
+  border-radius: .5rem;
+}

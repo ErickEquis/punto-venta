@@ -1,6 +1,5 @@
 'use strict'
 
-const { where } = require('sequelize')
 const db = require('../models/index')
 const op = db.Sequelize.Op
 
@@ -9,7 +8,10 @@ const ca_roles = require('../models/').ca_roles
 
 const rules = require('../rules/usuarios')
 
-async function createSesion(req, res) {
+const jwt = require('jwt-simple')
+const moment = require('moment')
+
+async function crearSesion(req, res) {
 
     let json = {}
 
@@ -21,18 +23,37 @@ async function createSesion(req, res) {
             return res.status(401).json(json)
         }
 
-        let row = await model.findOne({
+        let user = await model.findOne({
+            attributes: ['nombre', 'id_rol'],
             where: {
-                nombre: req.body.nombre,
+                correo: req.body.correo,
                 contrasenia: req.body.contrasenia,
             }
         })
 
-        if (!row) {
-            return res.status(401).json({ mensaje: "Usuario no encontrado." })
+        if (!user) {
+            return res.status(401).json({ mensaje: "La contraseña y/o correo son incorrectos." })
         }
 
-        return res.status(200).json(row)
+        await model.update(
+            { ultimo_acceso: moment.tz("America/Mexico_City") },
+            {
+                where: {
+                    correo: req.body.correo,
+                    contrasenia: req.body.contrasenia,
+                },
+            }
+        )
+
+        let token = jwt.encode(user, 'terry')
+
+        let response ={
+            token: token,
+            nombre: user.nombre,
+            rol: user.id_rol,
+        }
+
+        return res.status(200).json(response)
 
     } catch (error) {
         console.error(error)
@@ -53,6 +74,36 @@ async function findAll(req, res) {
         )
 
         return res.status(200).json(users)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ msg: error })
+    }
+}
+
+async function findById(req, res) {
+    try {
+
+        let user = await model.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: {
+                model: ca_roles,
+                attributes: ['descripcion']
+            }
+            , raw: true
+        },
+        )
+
+
+        console.log('row', user)
+        let token = jwt.encode(user, 'terry')
+        console.log(token)
+        token = jwt.decode(token, 'terry')
+        console.log(token)
+
+        return res.status(200).json(user)
 
     } catch (error) {
         console.error(error)
@@ -146,7 +197,8 @@ async function remove(req, res) {
 
 module.exports = {
     findAll,
-    createSesion,
+    findById,
+    crearSesion,
     create,
     update,
     remove,

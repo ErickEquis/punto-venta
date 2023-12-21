@@ -9,6 +9,7 @@ module.exports = (app) => {
     app.delete('/productos/:id', producto.remove)
 
     app.get('/usuarios', usuario.findAll)
+    app.get('/usuarios/:id', usuario.findById)
     app.post('/usuarios', usuario.create)
-    app.put('/usuarios', usuario.createSesion)
+    app.patch('/usuarios', usuario.crearSesion)
 }
