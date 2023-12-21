@@ -3,6 +3,7 @@ import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-inventario-page',
@@ -17,6 +18,7 @@ export class InventarioPageComponent implements OnInit {
   editProductoFlag: boolean = false
   productoBuscado: string = ''
   productoEditId: number
+  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
 
   formEdit: any
   formAdd: any
@@ -27,6 +29,7 @@ export class InventarioPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.identityUser.token)
     this.getProdutos()
 
     this.formEdit = new FormGroup({
@@ -42,8 +45,18 @@ export class InventarioPageComponent implements OnInit {
     })
   }
 
+  getHeaders(token: string) {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': token
+      })
+    }
+  }
+
   getProdutos(descripcion?: string) {
-    this.productoService.getProdutos(descripcion)
+    let options = this.getHeaders(this.identityUser.token)
+    this.productoService.getProdutos(descripcion, options)
       .subscribe((data: Productos[]) => {
         this.listProductos = data
       },
@@ -58,7 +71,8 @@ export class InventarioPageComponent implements OnInit {
   }
 
   deleteProducto(id: number) {
-    this.productoService.deleteProducto(id).subscribe(
+    let options = this.getHeaders(this.identityUser.token)
+    this.productoService.deleteProducto(id, options).subscribe(
       () => this.getProdutos(),
       (error) => {
         this.toastr.error(error.error.mensaje, 'Error!');
@@ -79,7 +93,8 @@ export class InventarioPageComponent implements OnInit {
   }
 
   editProducto() {
-    this.productoService.editProducto(this.productoEditId, this.formEdit.value).subscribe(
+    let options = this.getHeaders(this.identityUser.token)
+    this.productoService.editProducto(this.productoEditId, this.formEdit.value, options).subscribe(
       () => this.getProdutos(),
       (error) => {
         this.toastr.error(error.error.mensaje, 'Error!');
@@ -89,7 +104,8 @@ export class InventarioPageComponent implements OnInit {
   }
 
   addProducto() {
-    this.productoService.createProducto(this.formAdd.value).subscribe(
+    let options = this.getHeaders(this.identityUser.token)
+    this.productoService.createProducto(this.formAdd.value, options).subscribe(
       () => this.getProdutos(),
       (error) => {
         this.toastr.error(error.error.mensaje, 'Error!');

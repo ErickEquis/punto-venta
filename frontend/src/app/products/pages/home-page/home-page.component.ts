@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Productos } from '../../interfaces/productos';
-import { ProductoService } from '../../services/producto.service';
-import { ProductosVenta } from '../../interfaces/productosVenta';
+import { HttpHeaders } from '@angular/common/http';
+
 import { ToastrService } from 'ngx-toastr';
+
+import { Productos } from '../../interfaces/productos';
+import { ProductosVenta } from '../../interfaces/productosVenta';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 export class HomePageComponent implements OnInit {
 
   listProductos: Productos[] = []
-
   ventaProductos: ProductosVenta[] = [
     // {
     //   id: 1,
@@ -21,12 +23,10 @@ export class HomePageComponent implements OnInit {
     //   cantidad: 1
     // },
   ]
-
   productoBuscado: string = ''
-
   itemById: Productos[]
-
   item: any = {}
+  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private productoService: ProductoService,
@@ -34,6 +34,15 @@ export class HomePageComponent implements OnInit {
   ) { }
 
   ngOnInit() { }
+
+  getHeaders(token: string) {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': token
+      })
+    }
+  }
 
   cantidadVenta(n: number, producto: any) {
     let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
@@ -66,7 +75,8 @@ export class HomePageComponent implements OnInit {
 
   getProductos() {
     if (this.productoBuscado != '') {
-      this.productoService.getProdutos(this.productoBuscado).subscribe((data: Productos[]) => {
+      let options = this.getHeaders(this.identityUser.token)
+      this.productoService.getProdutos(this.productoBuscado, options).subscribe((data: Productos[]) => {
         this.listProductos = data
       },
         (error) => {
@@ -78,7 +88,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getProductoId(item: any): void {
-    this.productoService.getProductoId(item.id)
+    let options = this.getHeaders(this.identityUser.token)
+    this.productoService.getProductoId(item.id, options)
       .subscribe((dato: any) => {
         this.itemById = dato
       },

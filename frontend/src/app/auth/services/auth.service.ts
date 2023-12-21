@@ -11,7 +11,7 @@ export class AuthService {
   url: string
 
   constructor(private http: HttpClient) {
-    this.url = `${environment.endpoint}usuarios/`
+    this.url = `${environment.endpoint}auth/`
   }
 
   getHeaders(token: string) {

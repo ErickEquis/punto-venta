@@ -1,15 +1,18 @@
 const producto = require('../controllers/productos.js')
 const usuario = require('../controllers/usuarios.js')
 
-module.exports = (app) => {
-    app.get('/productos', producto.findAll)
-    app.get('/productos/:id', producto.findById)
-    app.post('/productos', producto.create)
-    app.patch('/productos/:id', producto.update)
-    app.delete('/productos/:id', producto.remove)
+const auth = require('../services/auth.js')
 
-    app.get('/usuarios', usuario.findAll)
-    app.get('/usuarios/:id', usuario.findById)
+module.exports = (app) => {
+    app.get('/productos', auth.ensureAuth, producto.findAll)
+    app.get('/productos/:id', auth.ensureAuth, producto.findById)
+    app.post('/productos', auth.ensureAuth, producto.create)
+    app.patch('/productos/:id', auth.ensureAuth, producto.update)
+    app.delete('/productos/:id', auth.ensureAuth, producto.remove)
+
+    app.get('/usuarios', auth.ensureAuth, usuario.findAll)
+    app.get('/usuarios/:id', auth.ensureAuth, usuario.findById)
     app.post('/usuarios', usuario.create)
-    app.patch('/usuarios', usuario.crearSesion)
+
+    app.patch('/auth', usuario.crearSesion)
 }

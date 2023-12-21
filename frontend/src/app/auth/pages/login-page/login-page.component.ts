@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { HttpHeaders } from '@angular/common/http';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,6 +19,15 @@ export class LoginPageComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService
   ) { }
+
+  getHeaders(token: string) {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': token
+      })
+    }
+  }
 
   ngOnInit() {
     this.formSignIn = new FormGroup({

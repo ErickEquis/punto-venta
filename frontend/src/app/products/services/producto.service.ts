@@ -16,24 +16,24 @@ export class ProductoService {
     this.url = `${environment.endpoint}productos`
   }
 
-  getProdutos(descripcion: string = ''): Observable<Productos[]> {
-    return this.http.get<Productos[]>(`${this.url}?descripcion=${descripcion}`)
+  getProdutos(descripcion: string = '', options: any): Observable<any> {
+    return this.http.get<Productos[]>(`${this.url}?descripcion=${descripcion}`, options)
   }
 
-  getProductoId(id: number): Observable<Productos[]> {
-    return this.http.get<Productos[]>(`${this.url}/${id}`)
+  getProductoId(id: number, options: any): Observable<any> {
+    return this.http.get<Productos[]>(`${this.url}/${id}`, options)
   }
 
-  createProducto(body: any): Observable<Productos[]> {
-    return this.http.post<Productos[]>(`${this.url}`, body)
+  createProducto(body: any, options: any): Observable<any> {
+    return this.http.post<Productos[]>(`${this.url}`, body, options)
   }
 
-  editProducto(id: number, body: any): Observable<Productos[]> {
-    return this.http.patch<Productos[]>(`${this.url}/${id}`, body)
+  editProducto(id: number, body: any, options: any): Observable<any> {
+    return this.http.patch<Productos[]>(`${this.url}/${id}`, body, options)
   }
 
-  deleteProducto(id: number): Observable<Productos[]> {
-    return this.http.delete<Productos[]>(`${this.url}/${id}`)
+  deleteProducto(id: number, options: any): Observable<any> {
+    return this.http.delete<Productos[]>(`${this.url}/${id}`, options)
   }
 
 }

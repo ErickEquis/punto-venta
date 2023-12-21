@@ -11,6 +11,8 @@ const rules = require('../rules/usuarios')
 const jwt = require('jwt-simple')
 const moment = require('moment')
 
+const auth = require('../services/auth')
+
 async function crearSesion(req, res) {
 
     let json = {}
@@ -24,15 +26,20 @@ async function crearSesion(req, res) {
         }
 
         let user = await model.findOne({
-            attributes: ['nombre', 'id_rol'],
+            attributes: ['nombre', 'id_rol', 'estatus'],
             where: {
                 correo: req.body.correo,
                 contrasenia: req.body.contrasenia,
+                estatus: true
             }
         })
 
         if (!user) {
             return res.status(401).json({ mensaje: "La contraseña y/o correo son incorrectos." })
+        }
+
+        if (!user.estatus) {
+            return res.status(401).json({ mensaje: "Usuario no valido." })
         }
 
         await model.update(
@@ -45,10 +52,8 @@ async function crearSesion(req, res) {
             }
         )
 
-        let token = jwt.encode(user, 'terry')
-
         let response ={
-            token: token,
+            token: auth.encodeAuth(user),
             nombre: user.nombre,
             rol: user.id_rol,
         }
@@ -95,13 +100,6 @@ async function findById(req, res) {
             , raw: true
         },
         )
-
-
-        console.log('row', user)
-        let token = jwt.encode(user, 'terry')
-        console.log(token)
-        token = jwt.decode(token, 'terry')
-        console.log(token)
 
         return res.status(200).json(user)
 

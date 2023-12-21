@@ -24,5 +24,6 @@
     "dbpv": {
       "schema": "public"
     }
-  }
+  },
+  "token_secret": "@pUn70-v3N74!"
 }
