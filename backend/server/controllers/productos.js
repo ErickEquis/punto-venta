@@ -10,8 +10,6 @@ const rules = require('../rules/productos')
 async function findAll(req, res) {
     try {
 
-        console.log(req.headers)
-
         req.query.descripcion ? req.query.descripcion : req.query.descripcion = '' 
 
         let rows = await model.findAll({

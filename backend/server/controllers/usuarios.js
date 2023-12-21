@@ -57,7 +57,7 @@ async function crearSesion(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({ msg: error })
+        return res.status(500).json(error)
     }
 }
 
@@ -107,7 +107,7 @@ async function findById(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({ msg: error })
+        return res.status(500).json(error)
     }
 }
 
@@ -165,7 +165,7 @@ async function update(req, res) {
         return res.status(200).json(json)
     } catch (error) {
         console.error(error)
-        return res.status(500).json({ msg: error })
+        return res.status(500).json(error)
     }
 }
 

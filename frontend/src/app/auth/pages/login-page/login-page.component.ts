@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,7 +14,10 @@ export class LoginPageComponent implements OnInit {
 
   formSignIn: any
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
     this.formSignIn = new FormGroup({
@@ -29,11 +35,13 @@ export class LoginPageComponent implements OnInit {
   }
 
   signIn() {
-    // this.authService.login(this.formSignIn.value).subscribe((res) => {
-    //   localStorage.setItem('identity_user', JSON.stringify(res))
-    // })
-    console.log(this.correo)
-    console.log(this.contrasenia)
+    this.authService.login(this.formSignIn.value).subscribe((res) => {
+      localStorage.setItem('identity_user', JSON.stringify(res))
+    },
+      (error) => {
+        this.toastr.error(error.error.mensaje, 'Error!');
+      }
+    )
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-inventario-page',
@@ -20,7 +21,10 @@ export class InventarioPageComponent implements OnInit {
   formEdit: any
   formAdd: any
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.getProdutos()
@@ -42,7 +46,11 @@ export class InventarioPageComponent implements OnInit {
     this.productoService.getProdutos(descripcion)
       .subscribe((data: Productos[]) => {
         this.listProductos = data
-      })
+      },
+        (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      )
   }
 
   filtrarProductos() {
@@ -50,12 +58,16 @@ export class InventarioPageComponent implements OnInit {
   }
 
   deleteProducto(id: number) {
-    this.productoService.deleteProducto(id).subscribe()
+    this.productoService.deleteProducto(id).subscribe(
+      () => this.getProdutos(),
+      (error) => {
+        this.toastr.error(error.error.mensaje, 'Error!');
+      }
+    )
   }
 
   eliminar(id: number) {
     this.deleteProducto(id)
-    this.getProdutos()
   }
 
   editState(producto: any): void {
@@ -67,14 +79,23 @@ export class InventarioPageComponent implements OnInit {
   }
 
   editProducto() {
-    this.productoService.editProducto(this.productoEditId, this.formEdit.value).subscribe()
+    this.productoService.editProducto(this.productoEditId, this.formEdit.value).subscribe(
+      () => this.getProdutos(),
+      (error) => {
+        this.toastr.error(error.error.mensaje, 'Error!');
+      }
+    )
     this.change()
   }
 
   addProducto() {
-    this.productoService.createProducto(this.formAdd.value).subscribe()
+    this.productoService.createProducto(this.formAdd.value).subscribe(
+      () => this.getProdutos(),
+      (error) => {
+        this.toastr.error(error.error.mensaje, 'Error!');
+      }
+    )
     this.addProductoFlag = !this.addProductoFlag
-    this.getProdutos()
   }
 
   change() {

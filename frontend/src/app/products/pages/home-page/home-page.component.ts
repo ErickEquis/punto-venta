@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Productos } from '../../interfaces/productos';
 import { ProductoService } from '../../services/producto.service';
 import { ProductosVenta } from '../../interfaces/productosVenta';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-page',
@@ -27,7 +28,10 @@ export class HomePageComponent implements OnInit {
 
   item: any = {}
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() { }
 
@@ -64,7 +68,11 @@ export class HomePageComponent implements OnInit {
     if (this.productoBuscado != '') {
       this.productoService.getProdutos(this.productoBuscado).subscribe((data: Productos[]) => {
         this.listProductos = data
-      })
+      },
+        (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      )
     }
     this.listProductos = []
   }
@@ -73,7 +81,11 @@ export class HomePageComponent implements OnInit {
     this.productoService.getProductoId(item.id)
       .subscribe((dato: any) => {
         this.itemById = dato
-      })
+      },
+        (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      )
   }
 
   selectProducto(item: any) {
