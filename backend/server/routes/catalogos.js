@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     app.get('/usuarios', auth.ensureAuth, usuario.findAll)
     app.get('/usuarios/:id', auth.ensureAuth, usuario.findById)
-    app.post('/usuarios', usuario.create)
-
+    
+    app.post('/auth', usuario.create)
     app.patch('/auth', usuario.crearSesion)
 }

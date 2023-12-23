@@ -5,6 +5,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../services/auth.service';
+import { Md5 } from 'md5-typescript';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -14,22 +16,15 @@ import { AuthService } from '../../services/auth.service';
 export class LoginPageComponent implements OnInit {
 
   formSignIn: any
+  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) { }
 
-  getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
-  }
-
   ngOnInit() {
+    this.authService.checkSignIn(this.identityUser)
     this.formSignIn = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required]),
@@ -45,8 +40,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   signIn() {
+    this.formSignIn.value.contrasenia = Md5.init(this.formSignIn.value.contrasenia)
     this.authService.login(this.formSignIn.value).subscribe((res) => {
       localStorage.setItem('identity_user', JSON.stringify(res))
+      window.location.assign('/point/home')
     },
       (error) => {
         this.toastr.error(error.error.mensaje, 'Error!');

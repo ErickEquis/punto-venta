@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Md5 } from 'md5-typescript';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -12,15 +13,17 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignupPageComponent implements OnInit {
 
-  formSingUp: any
+  formSignUp: any
+  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
-    this.formSingUp = new FormGroup({
+    this.authService.checkSignIn(this.identityUser)
+    this.formSignUp = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
@@ -28,20 +31,23 @@ export class SignupPageComponent implements OnInit {
   }
 
   get nombre() {
-    return this.formSingUp.get('nombre')
+    return this.formSignUp.get('nombre')
   }
   get correo() {
-    return this.formSingUp.get('correo')
+    return this.formSignUp.get('correo')
   }
   get contrasenia() {
-    return this.formSingUp.get('contrasenia')
+    return this.formSignUp.get('contrasenia')
   }
 
   createUser() {
-    this.authService.signUp(this.formSingUp.value).subscribe(
-      (error) => {
-        this.toastr.error(error.mensaje, 'Error!');
-      }
+    this.formSignUp.value.contrasenia = Md5.init(this.formSignUp.value.contrasenia)
+    this.authService.signUp(this.formSignUp.value).subscribe(
+      (response) => {
+        this.toastr.success(response.mensaje, '')
+        window.location.assign('/point/home')
+      },
+      (error) => { this.toastr.error(error.mensaje, 'Error!'); }
     )
   }
 

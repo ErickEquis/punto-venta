@@ -9,7 +9,7 @@
   <p style="opacity: .8;">
     !Bienvenido¡
   </p>
-  <form [formGroup]="formSingUp" (ngSubmit)="createUser()">
+  <form [formGroup]="formSignUp" (ngSubmit)="createUser()">
     <div class="mb-3 mt-3">
       <input type="text" placeholder="Nombre" class="form-control" formControlName="nombre">
     </div>
@@ -46,7 +46,7 @@
       <input type="password" placeholder="Confirmar contraseña" class="form-control" formControlName="contrasenia">
     </div>
 
-    <button type="submit" class="btn btn-primary w-100" [disabled]="formSingUp.valid">Registrarse</button>
+    <button type="submit" class="btn btn-primary w-100" [disabled]="!formSignUp.valid">Registrarse</button>
   </form>
   <p class="center">
     ¿Ya tienes una cuenta? <a [routerLink]="['/auth/sign-in']">Iniciar sesión</a>

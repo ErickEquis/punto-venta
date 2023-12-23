@@ -11,27 +11,57 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" [routerLink]="['/point/inventario']" routerLinkActive="router-link-active">Inventario
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/user/home']">Usuarios</a>
-        </li>
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li> -->
-      </ul>
-      <div class="d-flex">
-        <a class="nav-link active" [routerLink]="['/auth/sing-in']" routerLinkActive="router-link-active">Usuario</a>
+          <li class="nav-item" *ngFor="let acceso of identity_user?.permisos">
+            <a class="nav-link active" [routerLink]=acceso.slug routerLinkActive="router-link-active">{{ acceso.acceso
+              | titlecase }}
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li>
+
+        </ul>
+
+      <div class="d-flex" *ngIf="!identity_user?.token">
+        <a class="nav-link active" [routerLink]="['/auth/sing-in']" routerLinkActive="router-link-active">Iniciar sesión</a>
+      </div>
+
+      <div class="d-flex" *ngIf="identity_user?.token">
+
+
+          <li class="nav-item d-flex align-items-center dropdown text-small">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <strong>{{ identity_user.nombre | titlecase }}</strong>
+            </a>
+            <div class="dropdown-menu dropdown-menu-left">
+              <a class="dropdown-item">Action</a>
+              <a class="dropdown-item">Another action</a>
+              <a class="dropdown-item">Something else here</a>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" (click)="signOut()" href="/point/home">Cerrar sesión</a></li>
+            </div>
+          </li>
+
+
+        <!-- <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+          <strong>{{ identity_user.nombre | titlecase }}</strong>
+        </a> -->
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" >
+          <li><a class="dropdown-item">New project...</a></li>
+          <li><a class="dropdown-item">Settings</a></li>
+          <li><a class="dropdown-item">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" (click)="signOut()" href="/point/home">Cerrar sesión</a></li>
+        </ul>
       </div>
     </div>
   </div>

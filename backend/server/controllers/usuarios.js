@@ -8,7 +8,6 @@ const ca_roles = require('../models/').ca_roles
 
 const rules = require('../rules/usuarios')
 
-const jwt = require('jwt-simple')
 const moment = require('moment')
 
 const auth = require('../services/auth')
@@ -31,7 +30,12 @@ async function crearSesion(req, res) {
                 correo: req.body.correo,
                 contrasenia: req.body.contrasenia,
                 estatus: true
-            }
+            },
+            include: {
+                model: ca_roles,
+                attributes: ['permisos']
+            },
+            raw: true
         })
 
         if (!user) {
@@ -40,6 +44,17 @@ async function crearSesion(req, res) {
 
         if (!user.estatus) {
             return res.status(401).json({ mensaje: "Usuario no valido." })
+        }
+
+        let permisos = []
+
+        for (let i in user['ca_role.permisos']) {
+            permisos.push(
+                {
+                    acceso: i,
+                    slug: user['ca_role.permisos'][i]['slug']
+                }
+            )
         }
 
         await model.update(
@@ -56,6 +71,7 @@ async function crearSesion(req, res) {
             token: auth.encodeAuth(user),
             nombre: user.nombre,
             rol: user.id_rol,
+            permisos: permisos,
         }
 
         return res.status(200).json(response)
@@ -73,8 +89,8 @@ async function findAll(req, res) {
             include: {
                 model: ca_roles,
                 attributes: ['descripcion']
-            }
-            , raw: true
+            },
+            raw: true
         },
         )
 
@@ -119,6 +135,16 @@ async function create(req, res) {
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
             return res.json(json)
+        }
+
+        let repeat = await model.findOne({
+            where: {
+                correo: req.body.correo,
+            }
+        })
+
+        if (repeat) {
+            return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
 
         await model.create({

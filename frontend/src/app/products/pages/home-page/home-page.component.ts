@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Productos } from '../../interfaces/productos';
 import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +27,7 @@ export class HomePageComponent implements OnInit {
   productoBuscado: string = ''
   itemById: Productos[]
   item: any = {}
-  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
+  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private productoService: ProductoService,
@@ -75,7 +76,7 @@ export class HomePageComponent implements OnInit {
 
   getProductos() {
     if (this.productoBuscado != '') {
-      let options = this.getHeaders(this.identityUser.token)
+      let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
       this.productoService.getProdutos(this.productoBuscado, options).subscribe((data: Productos[]) => {
         this.listProductos = data
       },
@@ -88,7 +89,7 @@ export class HomePageComponent implements OnInit {
   }
 
   getProductoId(item: any): void {
-    let options = this.getHeaders(this.identityUser.token)
+    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.getProductoId(item.id, options)
       .subscribe((dato: any) => {
         this.itemById = dato

@@ -9,7 +9,7 @@
     Bienvenido de vuelta
   </p>
 
-  <form [formGroup]="formSignIn" (ngSubmit)="signIn()">
+  <form [formGroup]="formSignIn" (ngSubmit)="signIn()" href="/point/home">
     <div class="mb-3 mt-3">
       <input type="email" placeholder="Correo" class="form-control" formControlName="correo">
     </div>

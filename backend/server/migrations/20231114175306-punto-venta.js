@@ -58,6 +58,10 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      permisos: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+      },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
