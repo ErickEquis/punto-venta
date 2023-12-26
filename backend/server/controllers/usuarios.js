@@ -25,7 +25,7 @@ async function crearSesion(req, res) {
         }
 
         let user = await model.findOne({
-            attributes: ['nombre', 'id_rol', 'estatus'],
+            attributes: ['id', 'nombre', 'id_rol', 'estatus'],
             where: {
                 correo: req.body.correo,
                 contrasenia: req.body.contrasenia,

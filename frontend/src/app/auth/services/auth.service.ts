@@ -37,6 +37,7 @@ export class AuthService {
 
   signOut() {
     localStorage.removeItem('identity_user')
+    window.location.assign('/point/home')
   }
 
   checkSignIn(identity_user?: any) {

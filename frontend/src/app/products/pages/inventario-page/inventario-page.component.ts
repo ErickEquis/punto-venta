@@ -5,6 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-inventario-page',
@@ -26,7 +27,8 @@ export class InventarioPageComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +63,11 @@ export class InventarioPageComponent implements OnInit {
         this.listProductos = data
       },
         (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
           this.toastr.error(error.error.mensaje, 'Error!');
         }
       )
@@ -75,6 +82,11 @@ export class InventarioPageComponent implements OnInit {
     this.productoService.deleteProducto(id, options).subscribe(
       () => this.getProdutos(),
       (error) => {
+        if (error.status == 403) {
+          setTimeout(() => {
+            this.authService.signOut()
+          }, 1500);
+        }
         this.toastr.error(error.error.mensaje, 'Error!');
       }
     )
@@ -97,6 +109,11 @@ export class InventarioPageComponent implements OnInit {
     this.productoService.editProducto(this.productoEditId, this.formEdit.value, options).subscribe(
       () => this.getProdutos(),
       (error) => {
+        if (error.status == 403) {
+          setTimeout(() => {
+            this.authService.signOut()
+          }, 1500);
+        }
         this.toastr.error(error.error.mensaje, 'Error!');
       }
     )
@@ -108,6 +125,11 @@ export class InventarioPageComponent implements OnInit {
     this.productoService.createProducto(this.formAdd.value, options).subscribe(
       () => this.getProdutos(),
       (error) => {
+        if (error.status == 403) {
+          setTimeout(() => {
+            this.authService.signOut()
+          }, 1500);
+        }
         this.toastr.error(error.error.mensaje, 'Error!');
       }
     )

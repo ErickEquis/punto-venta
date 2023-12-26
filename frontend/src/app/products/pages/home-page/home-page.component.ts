@@ -7,6 +7,7 @@ import { Productos } from '../../interfaces/productos';
 import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
 import { throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -31,7 +32,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() { }
@@ -81,6 +83,11 @@ export class HomePageComponent implements OnInit {
         this.listProductos = data
       },
         (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
           this.toastr.error(error.error.mensaje, 'Error!');
         }
       )
@@ -95,6 +102,11 @@ export class HomePageComponent implements OnInit {
         this.itemById = dato
       },
         (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
           this.toastr.error(error.error.mensaje, 'Error!');
         }
       )

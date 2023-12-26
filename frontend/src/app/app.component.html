@@ -17,18 +17,6 @@
               <span class="visually-hidden">(current)</span>
             </a>
           </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-          </li>
-
         </ul>
 
       <div class="d-flex" *ngIf="!identity_user?.token">
@@ -36,7 +24,6 @@
       </div>
 
       <div class="dropstart" *ngIf="identity_user?.token">
-
 
           <li class="nav-item d-flex align-items-center dropdown text-small">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -51,16 +38,12 @@
             </div>
           </li>
 
-
-        <!-- <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-          <strong>{{ identity_user.nombre | titlecase }}</strong>
-        </a> -->
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" >
           <li><a class="dropdown-item">New project...</a></li>
           <li><a class="dropdown-item">Settings</a></li>
           <li><a class="dropdown-item">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" (click)="signOut()" href="/point/home">Cerrar sesión</a></li>
+          <li><a class="dropdown-item" (click)="signOut()">Cerrar sesión</a></li>
         </ul>
       </div>
     </div>
