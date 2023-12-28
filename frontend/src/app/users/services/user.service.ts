@@ -15,20 +15,16 @@ export class UserServices {
     this.url = `${environment.endpoint}usuarios/`
   }
 
-  getUsers(): Observable<Users[]>{
-    return this.http.get<Users[]>(`${this.url}`)
+  getUsers(options: any): Observable<any> {
+    return this.http.get<Users[]>(`${this.url}`, options)
   }
 
-  getUserId(id: number): Observable<Users[]>{
-    return this.http.get<Users[]>(`${this.url}${id}`)
-  }
+  // getUserId(id: number, options: any): Observable<any>{
+  //   return this.http.get<Users[]>(`${this.url}${id}`, options)
+  // }
 
-  createUser(body: any): Observable<Users> {
-    return this.http.post<Users>(`${this.url}`, body)
-  }
-
-  createSesion(body: any): Observable<Users> {
-    return this.http.put<Users>(`${this.url}`, body)
+  deleteUser(id: number, options: any): Observable<any> {
+    return this.http.delete<Users[]>(`${this.url}${id}`, options)
   }
 
 }

@@ -75,12 +75,23 @@ async function create(req, res) {
             return res.json(json)
         }
 
-        await model.create({
+        let transaction = await db.sequelize.transaction();
+
+        let newProducto = await model.create({
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
             estatus: true
-        })
+        }, transaction)
+
+        if (!newProducto) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible agregar el producto.',
+            });
+        }
+
+        await transaction.commit();
 
         json.mensaje = "Producto creado con éxito."
 
@@ -104,12 +115,23 @@ async function update(req, res) {
             return res.status(401).json(json)
         }
 
-        await model.update({
+        let transaction = await db.sequelize.transaction()
+
+        let updateProducto = await model.update({
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
         },
-        {where: {id: req.params.id}})
+            { where: { id: req.params.id }, transaction })
+
+        if (!updateProducto) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible actualizar el producto.',
+            });
+        }
+
+        await transaction.commit();
 
         json.mensaje = "Producto actualizado con exito."
 
@@ -132,9 +154,20 @@ async function remove(req, res) {
             return res.status(401).json(json)
         }
 
-        await model.destroy({
-            where: { id: req.params.id }
+        let transaction = await db.sequelize.transaction()
+
+        let deleteProducto = await model.destroy({
+            where: { id: req.params.id }, transaction
         })
+
+        if (!deleteProducto) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible eliminar el producto.',
+            });
+        }
+
+        await transaction.commit();
 
         json.mensaje = "Producto eliminado con exito."
 

@@ -107,6 +107,10 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      equipo: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

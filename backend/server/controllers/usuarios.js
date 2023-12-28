@@ -57,15 +57,26 @@ async function crearSesion(req, res) {
             )
         }
 
-        await model.update(
+        let transaction = await db.sequelize.transaction()
+
+        let updateAcceso = await model.update(
             { ultimo_acceso: moment.tz("America/Mexico_City") },
             {
                 where: {
                     correo: req.body.correo,
                     contrasenia: req.body.contrasenia,
-                },
+                }, transaction
             }
         )
+
+        if (!updateAcceso) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible iniciar sesión.',
+            });
+        }
+
+        await transaction.commit();
 
         let response ={
             token: auth.encodeAuth(user),
@@ -85,7 +96,12 @@ async function crearSesion(req, res) {
 async function findAll(req, res) {
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let users = await model.findAll({
+            where: {
+                equipo: usr.id
+            },
             include: {
                 model: ca_roles,
                 attributes: ['descripcion']
@@ -147,13 +163,24 @@ async function create(req, res) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
 
-        await model.create({
+        let transaction = db.sequelize.transaction()
+
+        let newUsuario = await model.create({
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
             id_rol: 10,
             estatus: true
-        })
+        }, transaction)
+
+        if (!newUsuario) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible agregar al usuario.',
+            });
+        }
+
+        await transaction.commit();
 
         json.mensaje = "Usuario creado con éxito."
 
@@ -177,12 +204,23 @@ async function update(req, res) {
             return res.status(401).json(json)
         }
 
-        await model.update({
+        let transaction = await op.sequelize.transaction()
+
+        let updateUsuario = await model.update({
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
         },
-            { where: { id: req.params.id } })
+            { where: { id: req.params.id }, transaction })
+
+        if (!updateUsuario) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible actualizar al usuario.',
+            });
+        }
+
+        await transaction.commit();
 
         json.mensaje = "Usuario actualizado con exito."
 
@@ -196,8 +234,16 @@ async function update(req, res) {
 async function remove(req, res) {
 
     let json = {}
+    let transaction = null
 
     try {
+
+        let usr = auth.decodeAuth(req)
+        if (usr.rol != 10) {
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no tiene autorización para esta acción.',
+            });
+        }
 
         let rule = rules.remove(req)
         if (rule.codigo != 0) {
@@ -205,9 +251,23 @@ async function remove(req, res) {
             return res.status(401).json(json)
         }
 
-        await model.destroy({
-            where: { id: req.params.id }
+        transaction = await db.sequelize.transaction();
+
+        let deleteUsuario = await model.destroy({
+            where: {
+                id: req.params.id,
+                equipo: usr.id
+            }, transaction
         })
+
+        if (!deleteUsuario) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible eliminar al usuario.',
+            });
+        }
+
+        await transaction.commit()
 
         json.mensaje = "Usuario eliminado con exito."
 

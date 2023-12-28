@@ -1,25 +1,24 @@
-<div id="tabla" class="my-5">
-  <table class="table table-hover">
+<div class="tab container my-3 w-50">
+  <table class="table table-hover table-striped text-center" style="border-radius: 1em; overflow: hidden;">
     <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Puesto</th>
-        <th scope="col"></th>
+      <tr class="bg-primary">
+        <th class="col-3">Nombre</th>
+        <th class="col-3">Puesto</th>
+        <th class="col-2"></th>
       </tr>
     </thead>
 
     <tbody *ngFor="let user of listUsers" >
 
-      <tr>
-          <td  id="descripcion">
-            {{ user.nombre }}
-          </td>
-          <td id="precio">
-            {{ user["ca_role.descripcion"] }}
-          </td>
+      <tr class="table-primary">
         <td>
-          <button type="submit" class="btn btn-danger btn-sm mx-1">Eliminar</button>
-          <button type="submit" class="btn btn-danger btn-sm mx-1">Editar</button>
+          {{ user.nombre }}
+        </td>
+        <td>
+          {{ user["ca_role.descripcion"] }}
+        </td>
+        <td>
+          <button type="submit" class="btn btn-danger btn-sm mx-1" (click)="deleteUser(user.id)">Eliminar</button>
         </td>
       </tr>
     </tbody>
