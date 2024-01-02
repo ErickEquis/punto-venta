@@ -91,12 +91,13 @@ export class InventarioPageComponent implements OnInit {
       }
     )
   }
-
+  
   eliminar(id: number) {
     this.deleteProducto(id)
   }
 
   editState(producto: any): void {
+    this.addProductoFlag = false
     this.listProductos.forEach((producto) => producto.estatus = true)
     producto.estatus = !producto.estatus
     this.editProductoFlag = !this.editProductoFlag
@@ -140,6 +141,11 @@ export class InventarioPageComponent implements OnInit {
     let producto = this.listProductos.find((producto) => producto.id === this.productoEditId)
     producto.estatus = !producto.estatus
     this.editProductoFlag = !this.editProductoFlag
+  }
+
+  changeAddProductoFlag() {
+    this.addProductoFlag = !this.addProductoFlag
+    this.change()
   }
 
 }

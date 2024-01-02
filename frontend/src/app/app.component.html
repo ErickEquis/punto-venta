@@ -1,55 +1,30 @@
-<nav class="navbar navbar-expand-lg bg-primary py-0 my-0" data-bs-theme="dark" style="height: 10vh;">
-  <div class="container-fluid">
-    <a class="navbar-brand" [routerLink]="['/point/home']" routerLinkActive="router-link-active" >Point.</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" [routerLink]="['/point/home']" routerLinkActive="router-link-active">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-          <li class="nav-item" *ngFor="let acceso of identity_user?.permisos">
-            <a class="nav-link active" [routerLink]=acceso.slug routerLinkActive="router-link-active">{{ acceso.acceso
-              | titlecase }}
-              <span class="visually-hidden">(current)</span>
-            </a>
-          </li>
-        </ul>
+<div class="row vh-100 p-0 m-0">
 
-      <div class="d-flex" *ngIf="!identity_user?.token">
-        <a class="nav-link active" [routerLink]="['/auth/sing-in']" routerLinkActive="router-link-active">Iniciar sesión</a>
-      </div>
+    <!-- SideNAv -->
+    <ul class="col-1 nav flex-column bg-primary" style="border-radius: 0em;">
+      <li class="nav-item text-center my-4 py-2">
+          <p>Point</p>
+      </li>
+      <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+        <a class="nav-link" style="color: white;" aria-current="page" [routerLink]="['/point/home']" routerLinkActive="router-link-active">
+          <span class="material-symbols-outlined">home</span>
+        </a>
+      </li>
+      <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+        <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/point/inventario']" routerLinkActive="router-link-active">
+          <span class="material-symbols-outlined">store</span>
+        </a>
+      </li>
+      <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+        <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/user/home']">
+          <span class="material-symbols-outlined">person</span>
+        </a>
+      </li>
+    </ul>
+    <!-- /SideNAv -->
 
-      <div class="dropstart" *ngIf="identity_user?.token">
-
-          <li class="nav-item d-flex align-items-center dropdown text-small">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <strong>{{ identity_user.nombre | titlecase }}</strong>
-            </a>
-            <div class="dropdown-menu dropdown-menu-left">
-              <a class="dropdown-item">Action</a>
-              <a class="dropdown-item">Another action</a>
-              <a class="dropdown-item">Something else here</a>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" (click)="signOut()" href="/point/home">Cerrar sesión</a></li>
-            </div>
-          </li>
-
-        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" >
-          <li><a class="dropdown-item">New project...</a></li>
-          <li><a class="dropdown-item">Settings</a></li>
-          <li><a class="dropdown-item">Profile</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" (click)="signOut()">Cerrar sesión</a></li>
-        </ul>
-      </div>
-    </div>
+  <div class="col-11 h-100">
+    <router-outlet></router-outlet>
   </div>
-</nav>
 
-<div>
-  <router-outlet></router-outlet>
 </div>

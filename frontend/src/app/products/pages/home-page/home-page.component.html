@@ -1,46 +1,53 @@
-<div class="tab h-50 my-5 col-sm-12 px-5">
-  <table class="table table-hover table-striped text-center col-sm-12" style="border-radius: 1em; overflow: hidden;">
-    <thead>
-      <tr>
-        <th class="col-3">Producto</th>
-        <th class="col-3">Precio</th>
-        <th class="col-3">Cantidad</th>
-        <th class="col-2"></th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr class="table-info" *ngFor="let producto of ventaProductos">
-          <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.precio }}</td>
-          <td>{{ producto.cantidad }}</td>
-          <td>
-            <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
-            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
-          </td>
+<div class="container h-100">
+
+  <div class="tab h-75 pt-5 px-5 text-center">
+    <table class="table table-hover table-striped" style="border-radius: 1em; overflow: hidden;">
+      <thead>
+        <tr class="table-info">
+          <th class="col-3">Producto</th>
+          <th class="col-3">Precio</th>
+          <th class="col-3">Cantidad</th>
+          <th class="col-2"></th>
         </tr>
-        </tbody>
-  </table>
-  <div class="alert alert-dismissible alert-info my-5 py-5 col-sm-12" *ngIf="!ventaProductos.length">
-    <strong>Vende!</strong> Escanea tus productos.
+      </thead>
+      <tbody>
+          <tr *ngFor="let producto of ventaProductos">
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>
+              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
+              <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
+            </td>
+          </tr>
+          </tbody>
+    </table>
+    <div style="margin: 10% 0;">
+      <div class="alert alert-dismissible alert-info m-5 py-5" *ngIf="!ventaProductos.length">
+        <strong>Vende!</strong> Escanea tus productos.
+      </div>
+    </div>
   </div>
-</div>
 
-<form (ngSubmit)='agregarProducto(item)'>
-  <div class="input-group">
-    <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
-      [(ngModel)]="productoBuscado" (keyup)="getProductos()">
-    <button class="btn btn-primary" type="submit">Agregar</button>
+  <div class="px-5">
+    <form (ngSubmit)='agregarProducto(item)'>
+      <div class="input-group">
+        <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
+          [(ngModel)]="productoBuscado" (keyup)="getProductos()">
+        <button class="btn btn-primary" type="submit">Agregar</button>
+      </div>
+    </form>
   </div>
-</form>
 
-<div class="tab h-25">
-  <table class="table table-hover" style="border-radius: 1em; overflow: hidden;">
-    <tbody>
-      <tr *ngFor="let item of listProductos" class="table-info" (click)="selectProducto(item)">
-        <td>{{ item.descripcion }}</td>
-        <td>{{ item.precio }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="tab px-5" style="height: 15%;">
+    <table class="table table-hover .tab" style="border-radius: 1em;">
+      <tbody>
+        <tr *ngFor="let item of listProductos" class="table-dark" (click)="selectProducto(item)">
+          <td>{{ item.descripcion }}</td>
+          <td>{{ item.precio }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LayoutUsersPageComponent } from './pages/layout-users-page/layout-users-page.component';
 import { HomeUsersPageComponent } from './pages/home-users-page/home-users-page.component';
 import { EquipoPageComponent } from './pages/equipo-page/equipo-page.component';
 
 const routes: Routes = [
   {
-    path: '', component: LayoutUsersPageComponent,
+    path: '',
     children: [
       {
         path: "home", component: HomeUsersPageComponent,
