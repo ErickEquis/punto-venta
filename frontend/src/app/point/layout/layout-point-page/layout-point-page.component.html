@@ -1,30 +1,58 @@
 <div class="row vh-100 p-0 m-0">
 
-  <!-- SideNAv -->
-  <ul class="col-1 nav flex-column bg-primary" style="border-radius: 0em;">
-    <li class="nav-item text-center my-4 py-2">
-        <p>Point</p>
-    </li>
-    <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
-      <a class="nav-link" style="color: white;" aria-current="page" [routerLink]="['/point/home']" routerLinkActive="router-link-active">
-        <span class="material-symbols-outlined">home</span>
-      </a>
-    </li>
-     <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
-      <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/point/inventario']" routerLinkActive="router-link-active">
-        <span class="material-symbols-outlined">store</span>
-      </a>
-    </li>
-    <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
-      <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/user/home']">
+  <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary justify-content-between align-items-center" style="width: 4.5rem;">
+    <div class="d-block p-3 link-body-emphasis text-decoration-none" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+      <span>Point</span>
+    </div>
+    <div>
+      <ul class="flex-column mb-auto text-center list-group">
+
+        <li class="">
+          <a [routerLink]="['/point/home']" class="nav-link py-3 border-bottom rounded-0 list-group-item" data-bs-placement="right">
+            <span class="material-symbols-outlined">home</span>
+          </a>
+        </li>
+
+        <li class="">
+          <a [routerLink]="['/point/inventario']" class="nav-link py-3 border-bottom rounded-0 list-group-item" data-bs-placement="right">
+            <span class="material-symbols-outlined">store</span>
+          </a>
+        </li>
+
+        <li class="">
+          <a [routerLink]="['/user/home']" class="nav-link py-3 border-bottom rounded-0 list-group-item" data-bs-placement="right">
+            <div>
+              <span class="material-symbols-outlined">
+                <div>
+                  groups
+                </div>
+              </span>
+              <span class="position-absolute translate-middle badge bg-danger rounded-circle" style="top: 25%; left: 75%; height: 25%; width: 25%; font-size: .5rem;">
+                5
+              </span>
+            </div>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="dropup border-top">
+      <a class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="material-symbols-outlined">person</span>
       </a>
-    </li>
-  </ul>
-  <!-- /SideNAv -->
+      <ul class="dropdown-menu text-small shadow">
+        <a class="dropdown-item">Hola</a>
+        <li><hr class="dropdown-divider"></li>
+        <li (click)="logout()"><a class="dropdown-item">Cerrar sesión</a></li>
+      </ul>
+    </div>
+
+  </div>
 
   <div class="col-11 h-100">
     <router-outlet></router-outlet>
   </div>
 
 </div>
+

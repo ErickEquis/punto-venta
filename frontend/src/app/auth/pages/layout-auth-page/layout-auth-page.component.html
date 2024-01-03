@@ -1,42 +1,31 @@
 <div class="row vh-100 p-0 m-0">
 
-  <div class="col bg-primary" style="border: solid;">
-
-    <div id="carouselExampleAutoplaying" class="carousel slide h-100 d-flex align-items-center" data-bs-ride="carousel">
-      <div class="carousel-inner" style="border: solid blue;">
-        <div class="carousel-item active" style="border: solid red;">
-          <div class="h-100 w-100 d-flex justify-content-center" style="border: solid;">
-            <p>Terry2</p>
-            <img src="" class="d-block w-100" alt="...">
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="h-100 w-100 d-block" style="border: solid;">
-            <p>Terry</p>
-          </div>
-          <!-- <img src="..." class="d-block w-100" alt="..."> -->
-        </div>
-        <div class="carousel-item">
-          <div class="h-100 w-100 d-block" style="border: solid;">
-            <p>Terry</p>
-          </div>
-          <!-- <img src="..." class="d-block w-100" alt="..."> -->
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-
+  <div class="col-7">
+    <router-outlet></router-outlet>
   </div>
 
-  <div class="col">
-    <router-outlet></router-outlet>
+  <div class="col bg-primary">
+
+    <div id="carouselExampleAutoplaying" class="carousel slide h-100 d-flex align-items-center" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="d-flex justify-content-center">
+            <p>Terry2</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center">
+            <p>Terry</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center">
+            <p>Terry</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>
