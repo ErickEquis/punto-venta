@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpHeaders } from '@angular/common/http';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -16,15 +15,16 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
 
   formSignIn: any
-  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
+  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.authService.checkSignIn(this.identityUser)
+    this.identityUser ? window.location.assign('/point/home') : ''
     this.formSignIn = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required]),

@@ -32,6 +32,7 @@ export class InventarioPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.authService.checkSignIn(this.identityUser)
     this.getProdutos()
 
     this.formEdit = new FormGroup({
@@ -91,7 +92,7 @@ export class InventarioPageComponent implements OnInit {
       }
     )
   }
-  
+
   eliminar(id: number) {
     this.deleteProducto(id)
   }

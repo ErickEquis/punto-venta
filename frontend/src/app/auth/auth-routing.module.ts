@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
+import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-page.component';
 
 
 const routes: Routes = [
   {
-    path: "", component: LayoutPageComponent,
+    path: '', component: LayoutAuthPageComponent,
     children: [
       {
         path: "log-in", component: LoginPageComponent
@@ -16,7 +16,7 @@ const routes: Routes = [
         path: "sign-up", component: SignupPageComponent
       },
       {
-        path: "**", redirectTo: 'log-in', pathMatch: 'full'
+        path: "**", redirectTo: 'sign-up', pathMatch: 'full'
       },
     ]
   }

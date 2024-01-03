@@ -48,7 +48,9 @@ export class HomePageComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.authService.checkSignIn(this.identityUser)
+  }
 
   getHeaders(token: string) {
     return {

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'md5-typescript';
 
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup-page',
@@ -19,10 +20,11 @@ export class SignupPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.authService.checkSignIn(this.identityUser)
+    this.identityUser ? this.router.navigate(['/point/home']) : ''
     this.formSignUp = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),

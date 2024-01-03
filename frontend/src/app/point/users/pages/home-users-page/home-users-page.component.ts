@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-home-users-page',
@@ -8,12 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class HomeUsersPageComponent implements OnInit {
 
   user: any = []
-  identity_user: any
+  identity_user = JSON.parse(localStorage.getItem('identity_user'))
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.identity_user = JSON.parse(localStorage.getItem('identity_user'))
+    this.authService.checkSignIn(this.identity_user)
   }
 
 }

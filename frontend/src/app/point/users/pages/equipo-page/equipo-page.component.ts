@@ -34,6 +34,7 @@ export class EquipoPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.checkSignIn(this.identityUser)
     this.getUsers()
   }
 

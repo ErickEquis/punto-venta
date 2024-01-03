@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayoutPageComponent } from './layout-page.component';
+import { LayoutPointPageComponent } from './layout-point-page.component';
 
-describe('LayoutPageComponent', () => {
-  let component: LayoutPageComponent;
-  let fixture: ComponentFixture<LayoutPageComponent>;
+describe('LayoutPointPageComponent', () => {
+  let component: LayoutPointPageComponent;
+  let fixture: ComponentFixture<LayoutPointPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutPageComponent ]
+      declarations: [ LayoutPointPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LayoutPageComponent);
+    fixture = TestBed.createComponent(LayoutPointPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

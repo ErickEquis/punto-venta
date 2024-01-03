@@ -41,8 +41,8 @@ export class AuthService {
   }
 
   checkSignIn(identity_user?: any) {
-    if (identity_user) {
-      this.router.navigate(['/point/home'])
+    if (!identity_user) {
+      window.location.assign('/auth/log-in')
     }
   }
 

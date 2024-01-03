@@ -1,0 +1,30 @@
+<div class="row vh-100 p-0 m-0">
+
+  <!-- SideNAv -->
+  <ul class="col-1 nav flex-column bg-primary" style="border-radius: 0em;">
+    <li class="nav-item text-center my-4 py-2">
+        <p>Point</p>
+    </li>
+    <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+      <a class="nav-link" style="color: white;" aria-current="page" [routerLink]="['/point/home']" routerLinkActive="router-link-active">
+        <span class="material-symbols-outlined">home</span>
+      </a>
+    </li>
+     <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+      <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/point/inventario']" routerLinkActive="router-link-active">
+        <span class="material-symbols-outlined">store</span>
+      </a>
+    </li>
+    <li class="nav-item text-center my-4" style="border-radius: 2em 0 0 2em; margin-left: 1em;">
+      <a class="nav-link active" style="color: white;" aria-current="page" [routerLink]="['/user/home']">
+        <span class="material-symbols-outlined">person</span>
+      </a>
+    </li>
+  </ul>
+  <!-- /SideNAv -->
+
+  <div class="col-11 h-100">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
