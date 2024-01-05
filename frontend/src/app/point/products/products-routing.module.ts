@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { InventarioPageComponent } from './pages/inventario-page/inventario-page.component';
-import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 
 
 const routes: Routes = [
   {
-    path: '', component: LayoutPageComponent,
+    path: '',
     children: [
       {
         path: 'home', component: HomePageComponent

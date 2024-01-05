@@ -5,11 +5,12 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-page.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 
 
 @NgModule({
-  declarations: [LoginPageComponent, SignupPageComponent, LayoutAuthPageComponent],
+  declarations: [LoginPageComponent, SignupPageComponent, LayoutAuthPageComponent, CarouselComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

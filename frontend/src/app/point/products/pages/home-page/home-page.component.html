@@ -1,13 +1,13 @@
-<div class="container h-100">
+<div class="container h-100" style="border: solid;">
 
   <div class="tab h-75 pt-5 px-5 text-center">
     <table class="table table-hover table-striped" style="border-radius: 1em; overflow: hidden;">
       <thead>
         <tr class="table-info">
-          <th class="col-3">Producto</th>
-          <th class="col-3">Precio</th>
-          <th class="col-3">Cantidad</th>
-          <th class="col-2"></th>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -41,7 +41,7 @@
   </div>
 
   <div class="tab px-5" style="height: 15%;">
-    <table class="table table-hover .tab" style="border-radius: 1em;">
+    <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
         <tr *ngFor="let item of listProductos" class="table-dark" (click)="selectProducto(item)">
           <td>{{ item.descripcion }}</td>

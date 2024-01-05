@@ -7,10 +7,11 @@ import { ProductsModule } from './products/products.module';
 import { UsersRoutingModule } from './users/users-routing.module';
 import { ProductsRoutingModule } from './products/products-routing.module';
 import { LayoutPointPageComponent } from './layout/layout-point-page/layout-point-page.component';
+import { SidenavComponent } from './layout/components/sidenav/sidenav.component';
 
 
 @NgModule({
-  declarations: [LayoutPointPageComponent],
+  declarations: [LayoutPointPageComponent, SidenavComponent],
   imports: [
     CommonModule,
     PointRoutingModule,
