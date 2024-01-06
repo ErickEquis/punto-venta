@@ -6,11 +6,20 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-page.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { RestorePwdPageComponent } from './pages/restore-pwd-page/restore-pwd-page.component';
+import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.component';
 
 
 
 @NgModule({
-  declarations: [LoginPageComponent, SignupPageComponent, LayoutAuthPageComponent, CarouselComponent],
+  declarations: [
+    LoginPageComponent,
+    SignupPageComponent,
+    LayoutAuthPageComponent,
+    CarouselComponent,
+    RestorePwdPageComponent,
+    ForgotPwdPageComponent
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,

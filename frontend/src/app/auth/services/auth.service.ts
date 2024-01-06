@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { Observable } from 'rxjs';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,7 +14,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
   ) {
     this.url = `${environment.endpoint}auth/`
   }
@@ -44,6 +44,14 @@ export class AuthService {
     if (!identity_user) {
       window.location.assign('/auth/log-in')
     }
+  }
+
+  forgotPwd(body: any):Observable<any> {
+    return this.http.put<any>(`${this.url}forgot-pwd`, body)
+  }
+
+  restorePwd(body: any, query: string):Observable<any> {
+    return this.http.patch<any>(`${this.url}restore-pwd?token=${query}`, body)
   }
 
 }

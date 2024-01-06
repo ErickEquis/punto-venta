@@ -5,13 +5,10 @@
       Point
     </h1>
     <h3>
-      Inicia sesión con tu cuenta
+      Ingresa una nueva contraseña
     </h3>
-    <p style="opacity: .8;">
-      Bienvenido de vuelta
-    </p>
 
-    <form [formGroup]="formSignIn" (ngSubmit)="signIn()">
+    <form [formGroup]="formRestorePwd" (ngSubmit)="restorePwd()">
       <div class="mb-3 mt-3">
         <input type="email" placeholder="Correo" class="form-control" formControlName="correo">
       </div>
@@ -25,21 +22,15 @@
       </div>
 
       <div class="mb-3">
-        <input type="password" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
+        <input type="password" placeholder="Nueva contraseña" class="form-control" formControlName="contrasenia">
       </div>
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(contrasenia.dirty && contrasenia.touched && contrasenia.errors?.required)">
         Ingresa tu contraseña
       </div>
 
-      <div class="d-flex justify-content-end">
-        <a [routerLink]="['../forgot-password']">¿Olvidaste tu contraseña?</a>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" [disabled]="!formSignIn.valid">Ingresar</button>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="!formRestorePwd.valid">Ingresar</button>
     </form>
-    <p class="center">
-      ¿No tienes una cuenta? <a [routerLink]="['../sign-up']">Crear una cuenta</a>
-    </p>
   </div>
 
 </div>

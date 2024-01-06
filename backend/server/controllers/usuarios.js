@@ -12,6 +12,8 @@ const moment = require('moment')
 
 const auth = require('../services/auth')
 
+const nodemailer = require("nodemailer");
+
 async function crearSesion(req, res) {
 
     let json = {}
@@ -78,14 +80,83 @@ async function crearSesion(req, res) {
 
         await transaction.commit();
 
+        let payload = {
+            "id": user.id,
+            "rol": user.id_rol,
+            "exp": moment().add(1, "day").unix()
+        }
+
         let response ={
-            token: auth.encodeAuth(user),
+            token: auth.encodeAuth(payload),
             nombre: user.nombre,
             rol: user.id_rol,
             permisos: permisos,
         }
 
         return res.status(200).json(response)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json(error)
+    }
+}
+
+async function restorePwd(req, res) {
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        let transaction = await db.sequelize.transaction()
+
+        let updatePwd = await model.update(
+            {
+                contrasenia: req.body.contrasenia
+            },
+            {
+                where: {
+                    nombre: usr.nombre,
+                    correo: usr.correo,
+                }
+            }, transaction
+        )
+
+        if (!updatePwd) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible actualizar la contraseña.',
+            });
+        }
+
+        await transaction.commit()
+
+        return res.status(200).json({mensaje: "Éxito."})
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json(error)
+    }
+}
+
+async function forgotPwd(req, res) {
+    try {
+
+        let user = await model.findOne({
+            where: {
+                correo: req.body.correo
+            }
+        })
+
+        let payload = {
+            "nombre": user.nombre,
+            "correo": user.correo,
+            "exp": moment().add(15, "minutes").unix()
+        }
+
+        let token = auth.encodeAuth(payload)
+
+        console.log(token)
+
+        return res.status(200).json({mensaje: "Éxito."})
 
     } catch (error) {
         console.error(error)
@@ -163,7 +234,7 @@ async function create(req, res) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
 
-        let transaction = db.sequelize.transaction()
+        let transaction = await db.sequelize.transaction()
 
         let newUsuario = await model.create({
             nombre: req.body.nombre,
@@ -204,7 +275,7 @@ async function update(req, res) {
             return res.status(401).json(json)
         }
 
-        let transaction = await op.sequelize.transaction()
+        let transaction = await db.sequelize.transaction()
 
         let updateUsuario = await model.update({
             nombre: req.body.nombre,
@@ -280,9 +351,11 @@ async function remove(req, res) {
 }
 
 module.exports = {
+    crearSesion,
+    restorePwd,
+    forgotPwd,
     findAll,
     findById,
-    crearSesion,
     create,
     update,
     remove,

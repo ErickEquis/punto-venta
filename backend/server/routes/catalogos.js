@@ -16,4 +16,6 @@ module.exports = (app) => {
     
     app.post('/auth', usuario.create)
     app.patch('/auth', usuario.crearSesion)
+    app.put('/auth/forgot-pwd', usuario.forgotPwd)
+    app.patch('/auth/restore-pwd', auth.ensureAuthParam, usuario.restorePwd)
 }

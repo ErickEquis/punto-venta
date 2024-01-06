@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../services/auth.service';
 import { Md5 } from 'md5-typescript';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -20,7 +19,6 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
   ) { }
 
   ngOnInit() {
