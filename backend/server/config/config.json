@@ -25,5 +25,19 @@
       "schema": "public"
     }
   },
-  "token_secret": "@pUn70-v3N74!"
+  "token_secret": "@pUn70-v3N74!",
+  "api": {
+    "mail": {
+      "client_id": "390797666654-91ave44eumhmu9sdspfg6282hdc9i031.apps.googleusercontent.com",
+      "project_id": "rising-pen-410921",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_secret": "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",
+      "redirect_uris": [
+        "https://developers.google.com/oauthplayground"
+      ],
+      "refresh_token": "1//049p2TbcyKwL9CgYIARAAGAQSNwF-L9IrNOQoP6Er086DC7vR9GgFqF1qXiCM4fsLUtMHfF9qSuGGYCbJrSMJ24-rEnVXZQIPc-4"
+    }
+  }
 }

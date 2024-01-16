@@ -10,3 +10,9 @@
   background-color: hsl(0, 0%, 100%, 0.4);
   border-radius: .5rem;
 }
+
+@media (max-width: 576px) {
+  .d-xs-none {
+    display: none;
+  }
+}

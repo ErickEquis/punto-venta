@@ -11,8 +11,7 @@ const rules = require('../rules/usuarios')
 const moment = require('moment')
 
 const auth = require('../services/auth')
-
-const nodemailer = require("nodemailer");
+const mail = require('../services/mail')
 
 async function crearSesion(req, res) {
 
@@ -154,7 +153,10 @@ async function forgotPwd(req, res) {
 
         let token = auth.encodeAuth(payload)
 
-        console.log(token)
+        // console.log(token)
+
+        // let send = await mail.mail()
+        // console.log(send)
 
         return res.status(200).json({mensaje: "Éxito."})
 

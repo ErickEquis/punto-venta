@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Md5 } from 'md5-typescript';
 
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 
 
 @Component({

@@ -1,13 +1,13 @@
-<div class="row vh-100 p-0 m-0">
+<div>
+  <div class="row vh-100 p-0 m-0">
 
-  <div class="col-7">
-    <router-outlet></router-outlet>
+    <div class="col-sm-12 col-md-7 p-0 m-0">
+      <router-outlet></router-outlet>
+    </div>
+
+    <div class="d-xs-none d-sm-none d-md-flex col-md-5 p-0 m-0 bg-primary">
+      <app-carousel class="w-100"></app-carousel>
+    </div>
+
   </div>
-
-  <div class="col bg-primary">
-
-    <app-carousel></app-carousel>
-
-  </div>
-
 </div>

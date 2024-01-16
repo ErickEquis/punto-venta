@@ -1,13 +1,13 @@
-<div class="container h-100" style="border: solid;">
+<div class="container-fluid h-100">
 
-  <div class="tab h-75 pt-5 px-5 text-center">
+  <div class="container-fluid tab h-75 pt-5 px-0 text-center">
     <table class="table table-hover table-striped" style="border-radius: 1em; overflow: hidden;">
       <thead>
         <tr class="table-info">
           <th>Producto</th>
           <th>Precio</th>
           <th>Cantidad</th>
-          <th></th>
+          <th class="d-sm-none"></th>
         </tr>
       </thead>
       <tbody>
@@ -15,22 +15,34 @@
             <td>{{ producto.descripcion }}</td>
             <td>{{ producto.precio }}</td>
             <td>{{ producto.cantidad }}</td>
-            <td>
-              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">+</button>
-              <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">Eliminar</button>
-              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">-</button>
+            <td class="d-sm-none">
+              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">
+                <span class="material-symbols-outlined">
+                  add
+                </span>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">
+                <span class="material-symbols-outlined">
+                  remove
+                </span>
+              </button>
             </td>
           </tr>
           </tbody>
     </table>
-    <div style="margin: 10% 0;">
-      <div class="alert alert-dismissible alert-info m-5 py-5" *ngIf="!ventaProductos.length">
+    <div class="container-lg" style="margin: 10% 0;">
+      <div class="alert alert-dismissible alert-info m-0 py-5" *ngIf="!ventaProductos.length">
         <strong>Vende!</strong> Escanea tus productos.
       </div>
     </div>
   </div>
 
-  <div class="px-5">
+  <div class="container-lg">
     <form (ngSubmit)='agregarProducto(item)'>
       <div class="input-group">
         <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
@@ -40,7 +52,7 @@
     </form>
   </div>
 
-  <div class="tab px-5" style="height: 15%;">
+  <div class="tab container-lg" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
         <tr *ngFor="let item of listProductos" class="table-dark" (click)="selectProducto(item)">
