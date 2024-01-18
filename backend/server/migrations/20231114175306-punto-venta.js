@@ -31,6 +31,10 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      codigo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

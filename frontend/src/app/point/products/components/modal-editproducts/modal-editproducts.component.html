@@ -1,0 +1,36 @@
+<div class="modal fade" id="editProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">Editar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formEdit" (ngSubmit)="editProducto()">
+          <div class="d-flex row justify-content-center">
+            <div class="form-floating p-0 m-0 my-1">
+              <input class="form-control" type="text" id="floatingDescripcion" formControlName="descripcion">
+              <label for="floatingDescripcion">Descripcion</label>
+            </div>
+            <div class="form-floating p-0 m-0 my-1">
+              <input class="form-control" type="number" id="floatingPrecio" formControlName="precio">
+              <label for="floatingPrecio">Precio</label>
+            </div>
+            <div class="form-floating p-0 m-0 my-1">
+              <input class="form-control" type="number" id="floatingCantidad" formControlName="cantidad">
+              <label for="floatingCantidad">Cantidad</label>
+            </div>
+            <div class="form-floating p-0 m-0 my-1">
+              <input class="form-control" type="number" id="floatingCodigo" formControlName="codigo">
+              <label for="floatingCodigo">Codigo</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-sm mx-1" data-bs-dismiss="modal" (click)="reloadInventario()">Editar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

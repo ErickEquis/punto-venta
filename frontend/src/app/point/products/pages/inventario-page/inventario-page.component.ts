@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -15,37 +14,19 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class InventarioPageComponent implements OnInit {
 
   listProductos: Productos[] = []
-  existe: boolean
-  addProductoFlag: boolean = false
-  editProductoFlag: boolean = false
   productoBuscado: string = ''
-  productoEditId: number
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
-
-  formEdit: any
-  formAdd: any
+  producto?: any
 
   constructor(
     private productoService: ProductoService,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.authService.checkSignIn(this.identityUser)
     this.getProdutos()
-
-    this.formEdit = new FormGroup({
-      descripcion: new FormControl(''),
-      precio: new FormControl(''),
-      cantidad: new FormControl(''),
-    })
-
-    this.formAdd = new FormGroup({
-      descripcion: new FormControl(''),
-      precio: new FormControl(''),
-      cantidad: new FormControl(''),
-    })
   }
 
   getHeaders(token: string) {
@@ -97,56 +78,12 @@ export class InventarioPageComponent implements OnInit {
     this.deleteProducto(id)
   }
 
-  editState(producto: any): void {
-    this.addProductoFlag = false
-    this.listProductos.forEach((producto) => producto.estatus = true)
-    producto.estatus = !producto.estatus
-    this.editProductoFlag = !this.editProductoFlag
-    this.formEdit.setValue({descripcion: producto.descripcion, precio: producto.precio, cantidad: producto.cantidad})
-    this.productoEditId = producto.id
+  setEditProducto(producto?: any): void {
+    this.producto = producto
   }
 
-  editProducto() {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.editProducto(this.productoEditId, this.formEdit.value, options).subscribe(
-      () => this.getProdutos(),
-      (error) => {
-        if (error.status == 403) {
-          setTimeout(() => {
-            this.authService.signOut()
-          }, 1500);
-        }
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
-    this.change()
-  }
-
-  addProducto() {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.createProducto(this.formAdd.value, options).subscribe(
-      () => this.getProdutos(),
-      (error) => {
-        if (error.status == 403) {
-          setTimeout(() => {
-            this.authService.signOut()
-          }, 1500);
-        }
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
-    this.addProductoFlag = !this.addProductoFlag
-  }
-
-  change() {
-    let producto = this.listProductos.find((producto) => producto.id === this.productoEditId)
-    producto.estatus = !producto.estatus
-    this.editProductoFlag = !this.editProductoFlag
-  }
-
-  changeAddProductoFlag() {
-    this.addProductoFlag = !this.addProductoFlag
-    this.change()
+  reloadGetEvent() {
+    window.location.reload()
   }
 
 }

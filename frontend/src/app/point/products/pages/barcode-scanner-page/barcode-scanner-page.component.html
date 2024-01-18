@@ -1,0 +1,48 @@
+<div class="vh-100">
+
+  <div class="">
+    <zxing-scanner
+    (scanSuccess)="scanSuccessHandler($event)"
+    [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+    >
+    </zxing-scanner>
+  </div>
+
+  <div>
+    <div>
+      Terry
+      <br>
+      scanSuccessHandler
+
+      pasa
+      {{ pasa }}
+
+      codeFront
+      {{ codeFront }}
+
+      producto
+      {{ producto }}
+    </div>
+    <div>
+
+    </div>
+  </div>
+
+  <div>
+
+    <form [formGroup]="formAdd" (ngSubmit)="addProducto()">
+      <div class="d-flex">
+        <input class="form-control" type="text" placeholder="Descripcion" formControlName="descripcion">
+        <input class="mx-1 form-control" type="number" placeholder="Precio" formControlName="precio">
+        <input class="form-control" type="number" placeholder="Cantidad" formControlName="cantidad">
+        <input class="form-control" type="text" placeholder="Codigo" formControlName="codigo">
+        <button type="submit" class="h-100 btn btn-danger btn-sm mx-1">Agregar</button>
+        <!-- <div class="d-flex">
+        </div> -->
+      </div>
+    </form>
+
+  </div>
+
+
+</div>

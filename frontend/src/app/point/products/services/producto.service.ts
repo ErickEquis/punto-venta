@@ -24,6 +24,10 @@ export class ProductoService {
     return this.http.get<Productos[]>(`${this.url}/${id}`, options)
   }
 
+  getProductoCode(codigo: any, options: any): Observable<any> {
+    return this.http.get<Productos[]>(`${this.url}/code/${codigo}`, options)
+  }
+
   createProducto(body: any, options: any): Observable<any> {
     return this.http.post<Productos[]>(`${this.url}`, body, options)
   }

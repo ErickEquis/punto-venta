@@ -74,9 +74,11 @@
     </div>
 
     <div>
-      <span class="material-symbols-outlined">
-        barcode_scanner
-      </span>
+      <a [routerLink]="['/point/scan']">
+        <span class="material-symbols-outlined">
+          barcode_scanner
+        </span>
+      </a>
     </div>
 
     <div (click)="logout()">

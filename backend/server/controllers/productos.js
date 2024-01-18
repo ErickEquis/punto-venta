@@ -10,7 +10,7 @@ const rules = require('../rules/productos')
 async function findAll(req, res) {
     try {
 
-        req.query.descripcion ? req.query.descripcion : req.query.descripcion = '' 
+        req.query.descripcion ? req.query.descripcion : req.query.descripcion = ''
 
         let rows = await model.findAll({
             where: {
@@ -34,6 +34,32 @@ async function findAll(req, res) {
     } catch (error) {
         console.error(error)
         return res.status(500).json({msg: error})
+    }
+}
+
+async function findOne(req, res) {
+    try {
+
+        console.log(req.query.codigo)
+
+        let clausula = {}
+
+        if (req.query.codigo) clausula.codigo = req.query.codigo
+
+        let row = await model.findOne({
+            where: clausula,
+            raw: true,
+        })
+
+        if (!row) {
+            return res.status(400).json({ mensaje: "Producto no encontrado." })
+        }
+
+        return res.status(200).json(row)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ msg: error })
     }
 }
 
@@ -81,6 +107,7 @@ async function create(req, res) {
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
+            codigo: req.body.codigo,
             estatus: true
         }, transaction)
 
@@ -182,6 +209,7 @@ async function remove(req, res) {
 module.exports = {
     findAll,
     findById,
+    findOne,
     create,
     update,
     remove,

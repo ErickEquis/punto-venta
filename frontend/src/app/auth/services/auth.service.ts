@@ -28,6 +28,7 @@ export class AuthService {
   }
 
   login(body: any): Observable<any> {
+    console.log(this.url)
     return this.http.patch<any>(this.url, body)
   }
 

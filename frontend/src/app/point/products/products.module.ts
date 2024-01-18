@@ -4,15 +4,20 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { InventarioPageComponent } from './pages/inventario-page/inventario-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BarcodeScannerPageComponent } from './pages/barcode-scanner-page/barcode-scanner-page.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ModalEditproductsComponent } from './components/modal-editproducts/modal-editproducts.component';
+import { ModalAddproductsComponent } from './components/modal-addproducts/modal-addproducts.component';
 
 @NgModule({
-  declarations: [HomePageComponent, InventarioPageComponent],
+  declarations: [HomePageComponent, InventarioPageComponent, BarcodeScannerPageComponent, ModalEditproductsComponent, ModalAddproductsComponent],
   exports: [],
   imports: [
     CommonModule,
     ProductsRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    ZXingScannerModule,
   ]
 })
 export class ProductsModule { }

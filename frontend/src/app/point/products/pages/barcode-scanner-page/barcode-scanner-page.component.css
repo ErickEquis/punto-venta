@@ -1,0 +1,6 @@
+:host ::ng-deep video {
+  max-height: 40vh;
+  width: 100vw;
+  object-fit: contain;
+  display: block;
+}

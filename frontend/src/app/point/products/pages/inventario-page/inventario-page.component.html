@@ -25,16 +25,18 @@
               {{ producto.cantidad }}
             </td>
             <td>
-              <button type="button" class="btn btn-danger btn-sm mx-1" (click)="editState(producto)" *ngIf="producto.estatus">
+              <button type="button" class="btn btn-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#editProducto" (click)="setEditProducto(producto)">
                 <span class="material-symbols-outlined">
                   edit
                 </span>
               </button>
+
               <button type="submit" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto.id)">
                 <span class="material-symbols-outlined">
                   delete
                 </span>
               </button>
+
             </td>
           </tr>
         </tbody>
@@ -49,43 +51,16 @@
 
   </div>
 
-  <div class="mx-5">
-
-    <div *ngIf="editProductoFlag">
-      <form [formGroup]="formEdit" (ngSubmit)="editProducto()">
-        <div class="d-flex">
-          <input class="form-control" type="text" formControlName="descripcion">
-          <input class="mx-1 form-control" type="number" formControlName="precio">
-          <input class="form-control" type="number" formControlName="cantidad">
-          <div class="d-flex">
-            <button type="submit" class="btn btn-danger btn-sm mx-1">Editar</button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="change()">Cancelar</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div *ngIf="addProductoFlag">
-      <form [formGroup]="formAdd" (ngSubmit)="addProducto()">
-        <div class="d-flex">
-          <input class="form-control" type="text" placeholder="Descripcion" formControlName="descripcion">
-          <input class="mx-1 form-control" type="number" placeholder="Precio" formControlName="precio">
-          <input class="form-control" type="number" placeholder="Cantidad" formControlName="cantidad">
-          <div class="d-flex">
-            <button type="submit" class="h-100 btn btn-danger btn-sm mx-1">Agregar</button>
-            <button type="button" class="h-100 btn btn-danger btn-sm"
-            (click)="addProductoFlag = !addProductoFlag">Cancelar</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-  </div>
+  <app-modal-editproducts [producto]=producto (reloadGetEvent)="reloadGetEvent()"></app-modal-editproducts>
 
   <div class="input-group px-5">
     <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
       [(ngModel)]="productoBuscado" (keyup)="filtrarProductos()">
-    <button class="btn btn-primary" type="submit" (click)="changeAddProductoFlag()">Agregar nuevo producto</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProducto">
+      Agregar producto
+    </button>
   </div>
+
+  <app-modal-addproducts (reloadGetEvent)="reloadGetEvent()"></app-modal-addproducts>
 
 </div>
