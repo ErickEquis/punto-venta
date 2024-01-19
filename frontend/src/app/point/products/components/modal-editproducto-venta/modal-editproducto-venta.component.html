@@ -1,0 +1,27 @@
+<div class="modal fade" id="editProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">{{ producto?.descripcion }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex justify-content-evenly">
+        <button type="button" class="btn btn-danger btn-sm" (click)="edit(1)">
+          <span class="material-symbols-outlined">
+            add
+          </span>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" (click)="edit(0)">
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" [attr.data-bs-dismiss]="modal" (click)="edit(-1)">
+          <span class="material-symbols-outlined">
+            remove
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
 import { ToastrService } from 'ngx-toastr';
@@ -14,33 +14,36 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
   ventaProductos: ProductosVenta[] = [
-    {
-      id: 1,
-      descripcion: "descripcion",
-      precio: 1,
-      cantidad: 1
-    },
     // {
     //   id: 1,
-    //   descripcion: "descripcion",
+    //   descripcion: "descripcion1",
     //   precio: 1,
     //   cantidad: 1
     // },
     // {
-    //   id: 1,
-    //   descripcion: "descripcion",
+    //   id: 2,
+    //   descripcion: "descripcion2",
     //   precio: 1,
-    //   cantidad: 1
+    //   cantidad: 3
+    // },
+    // {
+    //   id: 3,
+    //   descripcion: "descripcion3",
+    //   precio: 1,
+    //   cantidad: 4
     // },
   ]
   productoBuscado: string = ''
   itemById: Productos[]
   item: any = {}
+  producto: any
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
+  modal: string = ''
+  total: number = 0
 
   constructor(
     private productoService: ProductoService,
@@ -49,7 +52,15 @@ export class HomePageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.checkSignIn(this.identityUser)
+    this.authService.checkSignIn(this.identityUser);
+    (window.innerWidth < 576) ? this.modal = 'modal' : this.modal = ''
+  }
+
+  ngOnChanges(): void {
+  }
+
+  ngDoCheck(): void {
+    this.getTotal()
   }
 
   getHeaders(token: string) {
@@ -129,6 +140,17 @@ export class HomePageComponent implements OnInit {
   selectProducto(item: any) {
     this.productoBuscado = item.descripcion
     this.getProductoId(item)
+  }
+
+  editProducto(producto: any) {
+    this.producto = producto
+  }
+
+  getTotal() {
+    this.total = 0
+    this.ventaProductos.forEach((producto) => {
+      this.total += (producto.precio * producto.cantidad)
+    })
   }
 
 }

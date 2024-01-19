@@ -8,9 +8,10 @@ import { BarcodeScannerPageComponent } from './pages/barcode-scanner-page/barcod
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ModalEditproductsComponent } from './components/modal-editproducts/modal-editproducts.component';
 import { ModalAddproductsComponent } from './components/modal-addproducts/modal-addproducts.component';
+import { ModalEditproductoVentaComponent } from './components/modal-editproducto-venta/modal-editproducto-venta.component';
 
 @NgModule({
-  declarations: [HomePageComponent, InventarioPageComponent, BarcodeScannerPageComponent, ModalEditproductsComponent, ModalAddproductsComponent],
+  declarations: [HomePageComponent, InventarioPageComponent, BarcodeScannerPageComponent, ModalEditproductsComponent, ModalAddproductsComponent, ModalEditproductoVentaComponent],
   exports: [],
   imports: [
     CommonModule,

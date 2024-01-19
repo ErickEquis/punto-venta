@@ -1,22 +1,24 @@
 <div class="container-fluid h-100">
 
+  <app-modal-editproducto-venta class="d-md-none" [producto]="producto" (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
+
   <div class="container-fluid tab h-75 pt-5 px-0 text-center">
-    <table class="table table-hover table-striped" style="border-radius: 1em; overflow: hidden;">
+    <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
       <thead>
         <tr class="table-info">
           <th>Producto</th>
           <th>Precio</th>
           <th>Cantidad</th>
-          <th class="d-sm-none"></th>
+          <th class="d-xs-none"></th>
         </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let producto of ventaProductos">
+          <tr *ngFor="let producto of ventaProductos" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto" (click)="editProducto(producto)">
             <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.precio }}</td>
+            <td>{{ producto.precio | currency }}</td>
             <td>{{ producto.cantidad }}</td>
-            <td class="d-sm-none">
-              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(1, producto)">
+            <td class="d-xs-none">
+              <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(1, producto)">
                 <span class="material-symbols-outlined">
                   add
                 </span>
@@ -26,7 +28,7 @@
                 delete
               </span>
               </button>
-              <button type="button" class="btn btn-danger btn-sm" (click)="cantidadVenta(-1, producto)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
                 <span class="material-symbols-outlined">
                   remove
                 </span>
@@ -40,6 +42,12 @@
         <strong>Vende!</strong> Escanea tus productos.
       </div>
     </div>
+  </div>
+
+  <div class="w-100 d-flex p-0 my-2 justify-content-evenly align-items-center">
+    <button class="btn btn-primary" type="submit">Vender</button>
+    <span>Total</span>
+    <span>{{ total | currency }}</span>
   </div>
 
   <div class="container-lg">

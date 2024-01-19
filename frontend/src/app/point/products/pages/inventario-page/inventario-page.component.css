@@ -10,3 +10,14 @@
   background-color: hsl(0, 0%, 100%, 0.4);
   border-radius: .5rem;
 }
+
+.resposive-button{
+  width: 40%;
+}
+
+@media (max-width: 767.98px) {
+  .resposive-button{
+    width: auto;
+  }
+}
+
