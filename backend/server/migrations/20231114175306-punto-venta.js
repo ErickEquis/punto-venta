@@ -126,7 +126,98 @@ module.exports = {
         schema: schema
       });
 
+    await queryInterface.createTable('ca_ventas_historial', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      id_modificado: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+      },
+      productos: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+      },
+      productos_modificados: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+      },
+      total_venta: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      total_venta_modificado: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      fecha_venta: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      fecha_venta_modificada: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
 
+    await queryInterface.createTable('ca_ventas', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      id_usuario: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_usuarios',
+          },
+          key: 'id',
+        },
+      },
+      productos: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+      },
+      total_venta: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      modificado: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      id_modificado: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
+        references: {
+          model: {
+            schema: schema,
+            tableName: "ca_ventas_historial",
+          },
+          key: 'id',
+        }
+      },
+      fecha_venta: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
 
   },
 

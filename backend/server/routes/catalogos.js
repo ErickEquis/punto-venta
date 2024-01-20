@@ -1,5 +1,6 @@
 const producto = require('../controllers/productos.js')
 const usuario = require('../controllers/usuarios.js')
+const venta = require('../controllers/ventas.js')
 
 const auth = require('../services/auth.js')
 
@@ -19,4 +20,6 @@ module.exports = (app) => {
     app.patch('/auth', usuario.crearSesion)
     app.put('/auth/forgot-pwd', usuario.forgotPwd)
     app.patch('/auth/restore-pwd', auth.ensureAuthParam, usuario.restorePwd)
+    
+    app.post('/ventas', venta.create)
 }

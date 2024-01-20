@@ -8,6 +8,7 @@ import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { VentaService } from '../../services/venta.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,12 +19,12 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
   ventaProductos: ProductosVenta[] = [
-    // {
-    //   id: 1,
-    //   descripcion: "descripcion1",
-    //   precio: 1,
-    //   cantidad: 1
-    // },
+    {
+      id: 1,
+      descripcion: "descripcion1",
+      precio: 1,
+      cantidad: 1
+    },
     // {
     //   id: 2,
     //   descripcion: "descripcion2",
@@ -44,11 +45,14 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   modal: string = ''
   total: number = 0
+  bodyVenta: any = {}
+  isDisabled: boolean
 
   constructor(
     private productoService: ProductoService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private ventaService: VentaService,
   ) { }
 
   ngOnInit() {
@@ -60,7 +64,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngDoCheck(): void {
-    this.getTotal()
+    this.getTotal();
+    (this.total == 0) ? this.isDisabled = true : this.isDisabled = null
   }
 
   getHeaders(token: string) {
@@ -151,6 +156,19 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     this.ventaProductos.forEach((producto) => {
       this.total += (producto.precio * producto.cantidad)
     })
+  }
+
+  venta() {
+    this.bodyVenta.productos = this.ventaProductos
+    this.bodyVenta.total_venta = this.total
+
+    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventaService.venta(this.bodyVenta, options).subscribe(
+      (response) => this.toastr.success(response.mensaje, 'Éxito!'),
+      (error) => this.toastr.error(error.error.mensaje, 'Error!')
+    )
+
+    this.ventaProductos = []
   }
 
 }
