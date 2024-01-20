@@ -3,13 +3,40 @@ function create(body) {
         codigo: 0,
         mensaje: "Éxito"
     }
-    if (body.productos.length == 0) {
+    if (!body.productos || body.productos.length == 0) {
         json.codigo = 1
         json.mensaje = "Lo sentimos es requerido al menos un producto"
         return json
     }
 
-    if (body.total_venta < 0) {
+    if (!body.total_venta || body.total_venta < 0) {
+        json.codigo = 1
+        json.mensaje = "Error en el total de venta"
+        return json
+    }
+
+    return json
+}
+
+function update(req) {
+    let json = {
+        codigo: 0,
+        mensaje: "Éxito"
+    }
+
+    if (!req.params.id) {
+        json.codigo = 1
+        json.mensaje = "Lo sentimos es requerido el id de la venta"
+        return json
+    }
+
+    if (!body.productos || body.productos.length == 0) {
+        json.codigo = 1
+        json.mensaje = "Lo sentimos es requerido al menos un producto"
+        return json
+    }
+
+    if (!body.total_venta || body.total_venta < 0) {
         json.codigo = 1
         json.mensaje = "Error en el total de venta"
         return json
@@ -19,5 +46,6 @@ function create(body) {
 }
 
 module.exports = {
-    create
+    create,
+    update,
 }

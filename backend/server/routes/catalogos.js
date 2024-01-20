@@ -21,5 +21,9 @@ module.exports = (app) => {
     app.put('/auth/forgot-pwd', usuario.forgotPwd)
     app.patch('/auth/restore-pwd', auth.ensureAuthParam, usuario.restorePwd)
     
+    app.get('/ventas', venta.findAll)
+    app.get('/ventas/:id', venta.findById)
     app.post('/ventas', venta.create)
+    app.patch('/ventas/:id', venta.update)
+    app.delete('/ventas/:id', venta.update)
 }
