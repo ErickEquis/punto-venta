@@ -53,12 +53,17 @@
   <div class="container-lg">
     <form (ngSubmit)='agregarProducto(item)'>
       <div class="input-group">
-        <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
+        <input name="productoInput" type="text" class="form-control input-group" placeholder="Buscar producto..." aria-label="Producto"
           [(ngModel)]="productoBuscado" (keyup)="getProductos()">
+          <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
+            <span style="color: white; border-right: 1px white;" class="material-symbols-outlined">barcode_scanner</span>
+          </button>
         <button class="btn btn-primary" [attr.disabled]="isDisabledAgregar" type="submit">Agregar</button>
       </div>
     </form>
   </div>
+
+  <app-modal-scan-barcode [camara]="camara" (scanEvent)="scan($event)"></app-modal-scan-barcode>
 
   <div class="tab container-lg" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">

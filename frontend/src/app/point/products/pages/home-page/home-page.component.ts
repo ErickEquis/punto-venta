@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
 import { ToastrService } from 'ngx-toastr';
@@ -48,6 +48,7 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   bodyVenta: any = {}
   isDisabledVender: boolean
   isDisabledAgregar: boolean
+  camara: boolean = false
 
   constructor(
     private productoService: ProductoService,
@@ -173,4 +174,20 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     this.ventaProductos = []
   }
 
+  camaraEstatus() {
+    this.camara = !this.camara
+    return this.camara
+  }
+
+  scan($event: any) {
+    this.camara = !this.camara
+    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.productoService.getProductoCode($event, options).subscribe(
+      (producto) => {
+        this.itemById = producto
+        this.agregarProducto()
+      },
+      (error) => this.toastr.error(error.error.mensaje, 'Error!')
+    )
+  }
 }

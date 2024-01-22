@@ -7,8 +7,6 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck, Output, Ev
 })
 export class ModalScanBarcodeComponent implements OnInit {
 
-  code: any
-
   constructor() { }
 
   ngOnInit() {
@@ -17,17 +15,20 @@ export class ModalScanBarcodeComponent implements OnInit {
   @Input() camara: boolean
   @Output() scanEvent = new EventEmitter<any>();
 
-  scan() {
-    this.camaraEstatus()
-    this.scanEvent.emit(this.code);
-  }
+  // scan() {
+  //   this.camaraEstatus()
+  //   // this.scanEvent.emit(this.code);
+  // }
 
   camaraEstatus() {
     this.camara = !this.camara
   }
 
-  scanSuccessHandler(barcode: any) {
-    this.code = barcode
+  scanSuccessHandler(barcode: string) {
+    if (barcode.length > 0) {
+      this.scanEvent.emit(barcode);
+      document.getElementById('cerrarScan').click()
+    }
   }
 
 }

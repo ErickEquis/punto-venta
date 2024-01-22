@@ -38,17 +38,11 @@ async function findAll(req, res) {
     }
 }
 
-async function findOne(req, res) {
+async function findCodigo(req, res) {
     try {
 
-        console.log(req.query.codigo)
-
-        let clausula = {}
-
-        if (req.query.codigo) clausula.codigo = req.query.codigo
-
         let row = await model.findOne({
-            where: clausula,
+            where: req.params.code,
             raw: true,
         })
 
@@ -102,6 +96,19 @@ async function create(req, res) {
             return res.json(json)
         }
 
+        let existeProducto = await model.findOne({
+            where: {
+                [op.or]: {
+                    descripcion: req.body.descripcion,
+                    codigo: req.body.codigo,
+                }
+            }
+        })
+
+        if (existeProducto) {
+            return res.status(400).json({mensaje: "Lo sentimos, existe un producto con la misma descripcion y/o codigo."})
+        }
+
         let transaction = await db.sequelize.transaction();
 
         let newProducto = await model.create({
@@ -149,6 +156,7 @@ async function update(req, res) {
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
+            codigo: req.body.codigo,
         },
             { where: { id: req.params.id }, transaction })
 
@@ -210,7 +218,7 @@ async function remove(req, res) {
 module.exports = {
     findAll,
     findById,
-    findOne,
+    findCodigo,
     create,
     update,
     remove,

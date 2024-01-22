@@ -72,9 +72,11 @@ export class ModalAddproductsComponent implements OnInit {
 
   scan($event: any) {
     this.camara = !this.camara
-    console.log($event)
     this.formAdd.patchValue({codigo: $event})
-    console.log(this.formAdd)
+  }
+
+  cleanForm() {
+    this.formAdd.reset()
   }
 
 }
