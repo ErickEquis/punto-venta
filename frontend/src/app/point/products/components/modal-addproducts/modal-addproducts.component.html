@@ -20,13 +20,16 @@
               <input class="form-control" type="number" id="floatingCantidad" placeholder="Cantidad" formControlName="cantidad">
               <label for="floatingCantidad">Cantidad</label>
             </div>
-            <div class="form-floating p-0 m-0 my-1">
+            <div class="form-floating input-group p-0 m-0 my-1">
               <input class="form-control" type="text" id="floatingCodigo" placeholder="Codigo" formControlName="codigo">
+              <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
+                <span class="material-symbols-outlined">barcode_scanner</span>
+              </button>
               <label for="floatingCodigo">Codigo</label>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="h-100 btn btn-danger btn-sm mx-1" data-bs-dismiss="modal" (click)="reloadInventario()">Agregar</button>
+            <button type="submit" class="h-100 btn btn-danger btn-sm mx-1" data-bs-dismiss="modal">Agregar</button>
             <button type="button" class="h-100 btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
           </div>
         </form>
@@ -34,3 +37,5 @@
     </div>
   </div>
 </div>
+
+<app-modal-scan-barcode [camara]="camara" (scanEvent)="scan($event)"></app-modal-scan-barcode>

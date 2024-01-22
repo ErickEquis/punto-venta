@@ -45,7 +45,7 @@
   </div>
 
   <div class="w-100 d-flex p-0 my-2 justify-content-evenly align-items-center">
-    <button class="btn btn-primary" [attr.disabled]="isDisabled" (click)="venta()" type="button">Vender</button>
+    <button class="btn btn-primary" [attr.disabled]="isDisabledVender" (click)="venta()" type="button">Vender</button>
     <span>Total</span>
     <span>{{ total | currency }}</span>
   </div>
@@ -55,7 +55,7 @@
       <div class="input-group">
         <input name="productoInput" type="text" class="form-control" placeholder="Buscar producto..." aria-label="Producto"
           [(ngModel)]="productoBuscado" (keyup)="getProductos()">
-        <button class="btn btn-primary" type="submit">Agregar</button>
+        <button class="btn btn-primary" [attr.disabled]="isDisabledAgregar" type="submit">Agregar</button>
       </div>
     </form>
   </div>

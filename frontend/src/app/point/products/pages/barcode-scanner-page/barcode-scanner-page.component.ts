@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -9,7 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './barcode-scanner-page.component.html',
   styleUrls: ['./barcode-scanner-page.component.css']
 })
-export class BarcodeScannerPageComponent implements OnInit {
+export class BarcodeScannerPageComponent implements OnInit, DoCheck {
 
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   formAdd: any
@@ -31,8 +31,12 @@ export class BarcodeScannerPageComponent implements OnInit {
       descripcion: new FormControl(''),
       precio: new FormControl(''),
       cantidad: new FormControl(''),
-      codigo: new FormControl(this.codeFront),
+      codigo: new FormControl(''),
     })
+  }
+
+  ngDoCheck(): void {
+    this.formAdd.patchValue({codigo: this.codeFront})
   }
 
   getHeaders(token: string) {
@@ -62,10 +66,10 @@ export class BarcodeScannerPageComponent implements OnInit {
       .subscribe()
   }
 
-  scanSuccessHandler(codigo: any) {
+  scanSuccessHandler(barcode: any) {
 
-    this.codeFront = codigo
-
+    this.codeFront = barcode
+    // this.formAdd.setValue({codigo: barcode})
     // if (code) {
     //   this.pasa = 'pasa'
     //   // this.getProducto(code)

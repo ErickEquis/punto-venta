@@ -14,7 +14,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ModalAddproductsComponent implements OnInit {
 
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
-  formAdd: any
+  formAdd: any;
+  camara: boolean = false
 
   constructor(
     private productoService: ProductoService,
@@ -51,6 +52,7 @@ export class ModalAddproductsComponent implements OnInit {
     this.productoService.createProducto(this.formAdd.value, options).subscribe(
       (response) => {
         this.toastr.success(response.mensaje, 'Éxito!');
+        this.reloadInventario()
       },
       (error) => {
         if (error.status == 403) {
@@ -61,6 +63,18 @@ export class ModalAddproductsComponent implements OnInit {
         this.toastr.error(error.error.mensaje, 'Error!');
       }
     )
+  }
+
+  camaraEstatus() {
+    this.camara = !this.camara
+    return this.camara
+  }
+
+  scan($event: any) {
+    this.camara = !this.camara
+    console.log($event)
+    this.formAdd.patchValue({codigo: $event})
+    console.log(this.formAdd)
   }
 
 }

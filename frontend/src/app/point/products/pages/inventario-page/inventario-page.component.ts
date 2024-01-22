@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
 import { ToastrService } from 'ngx-toastr';
@@ -11,12 +11,13 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   templateUrl: './inventario-page.component.html',
   styleUrls: ['./inventario-page.component.css']
 })
-export class InventarioPageComponent implements OnInit {
+export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
 
   listProductos: Productos[] = []
   productoBuscado: string = ''
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   producto?: any
+  reload: boolean = false
 
   constructor(
     private productoService: ProductoService,
@@ -27,6 +28,19 @@ export class InventarioPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.checkSignIn(this.identityUser)
     this.getProdutos()
+  }
+
+  ngOnChanges(): void {
+  }
+
+  ngDoCheck(): void {
+    if (this.reload == true) {
+      this.reload = false
+      this.getProdutos()
+    }
+  }
+
+  ngOnDestroy(): void {
   }
 
   getHeaders(token: string) {
@@ -83,7 +97,7 @@ export class InventarioPageComponent implements OnInit {
   }
 
   reloadGetEvent() {
-    window.location.reload()
+    this.reload = true
   }
 
 }

@@ -1,0 +1,35 @@
+<div class="modal fade" id="scanBarcode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">Agregar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="scan()"></button>
+      </div>
+      <div class="modal-body">
+        Hola
+        <div class="">
+          <zxing-scanner
+          *ngIf="camara"
+          (scanSuccess)="scanSuccessHandler($event)"
+          [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+          >
+          </zxing-scanner>
+        </div>
+
+        <div>
+          <div>
+            Terry
+            <br>
+            scanSuccessHandler
+            <br>
+            code
+            {{ code }}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>

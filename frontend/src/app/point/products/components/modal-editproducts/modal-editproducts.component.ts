@@ -36,7 +36,7 @@ export class ModalEditproductsComponent implements OnInit,OnChanges  {
   }
 
   ngOnChanges() {
-    this.setEditValues(this.producto)
+    this.producto ? this.setEditValues(this.producto) : ''
   }
 
   @Input() producto?: any
@@ -59,8 +59,8 @@ export class ModalEditproductsComponent implements OnInit,OnChanges  {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.editProducto(this.productoEditId, this.formEdit.value, options).subscribe(
       (response) => {
-        // this.getProdutos()
         this.toastr.success(response.mensaje, 'Éxito!');
+        this.reloadInventario()
       },
       (error) => {
         if (error.status == 403) {

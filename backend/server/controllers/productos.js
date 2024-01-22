@@ -26,6 +26,7 @@ async function findAll(req, res) {
                     ),
                 ],
             },
+            order: [['descripcion', 'ASC']], 
             raw: true,
         });
 

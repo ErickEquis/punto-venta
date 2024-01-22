@@ -19,12 +19,12 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
   ventaProductos: ProductosVenta[] = [
-    {
-      id: 1,
-      descripcion: "descripcion1",
-      precio: 1,
-      cantidad: 1
-    },
+    // {
+    //   id: 1,
+    //   descripcion: "descripcion1",
+    //   precio: 1,
+    //   cantidad: 1
+    // },
     // {
     //   id: 2,
     //   descripcion: "descripcion2",
@@ -46,7 +46,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   modal: string = ''
   total: number = 0
   bodyVenta: any = {}
-  isDisabled: boolean
+  isDisabledVender: boolean
+  isDisabledAgregar: boolean
 
   constructor(
     private productoService: ProductoService,
@@ -64,8 +65,9 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   }
 
   ngDoCheck(): void {
+    (!this.itemById) ? this.isDisabledAgregar = true : this.isDisabledAgregar = null
     this.getTotal();
-    (this.total == 0) ? this.isDisabled = true : this.isDisabled = null
+    (this.total == 0) ? this.isDisabledVender = true : this.isDisabledVender = null
   }
 
   getHeaders(token: string) {
