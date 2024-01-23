@@ -9,11 +9,11 @@ function create(body) {
         return json
     }
 
-    if (!body.total_venta || body.total_venta < 0) {
-        json.codigo = 1
-        json.mensaje = "Error en el total de venta"
-        return json
-    }
+    // if (!body.total_venta || body.total_venta < 0) {
+    //     json.codigo = 1
+    //     json.mensaje = "Error en el total de venta"
+    //     return json
+    // }
 
     return json
 }

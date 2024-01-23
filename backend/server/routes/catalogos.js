@@ -23,6 +23,7 @@ module.exports = (app) => {
     
     app.get('/ventas', venta.findAll)
     app.get('/ventas/:id', venta.findById)
+    app.get('/ventas-total', venta.findTotal)
     app.post('/ventas', venta.create)
     app.patch('/ventas/:id', venta.update)
     app.delete('/ventas/:id', venta.update)

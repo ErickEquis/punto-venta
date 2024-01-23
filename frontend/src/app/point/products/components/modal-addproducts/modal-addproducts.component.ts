@@ -49,20 +49,21 @@ export class ModalAddproductsComponent implements OnInit {
 
   addProducto() {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.createProducto(this.formAdd.value, options).subscribe(
-      (response) => {
-        this.toastr.success(response.mensaje, 'Éxito!');
-        this.reloadInventario()
-      },
-      (error) => {
-        if (error.status == 403) {
-          setTimeout(() => {
-            this.authService.signOut()
-          }, 1500);
+    this.productoService.createProducto(this.formAdd.value, options)
+      .subscribe(
+        (response) => {
+          this.toastr.success(response.mensaje, 'Éxito!');
+          this.reloadInventario()
+        },
+        (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
+          this.toastr.error(error.error.mensaje, 'Error!');
         }
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+      )
   }
 
   camaraEstatus() {

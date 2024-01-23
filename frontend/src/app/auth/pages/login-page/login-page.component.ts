@@ -39,14 +39,15 @@ export class LoginPageComponent implements OnInit {
 
   signIn() {
     this.formSignIn.value.contrasenia = Md5.init(this.formSignIn.value.contrasenia)
-    this.authService.login(this.formSignIn.value).subscribe((res) => {
-      localStorage.setItem('identity_user', JSON.stringify(res))
-      window.location.assign('/point/home')
-    },
-      (error) => {
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+    this.authService.login(this.formSignIn.value)
+      .subscribe((res) => {
+        localStorage.setItem('identity_user', JSON.stringify(res))
+        window.location.assign('/point/home')
+      },
+        (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      )
   }
 
 }

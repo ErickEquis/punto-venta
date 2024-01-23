@@ -41,7 +41,8 @@ export class RestorePwdPageComponent implements OnInit {
 
   restorePwd() {
     this.formRestorePwd.value.contrasenia = Md5.init(this.formRestorePwd.value.contrasenia)
-    this.authService.restorePwd(this.formRestorePwd.value, this.token).subscribe()
+    this.authService.restorePwd(this.formRestorePwd.value, this.token)
+    .subscribe()
     window.location.assign('/auth/log-in')
   }
 

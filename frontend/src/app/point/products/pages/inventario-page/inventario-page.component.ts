@@ -75,7 +75,8 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
 
   deleteProducto(id: number) {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.deleteProducto(id, options).subscribe(
+    this.productoService.deleteProducto(id, options)
+    .subscribe(
       () => this.getProdutos(),
       (error) => {
         if (error.status == 403) {

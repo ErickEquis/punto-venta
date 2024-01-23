@@ -18,7 +18,13 @@ async function findAll(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        let rows = await ca_ventas.findAll()
+        let rows = await ca_ventas.findAll(
+            {
+                attributes: { exclude: ['productos'] },
+                order: [['id', 'ASC']],
+                raw: true,
+            }
+        )
 
         if (!rows) {
             return res.status(400).send({
@@ -26,7 +32,41 @@ async function findAll(req, res) {
             });
         }
 
+        for (let i in rows) {
+            rows[i].fecha_venta = moment(rows[i].fecha_venta).locale('es').format("DD MMM HH:MM", 'mx')
+        }
+
         return res.status(200).json(rows)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ msg: error })
+    }
+
+}
+
+async function findTotal(req, res) {
+
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        let total = await ca_ventas.sum(
+            'total_venta',
+            {
+                where: {
+                    fecha_venta: {
+                        [op.between]:
+                            [
+                                moment().tz("America/Mexico_City").format("YYYY-MM-DD"),
+                                moment().add(1, 'day').tz("America/Mexico_City").format("YYYY-MM-DD")
+                            ]
+                    }
+                },
+            }
+        )
+
+        return res.status(200).json(total)
 
     } catch (error) {
         console.error(error)
@@ -44,7 +84,8 @@ async function findById(req, res) {
         let row = await ca_ventas.findOne({
             where: {
                 id: req.params.id
-            }
+            },
+            raw: true
         })
 
         if (!row) {
@@ -65,6 +106,7 @@ async function findById(req, res) {
 async function create(req, res) {
 
     try {
+        let json = {}
 
         let usr = auth.decodeAuth(req)
 
@@ -78,7 +120,7 @@ async function create(req, res) {
 
         let newVenta = await ca_ventas.create({
             id_usuario: usr.id,
-            productos: req.body.productos[0],
+            productos: req.body.productos,
             total_venta: req.body.total_venta,
             fecha_venta: moment()
         }, { transaction })
@@ -199,6 +241,7 @@ async function remove(req, res) {
 module.exports = {
     findAll,
     findById,
+    findTotal,
     create,
     update,
     remove,

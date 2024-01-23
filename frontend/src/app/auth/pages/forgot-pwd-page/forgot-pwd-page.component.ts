@@ -24,7 +24,8 @@ export class ForgotPwdPageComponent implements OnInit {
   }
 
   forgotPwd() {
-    this.authService.forgotPwd(this.formForgotPwd.value).subscribe()
+    this.authService.forgotPwd(this.formForgotPwd.value)
+    .subscribe()
   }
 
 }
