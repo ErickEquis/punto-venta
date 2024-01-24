@@ -1,48 +1,46 @@
-<div class="container-lg h-100">
+<div class="container-fluid h-100">
 
-  <div class="p-0 m-0" style="height: 80%;">
-    <div class="tab container-lg pt-5 px-0 text-center">
-      <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
-        <thead>
-          <tr class="table-info">
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th></th>
-          </tr>
-        </thead>
+  <div class="container-fluid tab pt-3 px-0 text-center" style="height: 75%;">
+    <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
+      <thead>
+        <tr class="table-info">
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th></th>
+        </tr>
+      </thead>
 
-        <tbody *ngFor="let producto of listProductos">
+      <tbody *ngFor="let producto of listProductos">
 
-          <tr *ngIf="producto.estatus">
-            <td>
-              {{ producto.descripcion }}
-            </td>
-            <td>
-              {{ producto.precio | currency }}
-            </td>
-            <td>
-              {{ producto.cantidad }}
-            </td>
-            <td>
-              <div class="d-flex row p-0 m-0">
-                  <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal" data-bs-target="#editProducto" (click)="setEditProducto(producto)">
-                    <span class="material-symbols-outlined">
-                      edit
-                    </span>
-                  </button>
-                  <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button" (click)="eliminar(producto.id)">
-                    <span class="material-symbols-outlined">
-                      delete
-                    </span>
-                  </button>
-              </div>
+        <tr *ngIf="producto.estatus">
+          <td>
+            {{ producto.descripcion }}
+          </td>
+          <td>
+            {{ producto.precio | currency }}
+          </td>
+          <td>
+            {{ producto.cantidad }}
+          </td>
+          <td>
+            <div class="d-flex row p-0 m-0">
+                <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal" data-bs-target="#editProducto" (click)="setEditProducto(producto)">
+                  <span class="material-symbols-outlined">
+                    edit
+                  </span>
+                </button>
+                <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button" (click)="eliminar(producto.id)">
+                  <span class="material-symbols-outlined">
+                    delete
+                  </span>
+                </button>
+            </div>
 
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div style="margin: 10% 0;">
       <div class="alert alert-dismissible alert-warning m-5 py-5" *ngIf="!listProductos.length">

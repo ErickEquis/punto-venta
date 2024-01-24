@@ -7,7 +7,7 @@ const auth = require('../services/auth.js')
 module.exports = (app) => {
     app.get('/productos', auth.ensureAuth, producto.findAll)
     app.get('/productos/:id', auth.ensureAuth, producto.findById)
-    app.get('/productos/code/:code', auth.ensureAuth, producto.findCodigo)
+    app.get('/productos/codigo/:codigo', auth.ensureAuth, producto.findCodigo)
     app.post('/productos', auth.ensureAuth, producto.create)
     app.patch('/productos/:id', auth.ensureAuth, producto.update)
     app.delete('/productos/:id', auth.ensureAuth, producto.remove)

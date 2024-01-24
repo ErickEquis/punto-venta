@@ -19,24 +19,60 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
   ventaProductos: ProductosVenta[] = [
-    // {
-    //   id: 1,
-    //   descripcion: "descripcion1",
-    //   precio: 1,
-    //   cantidad: 1
-    // },
-    // {
-    //   id: 2,
-    //   descripcion: "descripcion2",
-    //   precio: 1,
-    //   cantidad: 3
-    // },
-    // {
-    //   id: 3,
-    //   descripcion: "descripcion3",
-    //   precio: 1,
-    //   cantidad: 4
-    // },
+    {
+      id: 1,
+      descripcion: "descripcion1",
+      precio: 1,
+      cantidad: 1
+    },
+    {
+      id: 2,
+      descripcion: "descripcion2",
+      precio: 1,
+      cantidad: 3
+    },
+    {
+      id: 3,
+      descripcion: "descripcion3",
+      precio: 1,
+      cantidad: 4
+    },
+    {
+      id: 1,
+      descripcion: "descripcion1",
+      precio: 1,
+      cantidad: 1
+    },
+    {
+      id: 2,
+      descripcion: "descripcion2",
+      precio: 1,
+      cantidad: 3
+    },
+    {
+      id: 3,
+      descripcion: "descripcion3",
+      precio: 1,
+      cantidad: 4
+    },
+    {
+      id: 1,
+      descripcion: "descripcion1",
+      precio: 1,
+      cantidad: 1
+    },
+    {
+      id: 2,
+      descripcion: "descripcion2",
+      precio: 1,
+      cantidad: 3
+    },
+    {
+      id: 3,
+      descripcion: "descripcion3",
+      precio: 1,
+      cantidad: 4
+    },
   ]
 
 

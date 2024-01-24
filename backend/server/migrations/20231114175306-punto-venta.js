@@ -12,40 +12,6 @@ module.exports = {
       options: { truncate: true },
     });
 
-    await queryInterface.createTable('ca_productos', {
-      id: {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-        },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        },
-      precio: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        },
-      cantidad: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      codigo: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      estatus: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
-        }
-      },
-      {
-        charset: 'UTF8',
-        schema: schema
-      });
-
     await queryInterface.createTable('ca_roles', {
       id: {
         type: DataTypes.BIGINT,
@@ -125,6 +91,51 @@ module.exports = {
         charset: 'UTF8',
         schema: schema
       });
+
+    await queryInterface.createTable('ca_productos', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+        id_usuario: {
+          type: DataTypes.BIGINT,
+          allowNull: false,
+          references: {
+            model: {
+              schema: schema,
+              tableName: 'ca_usuarios',
+            },
+            key: 'id',
+          },
+        },
+        descripcion: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        precio: {
+          type: DataTypes.FLOAT,
+          allowNull: false,
+        },
+        cantidad: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        codigo: {
+          type: DataTypes.STRING,
+          allowNull: true,
+        },
+        estatus: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: true,
+        }
+      },
+        {
+          charset: 'UTF8',
+          schema: schema
+        });
 
     await queryInterface.createTable('ca_ventas_historial', {
       id: {

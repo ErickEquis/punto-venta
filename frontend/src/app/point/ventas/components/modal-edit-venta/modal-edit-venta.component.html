@@ -2,27 +2,42 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title fs-5" id="exampleModalLabel">Editar producto</h5>
+        <h5 class="modal-title fs-5" id="exampleModalLabel">Editar venta</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="" (ngSubmit)="editProducto()">
           <div class="d-flex row justify-content-center">
-            <div class="p-0 m-0 my-1">
+            <div class="p-0 m-0">
 
               <div class="tab container-lg px-0 text-center">
-                <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
+                <table class="table table-hover table-striped align-middle">
 
                   <thead>
                     <tr class="table-info">
-                      <th>Descripcion</th>
-                      <th>Cantidad</th>
-                      <th>Total</th>
+                      <th scope="col">Descripcion</th>
+                      <th scope="col">Cantidad</th>
+                      <th scope="col">Total</th>
                       <!-- <th></th> -->
                     </tr>
                   </thead>
 
-                  <tbody *ngFor="let item of venta?.productos">
+                </table>
+              </div>
+
+              <div class="p-0 m-0 tab container-lg" style="max-height: 20em;">
+                <table class="table table-hover table-striped align-middle">
+
+                  <thead>
+                    <tr class="table-info">
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <!-- <th></th> -->
+                    </tr>
+                  </thead>
+
+                  <tbody class="" *ngFor="let item of venta?.productos">
                     <tr>
                       <td>
                         {{ item.descripcion }}
@@ -31,17 +46,17 @@
                         {{ item.cantidad }}
                       </td>
                       <td>
-                        {{ (item.precio * item.cantidad) }}
+                        {{ (item.precio * item.cantidad) | currency }}
                       </td>
                       <!-- <td>
-                        <div class="d-flex row p-0 m-0">
-                          <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal"
-                            data-bs-target="#editVenta" (click)="getVenta(venta.id)">
-                            <span class="material-symbols-outlined">
-                              edit
-                            </span>
-                          </button>
-                          <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button"
+                            <div class="d-flex row p-0 m-0">
+                              <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal"
+                              data-bs-target="#editVenta" (click)="getVenta(venta.id)">
+                              <span class="material-symbols-outlined">
+                                edit
+                              </span>
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button"
                             (click)="eliminar(producto.id)">
                             <span class="material-symbols-outlined">
                               delete
@@ -54,6 +69,8 @@
 
                 </table>
               </div>
+
+
 
             </div>
           </div>

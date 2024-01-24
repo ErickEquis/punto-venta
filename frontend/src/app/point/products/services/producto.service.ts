@@ -25,7 +25,7 @@ export class ProductoService {
   }
 
   getProductoCode(codigo: any, options: any): Observable<any> {
-    return this.http.get<Productos[]>(`${this.url}/code/${codigo}`, options)
+    return this.http.get<Productos[]>(`${this.url}/codigo/${codigo}`, options)
   }
 
   createProducto(body: any, options: any): Observable<any> {

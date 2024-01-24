@@ -2,7 +2,7 @@
 
   <app-modal-editproducto-venta class="d-md-none" [producto]="producto" (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
 
-  <div class="container-fluid tab h-75 pt-5 px-0 text-center">
+  <div class="container-fluid tab pt-3 h-50 px-0 text-center">
     <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
       <thead>
         <tr class="table-info">
@@ -24,9 +24,9 @@
                 </span>
               </button>
               <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
-              <span class="material-symbols-outlined">
-                delete
-              </span>
+                <span class="material-symbols-outlined">
+                  delete
+                </span>
               </button>
               <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
                 <span class="material-symbols-outlined">
@@ -35,19 +35,22 @@
               </button>
             </td>
           </tr>
-          </tbody>
-    </table>
-    <div class="container-lg" style="margin: 10% 0;">
-      <div class="alert alert-dismissible alert-info m-0 py-5" *ngIf="!ventaProductos.length">
-        <strong>Vende!</strong> Escanea tus productos.
-      </div>
+        </tbody>
+        </table>
+        <div class="container-lg" style="margin: 10% 0;">
+          <div class="alert alert-dismissible alert-info m-0 py-5" *ngIf="!ventaProductos.length">
+            <strong>Vende!</strong> Escanea tus productos.
+          </div>
     </div>
   </div>
 
-  <div class="w-100 d-flex p-0 my-2 justify-content-evenly align-items-center">
+
+  <div class="d-flex my-3 px-4 justify-content-between align-items-center container-lg">
     <button class="btn btn-primary" [attr.disabled]="isDisabledVender" (click)="venta()" type="button">Vender</button>
-    <span>Total</span>
-    <span>{{ total | currency }}</span>
+    <div>
+      <span>Total  </span>
+      <span>{{ total | currency }}</span>
+    </div>
   </div>
 
   <div class="container-lg">
@@ -56,7 +59,7 @@
         <input name="productoInput" type="text" class="form-control input-group" placeholder="Buscar producto..." aria-label="Producto"
           [(ngModel)]="productoBuscado" (keyup)="getProductos()">
           <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
-            <span style="color: white; border-right: 1px white;" class="material-symbols-outlined">barcode_scanner</span>
+            <span style="color: white;" class="material-symbols-outlined">barcode_scanner</span>
           </button>
         <button class="btn btn-primary" [attr.disabled]="isDisabledAgregar" type="submit">Agregar</button>
       </div>

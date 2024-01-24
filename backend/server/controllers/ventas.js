@@ -21,7 +21,10 @@ async function findAll(req, res) {
         let rows = await ca_ventas.findAll(
             {
                 attributes: { exclude: ['productos'] },
-                order: [['id', 'ASC']],
+                where: {
+                    id_usuario: usr.id
+                },
+                order: [['id', 'DESC']],
                 raw: true,
             }
         )
@@ -33,7 +36,7 @@ async function findAll(req, res) {
         }
 
         for (let i in rows) {
-            rows[i].fecha_venta = moment(rows[i].fecha_venta).locale('es').format("DD MMM HH:MM", 'mx')
+            rows[i].fecha_venta = moment(rows[i].fecha_venta).locale('es').format("DD MMM hh:mm a")
         }
 
         return res.status(200).json(rows)
@@ -55,6 +58,7 @@ async function findTotal(req, res) {
             'total_venta',
             {
                 where: {
+                    id_usuario: usr.id,
                     fecha_venta: {
                         [op.between]:
                             [
@@ -83,6 +87,7 @@ async function findById(req, res) {
 
         let row = await ca_ventas.findOne({
             where: {
+                id_usuario: usr.id,
                 id: req.params.id
             },
             raw: true
@@ -156,7 +161,10 @@ async function update(req, res) {
         }
 
         let venta = await ca_ventas.findOne({
-            where: { id: req.param.id }
+            where: {
+                id: req.param.id,
+                id_usuario: usr.id
+            }
         })
 
         if (!venta) {
@@ -171,6 +179,7 @@ async function update(req, res) {
             fecha_venta: moment()
         }, {
             where: {
+                id_usuario: usr.id,
                 id: req.param.id
             }
         }, { transaction })
@@ -218,7 +227,8 @@ async function remove(req, res) {
 
         let row = await ca_ventas.destroyer({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                id_usuario: usr.id
             }
         }, { transaction })
 

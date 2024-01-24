@@ -7,13 +7,18 @@ const model = require('../models/').ca_productos
 
 const rules = require('../rules/productos')
 
+const auth = require('../services/auth')
+
 async function findAll(req, res) {
     try {
+
+        let usr = auth.decodeAuth(req)
 
         req.query.descripcion ? req.query.descripcion : req.query.descripcion = ''
 
         let rows = await model.findAll({
             where: {
+                id_usuario: usr.id,
                 [op.or]: [
                     {
                         descripcion: { [op.iLike]: '%' + req.query.descripcion + '%' }
@@ -41,8 +46,13 @@ async function findAll(req, res) {
 async function findCodigo(req, res) {
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let row = await model.findOne({
-            where: req.params.code,
+            where: {
+                id_usuario: usr.id,
+                codigo: req.params.codigo
+            },
             raw: true,
         })
 
@@ -64,6 +74,8 @@ async function findById(req, res) {
     
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let rule = rules.findById(req)
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
@@ -72,6 +84,7 @@ async function findById(req, res) {
 
         let row = await model.findOne({
             where: {
+                id_usuario: usr.id,
                 id: req.params.id
             }
         })
@@ -90,6 +103,8 @@ async function create(req, res) {
 
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let rule = rules.create(req.body)
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
@@ -98,6 +113,7 @@ async function create(req, res) {
 
         let existeProducto = await model.findOne({
             where: {
+                id_usuario: usr.id,
                 [op.or]: {
                     descripcion: req.body.descripcion,
                     codigo: req.body.codigo,
@@ -112,6 +128,7 @@ async function create(req, res) {
         let transaction = await db.sequelize.transaction();
 
         let newProducto = await model.create({
+            id_usuario: usr.id,
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
@@ -144,6 +161,8 @@ async function update(req, res) {
 
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let rule = rules.update(req.body)
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
@@ -158,7 +177,12 @@ async function update(req, res) {
             cantidad: req.body.cantidad,
             codigo: req.body.codigo,
         },
-            { where: { id: req.params.id }, transaction })
+            {
+                where: {
+                    id_usuario: usr.id,
+                    id: req.params.id,
+                }, transaction
+            })
 
         if (!updateProducto) {
             await transaction.rollback();
@@ -184,6 +208,8 @@ async function remove(req, res) {
     
     try {
 
+        let usr = auth.decodeAuth(req)
+
         let rule = rules.remove(req)
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
@@ -193,7 +219,10 @@ async function remove(req, res) {
         let transaction = await db.sequelize.transaction()
 
         let deleteProducto = await model.destroy({
-            where: { id: req.params.id }, transaction
+            where: {
+                id_usuario: usr.id,
+                id: req.params.id
+            }, transaction
         })
 
         if (!deleteProducto) {

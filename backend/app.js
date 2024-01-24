@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const server = http.createServer(app)
 
-server.listen(8080, '10.48.5.119',  () => {
+server.listen(8080, '10.48.212.75',  () => {
     console.log("Servidor en puerto 8080")
 })
 // server.listen(8080,  () => {
