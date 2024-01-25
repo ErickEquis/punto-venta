@@ -18,7 +18,7 @@ async function findAll(req, res) {
 
         let rows = await model.findAll({
             where: {
-                id_usuario: usr.id,
+                id_equipo: usr.equipo,
                 [op.or]: [
                     {
                         descripcion: { [op.iLike]: '%' + req.query.descripcion + '%' }
@@ -50,7 +50,7 @@ async function findCodigo(req, res) {
 
         let row = await model.findOne({
             where: {
-                id_usuario: usr.id,
+                id_equipo: usr.equipo,
                 codigo: req.params.codigo
             },
             raw: true,
@@ -84,7 +84,7 @@ async function findById(req, res) {
 
         let row = await model.findOne({
             where: {
-                id_usuario: usr.id,
+                id_equipo: usr.equipo,
                 id: req.params.id
             }
         })
@@ -113,7 +113,7 @@ async function create(req, res) {
 
         let existeProducto = await model.findOne({
             where: {
-                id_usuario: usr.id,
+                id_equipo: usr.equipo,
                 [op.or]: {
                     descripcion: req.body.descripcion,
                     codigo: req.body.codigo,
@@ -128,7 +128,7 @@ async function create(req, res) {
         let transaction = await db.sequelize.transaction();
 
         let newProducto = await model.create({
-            id_usuario: usr.id,
+            id_equipo: usr.equipo,
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
@@ -179,7 +179,7 @@ async function update(req, res) {
         },
             {
                 where: {
-                    id_usuario: usr.id,
+                    id_equipo: usr.equipo,
                     id: req.params.id,
                 }, transaction
             })
@@ -220,7 +220,7 @@ async function remove(req, res) {
 
         let deleteProducto = await model.destroy({
             where: {
-                id_usuario: usr.id,
+                id_equipo: usr.equipo,
                 id: req.params.id
             }, transaction
         })

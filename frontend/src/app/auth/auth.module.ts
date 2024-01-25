@@ -8,6 +8,7 @@ import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-pa
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { RestorePwdPageComponent } from './pages/restore-pwd-page/restore-pwd-page.component';
 import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.component';
+import { NewMemberComponent } from './pages/new-member/new-member.component';
 
 
 
@@ -18,7 +19,8 @@ import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.
     LayoutAuthPageComponent,
     CarouselComponent,
     RestorePwdPageComponent,
-    ForgotPwdPageComponent
+    ForgotPwdPageComponent,
+    NewMemberComponent
   ],
   imports: [
     CommonModule,

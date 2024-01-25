@@ -5,6 +5,7 @@ const op = db.Sequelize.Op
 
 const model = require('../models/').ca_usuarios
 const ca_roles = require('../models/').ca_roles
+const ca_equipos = require('../models/').ca_equipos
 
 const rules = require('../rules/usuarios')
 
@@ -26,7 +27,7 @@ async function crearSesion(req, res) {
         }
 
         let user = await model.findOne({
-            attributes: ['id', 'nombre', 'id_rol', 'estatus'],
+            attributes: ['id', 'id_rol', 'id_equipo', 'nombre', 'estatus'],
             where: {
                 correo: req.body.correo,
                 contrasenia: req.body.contrasenia,
@@ -82,6 +83,7 @@ async function crearSesion(req, res) {
         let payload = {
             "id": user.id,
             "rol": user.id_rol,
+            "equipo": user.id_equipo,
             "exp": moment().add(1, "day").unix()
         }
 
@@ -90,6 +92,7 @@ async function crearSesion(req, res) {
             nombre: user.nombre,
             rol: user.id_rol,
             permisos: permisos,
+            equipo: user.id_equipo
         }
 
         return res.status(200).json(response)
@@ -159,6 +162,35 @@ async function forgotPwd(req, res) {
         // console.log(send)
 
         return res.status(200).json({mensaje: "Éxito."})
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json(error)
+    }
+}
+
+async function newMemberToken(req, res) {
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        let user = await model.findOne({
+            where: {
+                id: usr.id,
+            }
+        })
+
+        let payload = {
+            "equipo": user.id_equipo,
+            "is_admin": false,
+            "exp": moment().add(15, "minutes").unix()
+        }
+
+        let token = auth.encodeAuth(payload)
+
+        console.log(token)
+
+        return res.status(200).json({ mensaje: "Éxito." })
 
     } catch (error) {
         console.error(error)
@@ -236,15 +268,33 @@ async function create(req, res) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
 
-        let transaction = await db.sequelize.transaction()
+        let transactionEquipo = await db.sequelize.transaction()
+
+        let newEquipo = await ca_equipos.create({
+            nombre: req.body.nombre_equipo,
+            integrantes: { "id": [] }
+        }, transactionEquipo)
+
+        if (!newEquipo) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible agregar el equipo.',
+            });
+        }
+
+        await transactionEquipo.commit();
+
+        let transactionUsuario = await db.sequelize.transaction()
 
         let newUsuario = await model.create({
+            id_equipo: newEquipo["dataValues"].id,
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
             id_rol: 10,
+            is_admin: true,
             estatus: true
-        }, transaction)
+        }, transactionUsuario)
 
         if (!newUsuario) {
             await transaction.rollback();
@@ -253,7 +303,91 @@ async function create(req, res) {
             });
         }
 
-        await transaction.commit();
+        await transactionUsuario.commit();
+
+        json.mensaje = "Usuario creado con éxito."
+
+        return res.status(200).json(json)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ msg: error })
+    }
+}
+
+async function createMember(req, res) {
+
+    let json = {}
+
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        let rule = rules.createMember(req.body)
+        if (rule.codigo != 0) {
+            json.mensaje = rule.mensaje
+            return res.json(json)
+        }
+
+        let repeat = await model.findOne({
+            where: {
+                correo: req.body.correo,
+            }
+        })
+
+        if (repeat) {
+            return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
+        }
+
+        let equipo = await ca_equipos.findOne({
+            where: {
+                id: usr.equipo
+            },
+            raw: true
+        })
+
+        let transactionNewUsuario = await db.sequelize.transaction()
+        let transactionUpdateIntegrantes = await db.sequelize.transaction()
+
+        let newUsuario = await model.create({
+            id_equipo: usr.equipo,
+            nombre: req.body.nombre,
+            contrasenia: req.body.contrasenia,
+            correo: req.body.correo,
+            id_rol: 11,
+            is_admin: usr.is_admin,
+            estatus: true
+        }, transactionNewUsuario)
+
+        if (!newUsuario) {
+            await transactionNewUsuario.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible agregar al usuario.',
+            });
+        }
+
+        equipo.integrantes['id'].push(parseInt(newUsuario["dataValues"].id))
+
+        let updateEquipo = await ca_equipos.update(
+            {
+                integrantes: equipo.integrantes
+            },
+            {
+                where: {
+                    id: usr.equipo
+                }
+            }, transactionUpdateIntegrantes
+        )
+
+        if (!updateEquipo) {
+            await transactionNewUsuario.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible agregar al usuario al equipo.',
+            });
+        }
+
+        await transactionUpdateIntegrantes.commit();
+        await transactionNewUsuario.commit();
 
         json.mensaje = "Usuario creado con éxito."
 
@@ -356,9 +490,11 @@ module.exports = {
     crearSesion,
     restorePwd,
     forgotPwd,
+    newMemberToken,
     findAll,
     findById,
     create,
+    createMember,
     update,
     remove,
 }

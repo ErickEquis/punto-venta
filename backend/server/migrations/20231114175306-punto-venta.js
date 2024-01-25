@@ -12,6 +12,27 @@ module.exports = {
       options: { truncate: true },
     });
 
+    await queryInterface.createTable('ca_equipos', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      nombre: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      integrantes: {
+        type: DataTypes.JSONB,
+        allowNull: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
+
     await queryInterface.createTable('ca_roles', {
       id: {
         type: DataTypes.BIGINT,
@@ -61,6 +82,17 @@ module.exports = {
           key: 'id',
         },
       },
+      id_equipo: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_equipos',
+          },
+          key: 'id',
+        },
+      },
       nombre: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -75,10 +107,6 @@ module.exports = {
       },
       ultimo_acceso: {
         type: DataTypes.DATE,
-        allowNull: true,
-      },
-      equipo: {
-        type: DataTypes.INTEGER,
         allowNull: true,
       },
       estatus: {
@@ -99,13 +127,13 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-        id_usuario: {
+      id_equipo: {
           type: DataTypes.BIGINT,
           allowNull: false,
           references: {
             model: {
               schema: schema,
-              tableName: 'ca_usuarios',
+              tableName: 'ca_equipos',
             },
             key: 'id',
           },

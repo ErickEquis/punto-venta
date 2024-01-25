@@ -23,6 +23,7 @@ export class RestorePwdPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    localStorage.removeItem("identity_user")
     this.token = this.router.parseUrl(this.router.url).queryParamMap['params']['token']
     if (!this.token) window.location.assign('/auth/log-in');
     this.formRestorePwd = new FormGroup({

@@ -2,7 +2,7 @@
 
 const config = require('../config/config');
 
-const ca_usuarios = require('./usuarios')
+const ca_equipos = require('./equipos')
 
 const schema = config.plataformas.dvpv;
 
@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             autoIncrement: true,
             allowNull: false,
         },
-        id_usuario: {
+        id_equipo: {
             type: DataTypes.BIGINT,
             allowNull: false,
             references: {
-                model: ca_usuarios,
+                model: ca_equipos,
                 key: 'id',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }
@@ -51,9 +51,9 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
     });
 
     ca_productos.associate = (models) => {
-        ca_productos.belongsTo(models.ca_usuarios, {
-            through: models.ca_usuarios,
-            foreignKey: 'id_usuario',
+        ca_productos.belongsTo(models.ca_equipos, {
+            through: models.ca_equipos,
+            foreignKey: 'id_equipo',
         });
     };
 

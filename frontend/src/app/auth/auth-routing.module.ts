@@ -5,6 +5,7 @@ import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-page.component';
 import { RestorePwdPageComponent } from './pages/restore-pwd-page/restore-pwd-page.component';
 import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.component';
+import { NewMemberComponent } from './pages/new-member/new-member.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,9 @@ const routes: Routes = [
       },
       {
         path: 'forgot-password', component: ForgotPwdPageComponent
+      },
+      {
+        path: 'new-member', component: NewMemberComponent
       },
       {
         path: "**", redirectTo: 'log-in', pathMatch: 'full'

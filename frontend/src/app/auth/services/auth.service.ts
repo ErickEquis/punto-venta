@@ -36,6 +36,10 @@ export class AuthService {
     return this.http.post<any>(this.url, body)
   }
 
+  signUpMember(body: any, query: string):Observable<any> {
+    return this.http.post<any>(`${this.url}new-member?token=${query}`, body)
+  }
+
   signOut() {
     localStorage.removeItem('identity_user')
     window.location.assign('/point/home')

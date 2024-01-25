@@ -1,55 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'md5-typescript';
-
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-signup-page',
-  templateUrl: './signup-page.component.html',
-  styleUrls: ['./signup-page.component.css']
+  selector: 'app-new-member',
+  templateUrl: './new-member.component.html',
+  styleUrls: ['./new-member.component.css']
 })
-export class SignupPageComponent implements OnInit {
+export class NewMemberComponent implements OnInit {
 
-  formSignUp: any
-  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
+  formMember: any
+  token: any
 
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
-
-  ngOnInit() {
-    this.identityUser ? this.router.navigate(['/point/home']) : ''
-    this.formSignUp = new FormGroup({
+    private router: Router,
+  ) {
+    this.formMember = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-      nombre_equipo: new FormControl(''),
     })
   }
 
+  ngOnInit() {
+    localStorage.removeItem("identity_user")
+    this.token = this.router.parseUrl(this.router.url).queryParamMap['params']['token']
+  }
+
   get nombre() {
-    return this.formSignUp.get('nombre')
+    return this.formMember.get('nombre')
   }
   get correo() {
-    return this.formSignUp.get('correo')
+    return this.formMember.get('correo')
   }
   get contrasenia() {
-    return this.formSignUp.get('contrasenia')
+    return this.formMember.get('contrasenia')
   }
 
   createUser() {
-    this.formSignUp.value.contrasenia = Md5.init(this.formSignUp.value.contrasenia)
-    this.authService.signUp(this.formSignUp.value)
+    this.formMember.value.contrasenia = Md5.init(this.formMember.value.contrasenia)
+    this.authService.signUpMember(this.formMember.value, this.token)
       .subscribe(
         (response) => {
           this.toastr.success(response.mensaje, '')
-          window.location.assign('/point/home')
+          window.location.assign('/auth/sign-in')
         },
         (error) => { this.toastr.error(error.mensaje, 'Error!'); }
       )

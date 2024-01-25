@@ -2,6 +2,7 @@
 
 const config = require('../config/config');
 const ca_roles = require('./roles')
+const ca_equipos = require('./equipos')
 
 module.exports = (sequelize, DataTypes, Deferrable) => {
     const schema = config.plataformas.dbpv.schema;
@@ -24,6 +25,15 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
             },
+            id_equipo: {
+                type: DataTypes.BIGINT,
+                allowNull: false,
+                references: {
+                    model: ca_equipos,
+                    key: 'id',
+                    deferrable: Deferrable.INITIALLY_IMMEDIATE
+                }
+            },
             nombre: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -38,10 +48,6 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             },
             ultimo_acceso: {
                 type: DataTypes.DATE,
-                allowNull: true,
-            },
-            equipo: {
-                type: DataTypes.INTEGER,
                 allowNull: true,
             },
             estatus: {
@@ -61,6 +67,10 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
         ca_usuarios.belongsTo(models.ca_roles, {
             through: models.ca_roles,
             foreignKey: 'id_rol',
+        });
+        ca_usuarios.belongsTo(models.ca_equipos, {
+            through: models.ca_equipos,
+            foreignKey: 'id_equipo',
         });
     };
 
