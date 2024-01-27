@@ -41,4 +41,30 @@ export class HomeUsersPageComponent implements OnInit {
       })
   }
 
+  t: number = 15
+
+  html: any = `
+  <div class="row card bg-primary p-0 mx-1 my-3" [routerLink]="['/user/ventas']">
+    <div class="card-header">Ventas</div>
+    <div class="card-body">
+      <h5>
+        Tus ventas hoy ${this.t}
+      </h5>
+    </div>
+  </div>
+  `
+
+  card() {
+    return
+    `
+      <div class="card-header">Ventas</div>
+        <div class="card-body">
+          <h5>
+            Tus ventas hoy {{ total_ventas | currency }}
+          </h5>
+      </div>
+      `
+
+  }
+
 }

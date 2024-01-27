@@ -2,6 +2,7 @@
 
 const config = require('../config/config');
 const ca_usuarios = require('./usuarios')
+const ca_equipos = require('./equipos')
 const ca_ventas_historial = require('./ventas_historial')
 
 module.exports = (sequelize, DataTypes, Deferrable) => {
@@ -21,6 +22,15 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                 allowNull: false,
                 references: {
                     model: ca_usuarios,
+                    key: 'id',
+                    deferrable: Deferrable.INITIALLY_IMMEDIATE
+                }
+            },
+            id_equipo: {
+                type: DataTypes.BIGINT,
+                allowNull: false,
+                references: {
+                    model: ca_equipos,
                     key: 'id',
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
@@ -67,9 +77,17 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
     };
 
     ca_ventas.associate = (models) => {
+        ca_ventas.belongsTo(models.ca_usuarios, {
+            through: models.ca_usuarios,
+            foreignKey: 'id_usuario',
+        });
         ca_ventas.belongsTo(models.ca_ventas_historial, {
             through: models.ca_ventas_historial,
             foreignKey: 'id_modificado',
+        });
+        ca_ventas.belongsTo(models.ca_equipos, {
+            through: models.ca_equipos,
+            foreignKey: 'id_equipo',
         });
     };
 

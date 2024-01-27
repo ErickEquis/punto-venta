@@ -15,14 +15,14 @@ module.exports = (app) => {
     app.get('/usuarios', auth.ensureAuth, usuario.findAll)
     app.get('/usuarios/:id', auth.ensureAuth, usuario.findById)
     app.delete('/usuarios/:id', auth.ensureAuth, usuario.remove)
-    
+
     app.post('/auth', usuario.create)
     app.patch('/auth', usuario.crearSesion)
     app.put('/auth/forgot-pwd', usuario.forgotPwd)
     app.patch('/auth/restore-pwd', auth.ensureAuthParam, usuario.restorePwd)
     app.put('/auth/new-member/token', usuario.newMemberToken)
     app.post('/auth/new-member', usuario.createMember)
-    
+
     app.get('/ventas', venta.findAll)
     app.get('/ventas/:id', venta.findById)
     app.get('/ventas-total', venta.findTotal)

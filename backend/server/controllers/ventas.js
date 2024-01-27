@@ -11,6 +11,7 @@ const rules = require('../rules/ventas')
 const moment = require('moment')
 
 const auth = require('../services/auth')
+const config = require('../config/config')
 
 async function findAll(req, res) {
 
@@ -22,7 +23,7 @@ async function findAll(req, res) {
             {
                 attributes: { exclude: ['productos'] },
                 where: {
-                    id_usuario: usr.id
+                    id_equipo: usr.equipo
                 },
                 order: [['id', 'DESC']],
                 raw: true,
@@ -54,11 +55,15 @@ async function findTotal(req, res) {
 
         let usr = auth.decodeAuth(req)
 
+        if (usr != config.api.rol.administrador) {
+            return
+        }
+
         let total = await ca_ventas.sum(
             'total_venta',
             {
                 where: {
-                    id_usuario: usr.id,
+                    id_equipo: usr.equipo,
                     fecha_venta: {
                         [op.between]:
                             [
@@ -87,7 +92,6 @@ async function findById(req, res) {
 
         let row = await ca_ventas.findOne({
             where: {
-                id_usuario: usr.id,
                 id: req.params.id
             },
             raw: true
@@ -125,6 +129,7 @@ async function create(req, res) {
 
         let newVenta = await ca_ventas.create({
             id_usuario: usr.id,
+            id_equipo: usr.equipo,
             productos: req.body.productos,
             total_venta: req.body.total_venta,
             fecha_venta: moment()
@@ -174,7 +179,7 @@ async function update(req, res) {
         let transaction = await db.sequelize.transaction()
 
         let updateVenta = await ca_ventas.update({
-            productos: req.body.productos[0],
+            productos: req.body.productos,
             total_venta: req.body.total_venta,
             fecha_venta: moment()
         }, {
@@ -193,7 +198,7 @@ async function update(req, res) {
 
         let newVentaMod = await ca_ventas_historial.create({
             id_modificado: venta.id,
-            productos: req.body.productos[0],
+            productos: req.body.productos,
             productos_modificados: venta.productos,
             total_venta: req.body.total_venta,
             total_venta_modificado: venta.total_venta,
@@ -228,7 +233,6 @@ async function remove(req, res) {
         let row = await ca_ventas.destroyer({
             where: {
                 id: req.params.id,
-                id_usuario: usr.id
             }
         }, { transaction })
 

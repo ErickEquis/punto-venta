@@ -42,6 +42,11 @@
         "https://developers.google.com/oauthplayground"
       ],
       "refresh_token": "1//049p2TbcyKwL9CgYIARAAGAQSNwF-L9IrNOQoP6Er086DC7vR9GgFqF1qXiCM4fsLUtMHfF9qSuGGYCbJrSMJ24-rEnVXZQIPc-4"
+    },
+    "rol": {
+      "root": 1,
+      "administrador": 10,
+      "empleado": 11
     }
   }
 }

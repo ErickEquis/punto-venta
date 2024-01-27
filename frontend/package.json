@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --port 4040",
-    "mstart": "ng serve --port 4040 --host 10.48.212.75",
+    "mstart": "ng serve --port 4040 --host",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

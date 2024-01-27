@@ -224,6 +224,17 @@ module.exports = {
           key: 'id',
         },
       },
+      id_equipo: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_equipos',
+          },
+          key: 'id',
+        },
+      },
       productos: {
         type: DataTypes.JSONB,
         allowNull: false,

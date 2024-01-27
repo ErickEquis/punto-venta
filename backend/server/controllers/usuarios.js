@@ -1,5 +1,7 @@
 'use strict'
 
+const config = require('../config/config')
+
 const db = require('../models/index')
 const op = db.Sequelize.Op
 
@@ -156,10 +158,11 @@ async function forgotPwd(req, res) {
 
         let token = auth.encodeAuth(payload)
 
-        // console.log(token)
+        console.log(token)
 
         // let send = await mail.mail()
-        // console.log(send)
+
+        // console.log('send', send)
 
         return res.status(200).json({mensaje: "Éxito."})
 
@@ -205,13 +208,14 @@ async function findAll(req, res) {
 
         let users = await model.findAll({
             where: {
-                equipo: usr.id
+                id_equipo: usr.equipo
             },
             include: {
                 model: ca_roles,
-                attributes: ['descripcion']
+                attributes: ['descripcion'],
             },
-            raw: true
+            raw: true,
+            order: [['id', 'ASC']]
         },
         )
 
@@ -228,13 +232,13 @@ async function findById(req, res) {
 
         let user = await model.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
             },
             include: {
                 model: ca_roles,
-                attributes: ['descripcion']
-            }
-            , raw: true
+                // attributes: ['descripcion']
+            },
+            raw: true
         },
         )
 
@@ -291,7 +295,7 @@ async function create(req, res) {
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
-            id_rol: 10,
+            id_rol: config.api.rol.administrador,
             is_admin: true,
             estatus: true
         }, transactionUsuario)
@@ -354,7 +358,7 @@ async function createMember(req, res) {
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
-            id_rol: 11,
+            id_rol: config.api.rol.empleado,
             is_admin: usr.is_admin,
             estatus: true
         }, transactionNewUsuario)
@@ -446,7 +450,7 @@ async function remove(req, res) {
     try {
 
         let usr = auth.decodeAuth(req)
-        if (usr.rol != 10) {
+        if (usr.rol != config.api.rol.administrador) {
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no tiene autorización para esta acción.',
             });
@@ -463,7 +467,7 @@ async function remove(req, res) {
         let deleteUsuario = await model.destroy({
             where: {
                 id: req.params.id,
-                equipo: usr.id
+                id_equipo: usr.equipo,
             }, transaction
         })
 
