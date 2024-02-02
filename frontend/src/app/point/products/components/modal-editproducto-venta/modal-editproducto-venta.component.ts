@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modal-editproducto-venta',
   templateUrl: './modal-editproducto-venta.component.html',
   styleUrls: ['./modal-editproducto-venta.component.css']
 })
-export class ModalEditproductoVentaComponent implements OnInit, OnChanges {
+export class ModalEditproductoVentaComponent implements OnInit, OnChanges, DoCheck {
 
   modal: string = ''
+  isDisabledAdd: boolean
 
   constructor() { }
 
@@ -17,6 +18,12 @@ export class ModalEditproductoVentaComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if (this.producto) {
       this.producto.cantidad == 1 ? this.modal = 'modal' : this.modal = ''
+    }
+  }
+
+  ngDoCheck(): void {
+    if (this.producto) {
+      (this.producto.cantidad == this.producto.stock) ? this.isDisabledAdd = true : this.isDisabledAdd = null
     }
   }
 

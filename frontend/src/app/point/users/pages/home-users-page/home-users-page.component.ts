@@ -13,6 +13,7 @@ export class HomeUsersPageComponent implements OnInit {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   total_ventas: number
+  options: any = {}
 
   constructor(
     private authService: AuthService,
@@ -25,46 +26,19 @@ export class HomeUsersPageComponent implements OnInit {
   }
 
   getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return headers
   }
 
   ventas() {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.getTotalVentas(options)
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventasService.getTotalVentas(this.options)
       .subscribe((total) => {
         this.total_ventas = total ? total : 0
       })
-  }
-
-  t: number = 15
-
-  html: any = `
-  <div class="row card bg-primary p-0 mx-1 my-3" [routerLink]="['/user/ventas']">
-    <div class="card-header">Ventas</div>
-    <div class="card-body">
-      <h5>
-        Tus ventas hoy ${this.t}
-      </h5>
-    </div>
-  </div>
-  `
-
-  card() {
-    return
-    `
-      <div class="card-header">Ventas</div>
-        <div class="card-body">
-          <h5>
-            Tus ventas hoy {{ total_ventas | currency }}
-          </h5>
-      </div>
-      `
-
   }
 
 }

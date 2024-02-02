@@ -56,7 +56,8 @@ async function crearSesion(req, res) {
             permisos.push(
                 {
                     acceso: i,
-                    slug: user['ca_role.permisos'][i]['slug']
+                    slug: user['ca_role.permisos'][i]['slug'],
+                    body: user['ca_role.permisos'][i]['body'],
                 }
             )
         }

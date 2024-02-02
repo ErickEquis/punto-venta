@@ -2,7 +2,7 @@ import { Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from 
 import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../interfaces/productos';
 import { ToastrService } from 'ngx-toastr';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
@@ -14,10 +14,11 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
 
   listProductos: Productos[] = []
-  productoBuscado: string = ''
+  productoBuscado?: string
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   producto?: any
   reload: boolean = false
+  options: any = {}
 
   constructor(
     private productoService: ProductoService,
@@ -34,6 +35,9 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   ngDoCheck(): void {
+    this.productoBuscado != undefined
+      ? this.options.params = new HttpParams().set('descripcion', this.productoBuscado)
+      : null
     if (this.reload == true) {
       this.reload = false
       this.getProdutos()
@@ -44,17 +48,16 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return headers
   }
 
-  getProdutos(descripcion?: string) {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.getProdutos(descripcion, options)
+  getProdutos() {
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.productoService.getProdutos(this.options)
       .subscribe((data: Productos[]) => {
         this.listProductos = data
       },
@@ -70,12 +73,12 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   filtrarProductos() {
-    this.getProdutos(this.productoBuscado)
+    this.getProdutos()
   }
 
   deleteProducto(id: number) {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.deleteProducto(id, options)
+    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.productoService.deleteProducto(id, this.options)
     .subscribe(
       () => this.getProdutos(),
       (error) => {

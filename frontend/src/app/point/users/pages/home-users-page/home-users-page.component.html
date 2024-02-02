@@ -19,55 +19,26 @@
             style="width: 3rem; height: 3rem;">
         </div>
       </div>
-      </div>
-  </div>
-
-  <!-- *ngIf="(identityUser.rol == 10)" -->
-
-  <div class="row card bg-primary p-0 mx-1 my-3" [routerLink]="['/user/ventas']">
-    <div class="card-header">Ventas</div>
-    <div class="card-body">
-      <h5>
-        Tus ventas hoy {{ total_ventas | currency }}
-      </h5>
     </div>
   </div>
 
-  <div class="row my-0 mx-0">
-
-    <div class="card bg-primary col mx-1">
-      <div class="card-header">Mi equipo</div>
+  <div class="row col card bg-primary p-0 mt-2 mx-1" *ngIf="(identityUser.rol == 10)">
+    <div class="card-header">Tus ventas hoy</div>
       <div class="card-body">
-        <h5 class="card-title">Mas ventas Terry</h5>
+        <h5>
+          {{ total_ventas | currency }}
+        </h5>
       </div>
     </div>
 
-    <div class="card bg-primary col mx-1">
-      <div class="card-header">Header</div>
+  <div class="row p-0 m-0">
+    <div role="button" *ngFor="let permiso of identityUser.permisos" class="row col card bg-primary p-0 my-2 mx-1"
+      [routerLink]=permiso.slug>
+      <div class="card-header">{{ permiso.acceso | titlecase }}</div>
       <div class="card-body">
-        <h5 class="card-title">Primary card title</h5>
+        {{ permiso.body }}
       </div>
     </div>
-
   </div>
-
-  <div class="row mx-0 my-3">
-
-    <div class="card bg-primary col mx-1">
-      <div class="card-header">Header</div>
-      <div class="card-body">
-        <h5 class="card-title">Primary card title</h5>
-      </div>
-    </div>
-
-    <div class="card bg-primary col mx-1">
-      <div class="card-header">Header</div>
-      <div class="card-body">
-        <h5 class="card-title">Primary card title</h5>
-      </div>
-    </div>
-
-  </div>
-
 
 </div>

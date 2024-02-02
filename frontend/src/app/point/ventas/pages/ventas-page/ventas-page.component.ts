@@ -13,6 +13,7 @@ export class VentasPageComponent implements OnInit {
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   listVentas: any
   editVenta: any
+  options: any = {}
 
   constructor(private ventasService: VentasService) { }
 
@@ -21,25 +22,24 @@ export class VentasPageComponent implements OnInit {
   }
 
   getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return headers
   }
 
   getVentas() {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.getVentas(options)
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventasService.getVentas(this.options)
       .subscribe(
         (data) => {this.listVentas = data}
       )
   }
 
   getVenta(id: number) {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.getVentaId(id, options)
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventasService.getVentaId(id, this.options)
       .subscribe((venta) => {
         this.editVenta = venta
       })

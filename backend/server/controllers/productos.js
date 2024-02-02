@@ -14,11 +14,10 @@ async function findAll(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        req.query.descripcion ? req.query.descripcion : req.query.descripcion = ''
+        let clausula = {}
 
-        let rows = await model.findAll({
-            where: {
-                id_equipo: usr.equipo,
+        if (req.query.descripcion) {
+            clausula = {
                 [op.or]: [
                     {
                         descripcion: { [op.iLike]: '%' + req.query.descripcion + '%' }
@@ -30,8 +29,18 @@ async function findAll(req, res) {
                         },
                     ),
                 ],
-            },
-            order: [['descripcion', 'ASC']], 
+            }
+        }
+
+        if (req.query.venta) {
+            clausula.cantidad = { [op.gt]: 0 }
+        }
+
+        clausula.id_equipo = usr.equipo
+
+        let rows = await model.findAll({
+            where: clausula,
+            order: [['descripcion', 'ASC']],
             raw: true,
         });
 
@@ -85,7 +94,8 @@ async function findById(req, res) {
         let row = await model.findOne({
             where: {
                 id_equipo: usr.equipo,
-                id: req.params.id
+                id: req.params.id,
+                // cantidad: { [op.gt]: 0 }
             }
         })
 

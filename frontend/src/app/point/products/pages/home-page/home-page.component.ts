@@ -1,12 +1,12 @@
 import { Component, DoCheck, OnChanges, OnInit } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
+import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { Productos } from '../../interfaces/productos';
 import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
-import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 
@@ -18,61 +18,61 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
-  ventaProductos: ProductosVenta[] = [
-    {
-      id: 1,
-      descripcion: "descripcion1",
-      precio: 1,
-      cantidad: 1
-    },
-    {
-      id: 2,
-      descripcion: "descripcion2",
-      precio: 1,
-      cantidad: 3
-    },
-    {
-      id: 3,
-      descripcion: "descripcion3",
-      precio: 1,
-      cantidad: 4
-    },
-    {
-      id: 1,
-      descripcion: "descripcion1",
-      precio: 1,
-      cantidad: 1
-    },
-    {
-      id: 2,
-      descripcion: "descripcion2",
-      precio: 1,
-      cantidad: 3
-    },
-    {
-      id: 3,
-      descripcion: "descripcion3",
-      precio: 1,
-      cantidad: 4
-    },
-    {
-      id: 1,
-      descripcion: "descripcion1",
-      precio: 1,
-      cantidad: 1
-    },
-    {
-      id: 2,
-      descripcion: "descripcion2",
-      precio: 1,
-      cantidad: 3
-    },
-    {
-      id: 3,
-      descripcion: "descripcion3",
-      precio: 1,
-      cantidad: 4
-    },
+  ventaProductos: any[] = [
+  // {
+  //   id: 1,
+  //   descripcion: "Terriblitos",
+  //   precio: 1,
+  //   cantidad: 5
+  // },
+  // {
+  //   id: 2,
+  //   descripcion: "descripcion2",
+  //   precio: 1,
+  //   cantidad: 3
+  // },
+  // {
+  //   id: 3,
+  //   descripcion: "descripcion3",
+  //   precio: 1,
+  //   cantidad: 4
+  // },
+  // {
+  //   id: 1,
+  //   descripcion: "descripcion1",
+  //   precio: 1,
+  //   cantidad: 1
+  // },
+  // {
+  //   id: 2,
+  //   descripcion: "descripcion2",
+  //   precio: 1,
+  //   cantidad: 3
+  // },
+  // {
+  //   id: 3,
+  //   descripcion: "descripcion3",
+  //   precio: 1,
+  //   cantidad: 4
+  // },
+  // {
+  //   id: 1,
+  //   descripcion: "descripcion1",
+  //   precio: 1,
+  //   cantidad: 1
+  // },
+  // {
+  //   id: 2,
+  //   descripcion: "descripcion2",
+  //   precio: 1,
+  //   cantidad: 3
+  // },
+  // {
+  //   id: 3,
+  //   descripcion: "descripcion3",
+  //   precio: 1,
+  //   cantidad: 4
+  // },
   ]
 
 
@@ -87,6 +87,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   isDisabledVender: boolean
   isDisabledAgregar: boolean
   camara: boolean = false
+  options: any = {}
+  isDisabledAdd: boolean
 
   constructor(
     private productoService: ProductoService,
@@ -110,18 +112,18 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   }
 
   getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return headers
   }
 
   cantidadVenta(n: number, producto: any) {
     let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
-    let i = this.ventaProductos.indexOf(p)
-    this.ventaProductos[i].cantidad += n
+    let i = this.ventaProductos.indexOf(p);
+    this.ventaProductos[i].cantidad += n;
+    (this.ventaProductos[i].cantidad == this.ventaProductos[i].stock) ? this.isDisabledAdd = true : this.isDisabledAdd = null
     if (this.ventaProductos[i].cantidad == 0) {
       this.eliminar(p)
     }
@@ -138,10 +140,10 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
       id: this.itemById['id'],
       descripcion: this.itemById['descripcion'],
       precio: this.itemById['precio'],
-      cantidad: 1
+      cantidad: 1,
+      stock: this.itemById['cantidad'],
     }
-    let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion'])
-    )
+    let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion']))
     p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item)
     this.productoBuscado = ''
     this.itemById = []
@@ -149,8 +151,11 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   getProductos() {
     if (this.productoBuscado != '') {
-      let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-      this.productoService.getProdutos(this.productoBuscado, options)
+      this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+      this.options.params = new HttpParams()
+        .set('venta', 'true')
+        .set('descripcion', this.productoBuscado)
+      this.productoService.getProdutos(this.options)
         .subscribe((data: Productos[]) => {
           this.listProductos = data
         },
@@ -168,10 +173,11 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   }
 
   getProductoId(item: any): void {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.getProductoId(item.id, options)
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.productoService.getProductoId(item.id, this.options)
       .subscribe((dato: any) => {
         this.itemById = dato
+        console.log('itemById', this.itemById)
       },
         (error) => {
           if (error.status == 403) {
@@ -204,8 +210,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     this.bodyVenta.productos = this.ventaProductos
     this.bodyVenta.total_venta = this.total
 
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.createVenta(this.bodyVenta, options).subscribe(
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventasService.createVenta(this.bodyVenta, this.options).subscribe(
       (response) => this.toastr.success(response.mensaje, 'Éxito!'),
       (error) => this.toastr.error(error.error.mensaje, 'Error!')
     )
@@ -220,8 +226,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   scan($event: any) {
     this.camara = !this.camara
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.getProductoCode($event, options)
+    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.productoService.getProductoCode($event, this.options)
       .subscribe(
         (producto) => {
           this.itemById = producto

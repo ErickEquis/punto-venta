@@ -47,6 +47,7 @@
       "root": 1,
       "administrador": 10,
       "empleado": 11
-    }
+    },
+    "error_general": "Sin autorización."
   }
 }

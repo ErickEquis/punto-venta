@@ -5,6 +5,7 @@ const op = db.Sequelize.Op
 
 const ca_ventas = require('../models/').ca_ventas
 const ca_ventas_historial = require('../models/').ca_ventas_historial
+const ca_productos = require('../models/').ca_productos
 
 const rules = require('../rules/ventas')
 
@@ -55,7 +56,7 @@ async function findTotal(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        if (usr != config.api.rol.administrador) {
+        if (usr.rol != config.api.rol.administrador) {
             return
         }
 
@@ -142,6 +143,26 @@ async function create(req, res) {
             });
         }
 
+        for (let i = 0; i < req.body.productos.length; i++) {
+            let cantidad = await ca_productos.increment(
+                {
+                    cantidad: (-req.body.productos[i].cantidad)
+                },
+                {
+                    where: {
+                        id: req.body.productos[i].id,
+                        cantidad: {[op.gte]: req.body.productos[i].cantidad}
+                    }
+                }, transaction
+            )
+            if (!cantidad || (cantidad[0][1] !== 1)) {
+                await transaction.rollback();
+                return res.status(400).send({
+                    mensaje: `Lo sentimos, el inventario no es suficiente para ${req.body.productos[i].descripcion}.`,
+                });
+            }
+        }
+
         await transaction.commit();
 
         return res.status(200).json({ mensaje: "Éxito." })
@@ -173,7 +194,7 @@ async function update(req, res) {
         })
 
         if (!venta) {
-            return res.status(400).json({ mensaje: "No existe venta." })
+            return res.status(400).json({ mensaje: "No existe esta venta." })
         }
 
         let transaction = await db.sequelize.transaction()
@@ -227,6 +248,12 @@ async function update(req, res) {
 async function remove(req, res) {
 
     try {
+
+        let usr = auth.decodeAuth(req)
+
+        if (usr.id != config.api.rol.administrador) {
+            return res.status(401).json({ mensaje: config.api.error_general })
+        }
 
         let transaction = await db.sequelize.transaction()
 

@@ -18,15 +18,6 @@ export class AuthService {
     this.url = `${environment.endpoint}auth/`
   }
 
-  getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
-  }
-
   login(body: any): Observable<any> {
     console.log(this.url)
     return this.http.patch<any>(this.url, body)
@@ -36,8 +27,8 @@ export class AuthService {
     return this.http.post<any>(this.url, body)
   }
 
-  signUpMember(body: any, query: string):Observable<any> {
-    return this.http.post<any>(`${this.url}new-member?token=${query}`, body)
+  signUpMember(body: any, options: any):Observable<any> {
+    return this.http.post<any>(`${this.url}new-member`, body, options)
   }
 
   signOut() {
@@ -55,8 +46,8 @@ export class AuthService {
     return this.http.put<any>(`${this.url}forgot-pwd`, body)
   }
 
-  restorePwd(body: any, query: string):Observable<any> {
-    return this.http.patch<any>(`${this.url}restore-pwd?token=${query}`, body)
+  restorePwd(body: any, options: any):Observable<any> {
+    return this.http.patch<any>(`${this.url}restore-pwd`, body, options)
   }
 
 }

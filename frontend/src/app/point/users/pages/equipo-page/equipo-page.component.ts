@@ -17,6 +17,7 @@ export class EquipoPageComponent implements OnInit {
 
   listUsers: Users[] = []
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
+  options: any = {}
 
   constructor(
     private userService: UserServices,
@@ -25,12 +26,11 @@ export class EquipoPageComponent implements OnInit {
     ) { }
 
   getHeaders(token: string) {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    }
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    })
+    return headers
   }
 
   ngOnInit() {
@@ -39,8 +39,8 @@ export class EquipoPageComponent implements OnInit {
   }
 
   getUsers() {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.userService.getUsers(options)
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.userService.getUsers(this.options)
       .subscribe((data: Users[]) => {
         this.listUsers = data
       },
@@ -56,8 +56,8 @@ export class EquipoPageComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.userService.deleteUser(id, options)
+    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.userService.deleteUser(id, this.options)
       .subscribe(
         (response) => {
           this.toastr.success(response.mensaje, '')

@@ -16,8 +16,8 @@ export class ProductoService {
     this.url = `${environment.endpoint}productos`
   }
 
-  getProdutos(descripcion: string = '', options: any): Observable<any> {
-    return this.http.get<Productos[]>(`${this.url}?descripcion=${descripcion}`, options)
+  getProdutos(options: any): Observable<any> {
+    return this.http.get<Productos[]>(`${this.url}`, options)
   }
 
   getProductoId(id: number, options: any): Observable<any> {

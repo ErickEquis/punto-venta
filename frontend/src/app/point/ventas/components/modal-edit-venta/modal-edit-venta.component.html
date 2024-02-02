@@ -7,72 +7,43 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="" (ngSubmit)="editProducto()">
-          <div class="d-flex row justify-content-center">
-            <div class="p-0 m-0">
+          <div class="d-flex row justify-content-center overflow-y-auto" style="max-height: 50vh;">
 
-              <div class="tab container-lg px-0 text-center">
-                <table class="table table-hover table-striped align-middle">
+            <table class="table table-hover table-striped align-middle">
 
-                  <thead>
-                    <tr class="table-info">
-                      <th scope="col">Descripcion</th>
-                      <th scope="col">Cantidad</th>
-                      <th scope="col">Total</th>
-                      <!-- <th></th> -->
-                    </tr>
-                  </thead>
+              <thead>
+                <tr class="table-info">
+                  <th>Descripcion</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-                </table>
-              </div>
+              <tbody *ngFor="let item of venta?.productos">
+                <tr>
+                  <td>
+                    {{ item.descripcion }}
+                  </td>
+                  <td>
+                    {{ item.cantidad }}
+                  </td>
+                  <td>
+                    {{ (item.precio * item.cantidad) | currency }}
+                  </td>
+                  <td>
+                    <div class="d-flex row p-0 m-0">
+                      <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button" (click)="eliminar(producto.id)">
+                        <span class="material-symbols-outlined">
+                          delete
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
 
-              <div class="p-0 m-0 tab container-lg" style="max-height: 20em;">
-                <table class="table table-hover table-striped align-middle">
-
-                  <thead>
-                    <tr class="table-info">
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                      <!-- <th></th> -->
-                    </tr>
-                  </thead>
-
-                  <tbody class="" *ngFor="let item of venta?.productos">
-                    <tr>
-                      <td>
-                        {{ item.descripcion }}
-                      </td>
-                      <td>
-                        {{ item.cantidad }}
-                      </td>
-                      <td>
-                        {{ (item.precio * item.cantidad) | currency }}
-                      </td>
-                      <!-- <td>
-                            <div class="d-flex row p-0 m-0">
-                              <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal"
-                              data-bs-target="#editVenta" (click)="getVenta(venta.id)">
-                              <span class="material-symbols-outlined">
-                                edit
-                              </span>
-                            </button>
-                            <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button"
-                            (click)="eliminar(producto.id)">
-                            <span class="material-symbols-outlined">
-                              delete
-                            </span>
-                          </button>
-                        </div>
-                      </td> -->
-                    </tr>
-                  </tbody>
-
-                </table>
-              </div>
-
-
-
-            </div>
+            </table>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn-sm mx-1" data-bs-dismiss="modal">Editar</button>

@@ -4,6 +4,7 @@ import { Md5 } from 'md5-typescript';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-member',
@@ -14,6 +15,7 @@ export class NewMemberComponent implements OnInit {
 
   formMember: any
   token: any
+  options: any = {}
 
   constructor(
     private authService: AuthService,
@@ -30,6 +32,7 @@ export class NewMemberComponent implements OnInit {
   ngOnInit() {
     localStorage.removeItem("identity_user")
     this.token = this.router.parseUrl(this.router.url).queryParamMap['params']['token']
+    if (!this.token) window.location.assign('/auth/log-in');
   }
 
   get nombre() {
@@ -43,8 +46,10 @@ export class NewMemberComponent implements OnInit {
   }
 
   createUser() {
+    this.options.params = new HttpParams()
+    .set('token', this.token)
     this.formMember.value.contrasenia = Md5.init(this.formMember.value.contrasenia)
-    this.authService.signUpMember(this.formMember.value, this.token)
+    this.authService.signUpMember(this.formMember.value, this.options)
       .subscribe(
         (response) => {
           this.toastr.success(response.mensaje, '')

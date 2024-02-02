@@ -8,14 +8,15 @@ import { AuthService } from './auth/services/auth.service';
 })
 
 export class AppComponent{
-  identity_user: any = []
+  identityUser: any
 
   constructor(
     private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.identity_user = JSON.parse(localStorage.getItem('identity_user'))
+    this.identityUser = JSON.parse(localStorage.getItem('identity_user'))
+    // this.authService.checkSignIn(this.identityUser);
   }
 
   signOut() {

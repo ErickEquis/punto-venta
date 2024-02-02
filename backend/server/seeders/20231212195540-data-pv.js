@@ -9,8 +9,8 @@ module.exports = {
 
     await queryInterface.bulkInsert({ tableName: 'ca_roles', schema: schema }, [
       { id: 0, descripcion: "Root", is_admin: true, permisos: '{"inventario": {"estatus": true, "slug": "/point/inventario"}, "equipo": {"estatus": true, "slug": "/user/home"}}', estatus: true },
-      { id: 10, descripcion: "Administrador", is_admin: true, permisos: '{"inventario": {"estatus": true, "slug": "/point/inventario"}, "equipo": {"estatus": true, "slug": "/user/home"}}', estatus: true },
-      { id: 11, descripcion: "Empleado", is_admin: false, permisos: '{"inventario": {"estatus": true, "slug": "/point/inventario"}, "equipo": {"estatus": false, "slug": "/user/home"}}', estatus: true },
+      { id: 10, descripcion: "Administrador", is_admin: true, permisos: '{"equipo": {"body": "x", "slug": "/user/equipo"}, "ventas": {"body": "x", "slug": "/user/ventas"}}', estatus: true },
+      { id: 11, descripcion: "Empleado", is_admin: false, permisos: '{"equipo": {"body": "x", "slug": "/user/equipo"}, "ventas": {"body": "x", "slug": "/user/ventas"}}', estatus: true },
     ], {});
 
     await queryInterface.bulkInsert({ tableName: 'ca_equipos', schema: schema }, [
