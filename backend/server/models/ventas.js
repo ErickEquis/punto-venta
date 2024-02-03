@@ -74,13 +74,6 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             through: models.ca_usuarios,
             foreignKey: 'id_usuario',
         });
-    };
-
-    ca_ventas.associate = (models) => {
-        ca_ventas.belongsTo(models.ca_usuarios, {
-            through: models.ca_usuarios,
-            foreignKey: 'id_usuario',
-        });
         ca_ventas.belongsTo(models.ca_ventas_historial, {
             through: models.ca_ventas_historial,
             foreignKey: 'id_modificado',

@@ -423,7 +423,7 @@ async function update(req, res) {
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
         },
-            { where: { id: req.params.id }, transaction })
+            { where: { id: req.params.id }}, transaction )
 
         if (!updateUsuario) {
             await transaction.rollback();

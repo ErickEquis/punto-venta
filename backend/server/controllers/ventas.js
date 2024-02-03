@@ -100,7 +100,7 @@ async function findById(req, res) {
 
         if (!row) {
             return res.status(400).send({
-                mensaje: 'Lo sentimos, no fue posible obtner las ventas.',
+                mensaje: 'Lo sentimos, no fue posible obtener el registro de la venta.',
             });
         }
 
@@ -143,6 +143,24 @@ async function create(req, res) {
             });
         }
 
+        for (let a = 0; a < req.body.productos.length; a++) {
+            let cantidadProductos = await ca_productos.findOne(
+                {
+                    where: {
+                        id: req.body.productos[i].id,
+                        id_equipo: usr.equipo
+                    }
+                }
+            )
+
+            if (cantidadProductos.cantidad < req.body.productos[a].cantidad) {
+                await transaction.rollback();
+                return res.status(400).send({
+                    mensaje: `Lo sentimos, el inventario no es suficiente para ${req.body.productos[a].descripcion}.`,
+                });
+            }
+        }
+
         for (let i = 0; i < req.body.productos.length; i++) {
             let cantidad = await ca_productos.increment(
                 {
@@ -151,11 +169,11 @@ async function create(req, res) {
                 {
                     where: {
                         id: req.body.productos[i].id,
-                        cantidad: {[op.gte]: req.body.productos[i].cantidad}
+                        cantidad: { [op.gte]: req.body.productos[i].cantidad }
                     }
                 }, transaction
             )
-            if (!cantidad || (cantidad[0][1] !== 1)) {
+            if (cantidad[0][1] !== 1) {
                 await transaction.rollback();
                 return res.status(400).send({
                     mensaje: `Lo sentimos, el inventario no es suficiente para ${req.body.productos[i].descripcion}.`,
@@ -189,7 +207,7 @@ async function update(req, res) {
         let venta = await ca_ventas.findOne({
             where: {
                 id: req.param.id,
-                id_usuario: usr.id
+                id_equipo: usr.equipo
             }
         })
 
@@ -202,11 +220,12 @@ async function update(req, res) {
         let updateVenta = await ca_ventas.update({
             productos: req.body.productos,
             total_venta: req.body.total_venta,
-            fecha_venta: moment()
+            fecha_venta: moment(),
+            modificado: true
         }, {
             where: {
                 id_usuario: usr.id,
-                id: req.param.id
+                id: req.params.id
             }
         }, { transaction })
 
@@ -219,6 +238,7 @@ async function update(req, res) {
 
         let newVentaMod = await ca_ventas_historial.create({
             id_modificado: venta.id,
+            id_usuario_modifica: usr.id,
             productos: req.body.productos,
             productos_modificados: venta.productos,
             total_venta: req.body.total_venta,
@@ -260,6 +280,7 @@ async function remove(req, res) {
         let row = await ca_ventas.destroyer({
             where: {
                 id: req.params.id,
+                id_equipo: usr.equipo
             }
         }, { transaction })
 

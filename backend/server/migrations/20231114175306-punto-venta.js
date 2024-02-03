@@ -1,11 +1,11 @@
 'use strict';
 
-const config = require('../config/config') 
+const config = require('../config/config')
 const schema = config.plataformas.dvpv
 
 module.exports = {
   up: async function (queryInterface, DataTypes) {
-    
+
     await queryInterface.bulkDelete({
       tableName: 'SequelizeMeta',
       where: {},
@@ -128,42 +128,42 @@ module.exports = {
         allowNull: false,
       },
       id_equipo: {
-          type: DataTypes.BIGINT,
-          allowNull: false,
-          references: {
-            model: {
-              schema: schema,
-              tableName: 'ca_equipos',
-            },
-            key: 'id',
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_equipos',
           },
+          key: 'id',
         },
-        descripcion: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        precio: {
-          type: DataTypes.FLOAT,
-          allowNull: false,
-        },
-        cantidad: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        codigo: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        estatus: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: true,
-        }
       },
-        {
-          charset: 'UTF8',
-          schema: schema
-        });
+      descripcion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      precio: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      cantidad: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      codigo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      estatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      }
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
 
     await queryInterface.createTable('ca_ventas_historial', {
       id: {
@@ -175,6 +175,17 @@ module.exports = {
       id_modificado: {
         type: DataTypes.BIGINT,
         allowNull: true,
+      },
+      id_usuario_modifica: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_usuarios',
+          },
+          key: 'id',
+        },
       },
       productos: {
         type: DataTypes.JSONB,
@@ -271,5 +282,5 @@ module.exports = {
 
   },
 
-  async down(queryInterface, Sequelize) {}
+  async down(queryInterface, Sequelize) { }
 };
