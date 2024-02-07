@@ -3,7 +3,7 @@
 const config = require('../config/config');
 const ca_usuarios = require('./usuarios')
 const ca_equipos = require('./equipos')
-const ca_ventas_historial = require('./ventas_historial')
+const ca_historial_ventas = require('./historial_ventas')
 
 module.exports = (sequelize, DataTypes, Deferrable) => {
     const schema = config.plataformas.dbpv.schema;
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                 type: DataTypes.BIGINT,
                 allowNull: true,
                 references: {
-                    model: ca_ventas_historial,
+                    model: ca_historial_ventas,
                     key: 'id',
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
@@ -74,8 +74,8 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             through: models.ca_usuarios,
             foreignKey: 'id_usuario',
         });
-        ca_ventas.belongsTo(models.ca_ventas_historial, {
-            through: models.ca_ventas_historial,
+        ca_ventas.belongsTo(models.ca_historial_ventas, {
+            through: models.ca_historial_ventas,
             foreignKey: 'id_modificado',
         });
         ca_ventas.belongsTo(models.ca_equipos, {

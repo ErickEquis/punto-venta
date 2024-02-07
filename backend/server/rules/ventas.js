@@ -9,11 +9,11 @@ function create(body) {
         return json
     }
 
-    // if (!body.total_venta || body.total_venta < 0) {
-    //     json.codigo = 1
-    //     json.mensaje = "Error en el total de venta"
-    //     return json
-    // }
+    if (!body.total_venta || body.total_venta < 0) {
+        json.codigo = 1
+        json.mensaje = "Error en el total de venta"
+        return json
+    }
 
     return json
 }
@@ -30,13 +30,13 @@ function update(req) {
         return json
     }
 
-    if (!body.productos || body.productos.length == 0) {
+    if (!req.body.productos || req.body.productos.length == 0) {
         json.codigo = 1
         json.mensaje = "Lo sentimos es requerido al menos un producto"
         return json
     }
 
-    if (!body.total_venta || body.total_venta < 0) {
+    if (!req.body.total_venta || req.body.total_venta < 0) {
         json.codigo = 1
         json.mensaje = "Error en el total de venta"
         return json

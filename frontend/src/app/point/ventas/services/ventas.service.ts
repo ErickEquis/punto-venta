@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class VentasService {
-    private url: string
+  private url: string
 
   constructor(private http: HttpClient) {
     this.url = `${environment.endpoint}ventas`
@@ -29,6 +29,12 @@ export class VentasService {
     return this.http.post<any>(`${this.url}`, body, options)
   }
 
+  editVenta(body: any, id: number, options: any): Observable<any> {
+    return this.http.patch<any>(`${this.url}/${id}`, body, options)
+  }
 
+  deleteVenta(id: number, options: any): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${id}`, options)
+  }
 
 }

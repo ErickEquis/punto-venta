@@ -165,7 +165,7 @@ module.exports = {
         schema: schema
       });
 
-    await queryInterface.createTable('ca_ventas_historial', {
+    await queryInterface.createTable('ca_historial_ventas', {
       id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
@@ -203,7 +203,7 @@ module.exports = {
         type: DataTypes.FLOAT,
         allowNull: false,
       },
-      fecha_venta: {
+      fecha_modificacion: {
         type: DataTypes.DATE,
         allowNull: true,
       },
@@ -265,7 +265,7 @@ module.exports = {
         references: {
           model: {
             schema: schema,
-            tableName: "ca_ventas_historial",
+            tableName: "ca_historial_ventas",
           },
           key: 'id',
         }

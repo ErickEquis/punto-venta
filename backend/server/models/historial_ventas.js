@@ -7,8 +7,8 @@ const ca_usuarios = require('./usuarios')
 module.exports = (sequelize, DataTypes, Deferrable) => {
     const schema = config.plataformas.dbpv.schema;
 
-    let ca_ventas_historial = sequelize.define(
-        'ca_ventas_historial',
+    let ca_historial_ventas = sequelize.define(
+        'ca_historial_ventas',
         {
             id: {
                 type: DataTypes.BIGINT,
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                 type: DataTypes.FLOAT,
                 allowNull: false,
             },
-            fecha_venta: {
+            fecha_modificacion: {
                 type: DataTypes.DATE,
                 allowNull: true,
             },
@@ -61,12 +61,12 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
         }
     );
 
-    ca_ventas_historial.associate = (models) => {
-        ca_ventas_historial.belongsTo(models.ca_usuarios, {
+    ca_historial_ventas.associate = (models) => {
+        ca_historial_ventas.belongsTo(models.ca_usuarios, {
             through: models.ca_usuarios,
             foreignKey: 'id_usuario_modifica',
         });
     }
 
-    return ca_ventas_historial;
+    return ca_historial_ventas;
 };

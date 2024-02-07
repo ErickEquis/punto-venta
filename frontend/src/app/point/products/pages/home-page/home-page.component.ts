@@ -5,7 +5,6 @@ import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { Productos } from '../../interfaces/productos';
-import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { VentasService } from 'src/app/point/ventas/services/ventas.service';
@@ -18,62 +17,7 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   listProductos: Productos[] = []
-  ventaProductos: any[] = [
-  // {
-  //   id: 1,
-  //   descripcion: "Terriblitos",
-  //   precio: 1,
-  //   cantidad: 5
-  // },
-  // {
-  //   id: 2,
-  //   descripcion: "descripcion2",
-  //   precio: 1,
-  //   cantidad: 3
-  // },
-  // {
-  //   id: 3,
-  //   descripcion: "descripcion3",
-  //   precio: 1,
-  //   cantidad: 4
-  // },
-  // {
-  //   id: 1,
-  //   descripcion: "descripcion1",
-  //   precio: 1,
-  //   cantidad: 1
-  // },
-  // {
-  //   id: 2,
-  //   descripcion: "descripcion2",
-  //   precio: 1,
-  //   cantidad: 3
-  // },
-  // {
-  //   id: 3,
-  //   descripcion: "descripcion3",
-  //   precio: 1,
-  //   cantidad: 4
-  // },
-  // {
-  //   id: 1,
-  //   descripcion: "descripcion1",
-  //   precio: 1,
-  //   cantidad: 1
-  // },
-  // {
-  //   id: 2,
-  //   descripcion: "descripcion2",
-  //   precio: 1,
-  //   cantidad: 3
-  // },
-  // {
-  //   id: 3,
-  //   descripcion: "descripcion3",
-  //   precio: 1,
-  //   cantidad: 4
-  // },
-  ]
+  ventaProductos: any[] = []
 
 
   productoBuscado: string = ''
@@ -177,7 +121,6 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     this.productoService.getProductoId(item.id, this.options)
       .subscribe((dato: any) => {
         this.itemById = dato
-        console.log('itemById', this.itemById)
       },
         (error) => {
           if (error.status == 403) {

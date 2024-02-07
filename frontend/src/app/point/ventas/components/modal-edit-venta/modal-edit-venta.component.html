@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="" (ngSubmit)="editProducto()">
+        <form [formGroup]="formEditVenta" (ngSubmit)="editVenta()">
           <div class="d-flex row justify-content-center overflow-y-auto" style="max-height: 50vh;">
 
             <table class="table table-hover table-striped align-middle">
@@ -32,16 +32,37 @@
                     {{ (item.precio * item.cantidad) | currency }}
                   </td>
                   <td>
-                    <div class="d-flex row p-0 m-0">
-                      <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button" (click)="eliminar(producto.id)">
+                    <div class="modal-body d-flex justify-content-evenly">
+                      <button type="button" class="btn btn-danger btn-sm" [attr.disabled]="isDisabledAdd"
+                        (click)="edit(1, item)">
+                        <span class="material-symbols-outlined">
+                          add
+                        </span>
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm" (click)="delete(item)">
                         <span class="material-symbols-outlined">
                           delete
+                        </span>
+                      </button>
+                      <button [id]=item.id type="button" class="btn btn-danger btn-sm" [attr.disabled]="isDisabledRemove"
+                        (click)="edit(-1, item)">
+                        <span class="material-symbols-outlined">
+                          remove
                         </span>
                       </button>
                     </div>
                   </td>
                 </tr>
               </tbody>
+
+              <div class="d-flex justify-content-evenly" style="border: solid;">
+                <div>
+                  Total de venta
+                </div>
+                <div>
+                  {{ total | currency }}
+                </div>
+              </div>
 
             </table>
           </div>
