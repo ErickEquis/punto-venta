@@ -14,7 +14,6 @@ import { Md5 } from 'md5-typescript';
 export class LoginPageComponent implements OnInit {
 
   formSignIn: any
-  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private authService: AuthService,
@@ -22,7 +21,7 @@ export class LoginPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.identityUser ? window.location.assign('/point/home') : ''
+    localStorage.removeItem("identity_user")
     this.formSignIn = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required]),

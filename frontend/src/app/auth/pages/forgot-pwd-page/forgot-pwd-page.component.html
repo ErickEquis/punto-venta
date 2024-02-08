@@ -1,17 +1,15 @@
 <div class="d-flex justify-content-center align-items-center h-100 p-0 m-0">
 
-  <div id="restore">
+  <div class="container" style="max-width: 540px;">
     <h1>
       Point
     </h1>
-    <h3>
+    <h3 class="mb-3">
       Recuperar contraseña
     </h3>
 
     <form [formGroup]="formForgotPwd" (ngSubmit)="forgotPwd()">
-      <div class="mb-3 mt-3">
-        <input type="email" placeholder="Correo" class="form-control" formControlName="correo">
-      </div>
+        <input type="email" placeholder="Correo" class="form-control mb-3" formControlName="correo">
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
         Ingresa tu correo electronico
@@ -21,7 +19,7 @@
         Correo electronico no valido
       </div>
 
-      <button type="submit" class="btn btn-primary w-100" [disabled]="!formForgotPwd.valid">Ingresar</button>
+      <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="!formForgotPwd.valid">Ingresar</button>
     </form>
     <p class="center">
       ¿Ya tienes una cuenta? <a [routerLink]="['../sign-in']">Iniciar sesión</a>

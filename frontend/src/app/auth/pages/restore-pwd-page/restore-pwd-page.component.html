@@ -1,17 +1,15 @@
 <div class="d-flex justify-content-center align-items-center h-100 p-0 m-0">
 
-  <div id="log-in">
+  <div class="container" style="max-width: 540px;">
     <h1>
       Point
     </h1>
-    <h3>
+    <h3 class="mb-3">
       Ingresa una nueva contraseña
     </h3>
 
     <form [formGroup]="formRestorePwd" (ngSubmit)="restorePwd()">
-      <div class="mb-3 mt-3">
-        <input type="email" placeholder="Correo" class="form-control" formControlName="correo">
-      </div>
+      <input type="email" placeholder="Correo" class="form-control mb-3" formControlName="correo">
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
         Ingresa tu correo electronico
@@ -21,12 +19,20 @@
         Correo electronico no valido
       </div>
 
-      <div class="mb-3">
-        <input type="password" placeholder="Nueva contraseña" class="form-control" formControlName="contrasenia">
+      <input type="password" placeholder="Nueva contraseña" class="form-control mb-3" formControlName="contrasenia">
+      <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
+        *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
+        Ingresa tu contraseña
       </div>
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-        *ngIf="(contrasenia.dirty && contrasenia.touched && contrasenia.errors?.required)">
-        Ingresa tu contraseña
+        *ngIf="(contrasenia.errors?.minlength || contrasenia.errors?.maxlength)">
+        La contraseña debe tener de 8 a 12 caracteres
+      </div>
+
+      <input type="password" placeholder="Confirmar contraseña" class="form-control mb-3" formControlName="confContrasenia">
+      <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
+        *ngIf="(formRestorePwd.errors?.PasswordNoMatch && confContrasenia.value)">
+        La contraseña no coincide
       </div>
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="!formRestorePwd.valid">Ingresar</button>

@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -48,6 +49,12 @@ export class AuthService {
 
   restorePwd(body: any, options: any):Observable<any> {
     return this.http.patch<any>(`${this.url}restore-pwd`, body, options)
+  }
+
+  confirmarPwd (control: AbstractControl): ValidationErrors | null {
+    return control.value.contrasenia === control.value.confContrasenia
+    ? null
+    : { PasswordNoMatch: true };
   }
 
 }

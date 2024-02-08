@@ -14,6 +14,7 @@ export class ForgotPwdPageComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    localStorage.removeItem("identity_user")
     this.formForgotPwd = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
     })

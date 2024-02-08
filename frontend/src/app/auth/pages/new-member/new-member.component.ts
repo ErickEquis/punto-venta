@@ -26,7 +26,8 @@ export class NewMemberComponent implements OnInit {
       nombre: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-    })
+      confContrasenia: new FormControl(''),
+    }, {validators: authService.confirmarPwd})
   }
 
   ngOnInit() {
@@ -43,6 +44,9 @@ export class NewMemberComponent implements OnInit {
   }
   get contrasenia() {
     return this.formMember.get('contrasenia')
+  }
+  get confContrasenia() {
+    return this.formMember.get('confContrasenia')
   }
 
   createUser() {

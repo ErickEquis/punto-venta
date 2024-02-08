@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center align-items-center h-100 p-0 m-0">
-  <div style="margin: 0 20%;">
+  <div class="container" style="max-width: 540px;">
     <h1>
       Point
     </h1>
@@ -10,17 +10,13 @@
       !Bienvenido¡
     </p>
     <form [formGroup]="formMember" (ngSubmit)="createUser()">
-      <div class="mb-3 mt-3">
-        <input type="text" placeholder="Nombre" class="form-control" formControlName="nombre">
-      </div>
+      <input type="text" placeholder="Nombre" class="form-control mb-3" formControlName="nombre">
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(nombre.touched && nombre.dirty && nombre.errors?.required)">
         Ingresa tu nombre
       </div>
 
-      <div class="mb-3">
-        <input type="email" placeholder="Correo electronico" class="form-control" formControlName="correo">
-      </div>
+      <input type="email" placeholder="Correo electronico" class="form-control mb-3" formControlName="correo">
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
         Ingresa tu correo
@@ -30,9 +26,7 @@
         Correo no valido
       </div>
 
-      <div class="mb-3">
-        <input type="password" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
-      </div>
+      <input type="password" placeholder="Contraseña" class="form-control mb-3" formControlName="contrasenia">
       <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
         *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
         Ingresa tu contraseña
@@ -42,8 +36,10 @@
         La contraseña debe tener de 8 a 12 caracteres
       </div>
 
-      <div class="mb-3">
-        <input type="password" placeholder="Confirmar contraseña" class="form-control" formControlName="contrasenia">
+      <input type="password" placeholder="Confirmar contraseña" class="form-control mb-3" formControlName="confContrasenia">
+      <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
+        *ngIf="(formMember.errors?.PasswordNoMatch && confContrasenia.value)">
+        La contraseña no coincide
       </div>
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="!formMember.valid">Registrarse</button>

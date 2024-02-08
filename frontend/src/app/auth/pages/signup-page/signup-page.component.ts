@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'md5-typescript';
@@ -15,22 +14,24 @@ import { AuthService } from '../../services/auth.service';
 export class SignupPageComponent implements OnInit {
 
   formSignUp: any
-  identityUser: any = JSON.parse(localStorage.getItem('identity_user'))
 
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    ) {
+  }
 
   ngOnInit() {
-    this.identityUser ? this.router.navigate(['/point/home']) : ''
+    localStorage.removeItem("identity_user")
     this.formSignUp = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
       contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+      confContrasenia: new FormControl('', [Validators.required]),
       nombre_equipo: new FormControl(''),
-    })
+    },
+      { validators: this.authService.confirmarPwd }
+    )
   }
 
   get nombre() {
@@ -41,6 +42,9 @@ export class SignupPageComponent implements OnInit {
   }
   get contrasenia() {
     return this.formSignUp.get('contrasenia')
+  }
+  get confContrasenia() {
+    return this.formSignUp.get('confContrasenia')
   }
 
   createUser() {

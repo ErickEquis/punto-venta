@@ -30,8 +30,9 @@ export class RestorePwdPageComponent implements OnInit {
     if (!this.token) window.location.assign('/auth/log-in');
     this.formRestorePwd = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
-      contrasenia: new FormControl('', [Validators.required]),
-    })
+      contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+      confContrasenia: new FormControl('', [Validators.required]),
+    }, { validators: this.authService.confirmarPwd })
   }
 
   get correo() {
@@ -42,12 +43,16 @@ export class RestorePwdPageComponent implements OnInit {
     return this.formRestorePwd.get('contrasenia')
   }
 
+  get confContrasenia() {
+    return this.formRestorePwd.get('confContrasenia')
+  }
+
   restorePwd() {
     this.options.params = new HttpParams()
       .set('token', this.token)
     this.formRestorePwd.value.contrasenia = Md5.init(this.formRestorePwd.value.contrasenia)
     this.authService.restorePwd(this.formRestorePwd.value, this.options)
-    .subscribe()
+      .subscribe()
     window.location.assign('/auth/log-in')
   }
 

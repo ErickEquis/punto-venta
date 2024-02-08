@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './auth/services/auth.service';
 
 @Component({
@@ -7,20 +7,11 @@ import { AuthService } from './auth/services/auth.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent{
-  identityUser: any
+export class AppComponent {
 
-  constructor(
-    private authService: AuthService,
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.identityUser = JSON.parse(localStorage.getItem('identity_user'))
-    // this.authService.checkSignIn(this.identityUser);
-  }
-
-  signOut() {
-    this.authService.signOut()
   }
 
 }
