@@ -1,6 +1,7 @@
-<div class="container-fluid h-100">
+<div class="container-lg h-100">
 
-  <app-modal-editproducto-venta class="d-md-none" [producto]="producto" (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
+  <app-modal-editproducto-venta class="d-md-none" [producto]="producto"
+    (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
 
   <div class="container-fluid tab pt-3 h-50 px-0 text-center">
     <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
@@ -13,68 +14,69 @@
         </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let producto of ventaProductos" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto" (click)="editProducto(producto)">
-            <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.precio | currency }}</td>
-            <td>{{ producto.cantidad }}</td>
-            <td class="d-xs-none">
-              <button type="button" class="btn btn-primary btn-sm" [attr.disabled]="isDisabledAdd" (click)="cantidadVenta(1, producto)">
-                <span class="material-symbols-outlined">
-                  add
-                </span>
-              </button>
-              <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
-                <span class="material-symbols-outlined">
-                  delete
-                </span>
-              </button>
-              <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
-                <span class="material-symbols-outlined">
-                  remove
-                </span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        </table>
-        <div class="container-lg" style="margin: 10% 0;">
-          <div class="alert alert-dismissible alert-info m-0 py-5" *ngIf="!ventaProductos.length">
-            <strong>Vende!</strong> Escanea tus productos.
-          </div>
+        <tr *ngFor="let producto of ventaProductos" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto"
+          (click)="editProducto(producto)">
+          <td>{{ producto.descripcion | titlecase }}</td>
+          <td>{{ producto.precio | currency }}</td>
+          <td>{{ producto.cantidad }}</td>
+          <td class="d-xs-none">
+            <button type="button" class="btn btn-primary btn-sm" [attr.disabled]="isDisabledAdd"
+              (click)="cantidadVenta(1, producto)">
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
+              <span class="material-symbols-outlined">
+                remove
+              </span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert alert-info my-5" *ngIf="!ventaProductos.length">
+      <strong>!Vende!</strong> <br> Escanea tus productos.
     </div>
   </div>
 
-  <div class="d-flex my-3 px-4 justify-content-between align-items-center container-lg">
+  <div class="d-flex my-2 justify-content-between align-items-center container-fluid">
     <button class="btn btn-primary" [attr.disabled]="isDisabledVender" (click)="venta()" type="button">Vender</button>
     <div>
-      <span>Total  </span>
+      <span>Total </span>
       <span>{{ total | currency }}</span>
     </div>
   </div>
 
-  <div class="container-lg">
+  <div class="container-fluid">
     <form (ngSubmit)='agregarProducto(item)'>
       <div class="input-group">
-        <input name="productoInput" type="text" class="form-control input-group" placeholder="Buscar producto..." aria-label="Producto"
-          [(ngModel)]="productoBuscado" (keyup)="getProductos()">
-          <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
-            <span style="color: white;" class="material-symbols-outlined">barcode_scanner</span>
-          </button>
+        <input name="productoInput" type="text" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
+          aria-label="Producto" [(ngModel)]="productoBuscado" (keyup)="getProductos()">
+        <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal"
+          data-bs-target="#scanBarcode" (click)="camaraEstatus()">
+          <span style="color: white;" class="material-symbols-outlined">barcode_scanner</span>
+        </button>
         <button class="btn btn-primary" [attr.disabled]="isDisabledAgregar" type="submit">Agregar</button>
       </div>
     </form>
   </div>
 
-  <app-modal-scan-barcode [camara]="camara" (scanEvent)="scan($event)"></app-modal-scan-barcode>
-
-  <div class="tab container-lg" style="height: 15%;">
+  <div class="tab container-fluid" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
-        <tr *ngFor="let item of listProductos" class="table-dark" (click)="selectProducto(item)">
-          <td>{{ item.descripcion }}</td>
-          <td>{{ item.precio }}</td>
+        <tr *ngFor="let item of listProductos" class="table-dark" role="button" (click)="selectProducto(item)">
+          <td>{{ item.descripcion | titlecase }}</td>
+          <td>{{ item.precio | currency }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+<app-modal-scan-barcode [camara]="camara" (scanEvent)="scan($event)"></app-modal-scan-barcode>

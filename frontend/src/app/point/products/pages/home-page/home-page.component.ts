@@ -16,15 +16,21 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 })
 export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
+  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   listProductos: Productos[] = []
-  ventaProductos: any[] = []
-
-
+  ventaProductos: any[] = [
+    {
+      id: 1,
+      descripcion: 'string',
+      precio: 1,
+      cantidad: 1,
+      estatus: true
+    }
+  ]
   productoBuscado: string = ''
   itemById: Productos[]
   item: any = {}
   producto: any
-  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   modal: string = ''
   total: number = 0
   bodyVenta: any = {}
@@ -88,9 +94,10 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
       stock: this.itemById['cantidad'],
     }
     let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion']))
-    p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item)
+    p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item);
     this.productoBuscado = ''
     this.itemById = []
+    this.listProductos = []
   }
 
   getProductos() {
@@ -167,17 +174,19 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     return this.camara
   }
 
-  scan($event: any) {
+  scan($event?: any) {
     this.camara = !this.camara
-    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.getProductoCode($event, this.options)
-      .subscribe(
-        (producto) => {
-          this.itemById = producto
-          this.agregarProducto()
-        },
-        (error) => this.toastr.error(error.error.mensaje, 'Error!')
-      )
+    if ($event) {
+      this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+      this.productoService.getProductoCode($event, this.options)
+        .subscribe(
+          (producto) => {
+            this.itemById = producto
+            this.agregarProducto()
+          },
+          (error) => this.toastr.error(error.error.mensaje, 'Error!')
+        )
+    }
   }
 
 }

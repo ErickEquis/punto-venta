@@ -18,12 +18,13 @@ export class EquipoPageComponent implements OnInit {
   listUsers: Users[] = []
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   options: any = {}
+  isAdmin: boolean
 
   constructor(
     private userService: UserServices,
     private toastr: ToastrService,
     private authService: AuthService,
-    ) { }
+  ) { }
 
   getHeaders(token: string) {
     let headers = new HttpHeaders({
@@ -34,8 +35,9 @@ export class EquipoPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.checkSignIn(this.identityUser)
-    this.getUsers()
+    this.authService.checkSignIn(this.identityUser);
+    (this.identityUser.rol == 10) ? (this.isAdmin = true) : (this.isAdmin = false);
+    this.getUsers();
   }
 
   getUsers() {

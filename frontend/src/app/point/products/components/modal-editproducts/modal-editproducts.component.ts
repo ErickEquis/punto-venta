@@ -12,7 +12,7 @@ import { Productos } from '../../interfaces/productos';
   templateUrl: './modal-editproducts.component.html',
   styleUrls: ['./modal-editproducts.component.css']
 })
-export class ModalEditproductsComponent implements OnInit,OnChanges  {
+export class ModalEditproductsComponent implements OnInit, OnChanges {
 
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
 
@@ -75,7 +75,14 @@ export class ModalEditproductsComponent implements OnInit,OnChanges  {
   }
 
   setEditValues(producto?: any): void {
-    this.formEdit.setValue({descripcion: producto.descripcion, precio: producto.precio, cantidad: producto.cantidad, codigo: producto.codigo})
+    this.formEdit.setValue(
+      {
+        descripcion: (producto.descripcion.charAt(0).toUpperCase() + producto.descripcion.slice(1)),
+        precio: producto.precio,
+        cantidad: producto.cantidad,
+        codigo: producto.codigo
+      }
+    )
     this.productoEditId = producto.id
   }
 

@@ -10,8 +10,10 @@ const bodyParser = require('body-parser');
 
 const server = http.createServer(app)
 
-server.listen(8880,  () => {
-    console.log("Servidor en puerto 8080")
+const port = 8880
+
+server.listen(port,  () => {
+    console.log(`Servidor en puerto ${port}`)
 })
 
 // app.use(morgan())

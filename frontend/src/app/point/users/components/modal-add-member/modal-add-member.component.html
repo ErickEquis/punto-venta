@@ -1,0 +1,29 @@
+<div class="modal fade" id="addMember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">Agrega un miembro a tu equipo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formAddMember" (ngSubmit)="addMember()">
+          <input type="text" class="form-control" placeholder="Correo electronico" aria-label="Correo"
+            formControlName="correo">
+          <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
+            *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
+            Ingresa un correo
+          </div>
+          <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
+            *ngIf="(correo.touched && correo.value && correo.errors?.email)">
+            Correo no valido
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn mx-1" [disabled]="!formAddMember.valid"
+              data-bs-dismiss="modal">Agregar</button>
+            <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

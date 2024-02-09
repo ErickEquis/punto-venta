@@ -5,7 +5,7 @@ const config = require('../config/config')
 const db = require('../models/index')
 const op = db.Sequelize.Op
 
-const model = require('../models/').ca_usuarios
+const ca_usuarios = require('../models/').ca_usuarios
 const ca_roles = require('../models/').ca_roles
 const ca_equipos = require('../models/').ca_equipos
 
@@ -28,7 +28,7 @@ async function crearSesion(req, res) {
             return res.status(401).json(json)
         }
 
-        let user = await model.findOne({
+        let user = await ca_usuarios.findOne({
             attributes: ['id', 'id_rol', 'id_equipo', 'nombre', 'estatus'],
             where: {
                 correo: req.body.correo,
@@ -64,7 +64,7 @@ async function crearSesion(req, res) {
 
         let transaction = await db.sequelize.transaction()
 
-        let updateAcceso = await model.update(
+        let updateAcceso = await ca_usuarios.update(
             { ultimo_acceso: moment.tz("America/Mexico_City") },
             {
                 where: {
@@ -113,7 +113,7 @@ async function restorePwd(req, res) {
 
         let transaction = await db.sequelize.transaction()
 
-        let updatePwd = await model.update(
+        let updatePwd = await ca_usuarios.update(
             {
                 contrasenia: req.body.contrasenia
             },
@@ -145,7 +145,7 @@ async function restorePwd(req, res) {
 async function forgotPwd(req, res) {
     try {
 
-        let user = await model.findOne({
+        let user = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo
             }
@@ -177,11 +177,27 @@ async function newMemberToken(req, res) {
     try {
 
         let usr = auth.decodeAuth(req)
+        
+        if (usr.rol != 10) {
+            return res.status(400).json({mensaje: config.api.error_general})
+        }
 
-        let user = await model.findOne({
+        let member = await ca_usuarios.findOne({
+            where: {
+                correo: req.body.correo
+            },
+            raw: true
+        })
+
+        if (member) {
+            return res.status(400).json({mensaje: "El usuario ya se encuentra registrado."})
+        }
+        
+        let user = await ca_usuarios.findOne({
             where: {
                 id: usr.id,
-            }
+            },
+            raw: true
         })
 
         let payload = {
@@ -194,7 +210,7 @@ async function newMemberToken(req, res) {
 
         console.log(token)
 
-        return res.status(200).json({ mensaje: "Éxito." })
+        return res.status(200).json({ mensaje: "Invitación enviada con éxito." })
 
     } catch (error) {
         console.error(error)
@@ -207,7 +223,7 @@ async function findAll(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        let users = await model.findAll({
+        let users = await ca_usuarios.findAll({
             where: {
                 id_equipo: usr.equipo
             },
@@ -231,7 +247,7 @@ async function findAll(req, res) {
 async function findById(req, res) {
     try {
 
-        let user = await model.findOne({
+        let user = await ca_usuarios.findOne({
             where: {
                 id: req.params.id,
             },
@@ -263,7 +279,7 @@ async function create(req, res) {
             return res.json(json)
         }
 
-        let repeat = await model.findOne({
+        let repeat = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo,
             }
@@ -291,7 +307,7 @@ async function create(req, res) {
 
         let transactionUsuario = await db.sequelize.transaction()
 
-        let newUsuario = await model.create({
+        let newUsuario = await ca_usuarios.create({
             id_equipo: newEquipo["dataValues"].id,
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
@@ -334,7 +350,7 @@ async function createMember(req, res) {
             return res.json(json)
         }
 
-        let repeat = await model.findOne({
+        let repeat = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo,
             }
@@ -354,7 +370,7 @@ async function createMember(req, res) {
         let transactionNewUsuario = await db.sequelize.transaction()
         let transactionUpdateIntegrantes = await db.sequelize.transaction()
 
-        let newUsuario = await model.create({
+        let newUsuario = await ca_usuarios.create({
             id_equipo: usr.equipo,
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
@@ -418,7 +434,7 @@ async function update(req, res) {
 
         let transaction = await db.sequelize.transaction()
 
-        let updateUsuario = await model.update({
+        let updateUsuario = await ca_usuarios.update({
             nombre: req.body.nombre,
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
@@ -465,7 +481,7 @@ async function remove(req, res) {
 
         transaction = await db.sequelize.transaction();
 
-        let deleteUsuario = await model.destroy({
+        let deleteUsuario = await ca_usuarios.destroy({
             where: {
                 id: req.params.id,
                 id_equipo: usr.equipo,

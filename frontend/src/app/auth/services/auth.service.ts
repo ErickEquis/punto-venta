@@ -24,11 +24,15 @@ export class AuthService {
     return this.http.patch<any>(this.url, body)
   }
 
-  signUp(body: any):Observable<any> {
+  signUp(body: any): Observable<any> {
     return this.http.post<any>(this.url, body)
   }
 
-  signUpMember(body: any, options: any):Observable<any> {
+  addMember(body: any, options: any): Observable<any> {
+    return this.http.put<any>(`${this.url}new-member/token`, body, options)
+  }
+
+  signUpMember(body: any, options: any): Observable<any> {
     return this.http.post<any>(`${this.url}new-member`, body, options)
   }
 
@@ -43,18 +47,18 @@ export class AuthService {
     }
   }
 
-  forgotPwd(body: any):Observable<any> {
+  forgotPwd(body: any): Observable<any> {
     return this.http.put<any>(`${this.url}forgot-pwd`, body)
   }
 
-  restorePwd(body: any, options: any):Observable<any> {
+  restorePwd(body: any, options: any): Observable<any> {
     return this.http.patch<any>(`${this.url}restore-pwd`, body, options)
   }
 
-  confirmarPwd (control: AbstractControl): ValidationErrors | null {
+  confirmarPwd(control: AbstractControl): ValidationErrors | null {
     return control.value.contrasenia === control.value.confContrasenia
-    ? null
-    : { PasswordNoMatch: true };
+      ? null
+      : { PasswordNoMatch: true };
   }
 
 }
