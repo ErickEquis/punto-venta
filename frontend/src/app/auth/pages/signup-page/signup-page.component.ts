@@ -53,7 +53,7 @@ export class SignupPageComponent implements OnInit {
       .subscribe(
         (response) => {
           this.toastr.success(response.mensaje, '')
-          window.location.assign('/point/home')
+          window.location.assign('/auth/log-in')
         },
         (error) => { this.toastr.error(error.mensaje, 'Error!'); }
       )

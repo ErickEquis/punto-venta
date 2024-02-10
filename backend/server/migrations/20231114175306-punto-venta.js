@@ -18,6 +18,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
+        unique: true
       },
       nombre: {
         type: DataTypes.STRING,

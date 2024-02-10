@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                 primaryKey: true,
                 autoIncrement: true,
                 allowNull: false,
+                unique: true
             },
             nombre: {
                 type: DataTypes.STRING,
