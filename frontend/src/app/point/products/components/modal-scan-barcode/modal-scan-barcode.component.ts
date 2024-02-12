@@ -16,8 +16,8 @@ export class ModalScanBarcodeComponent implements OnInit {
   @Output() scanEvent = new EventEmitter<any>();
 
   camaraEstatus() {
-    this.camara = !this.camara
-    this.scanEvent.emit();
+    this.camara = false
+    this.scanEvent.emit('');
   }
 
   scanSuccessHandler(barcode: string) {

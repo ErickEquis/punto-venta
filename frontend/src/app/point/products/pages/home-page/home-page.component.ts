@@ -170,21 +170,23 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   }
 
   camaraEstatus() {
-    this.camara = !this.camara
+    this.camara = true
     return this.camara
   }
 
   scan($event?: any) {
-    this.camara = !this.camara
+    this.camara = false
+    console.log('token', this.identityUser.token)
     if ($event) {
       this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+      console.log(this.options)
       this.productoService.getProductoCode($event, this.options)
         .subscribe(
           (producto) => {
             this.itemById = producto
             this.agregarProducto()
           },
-          (error) => this.toastr.error(error.error.mensaje, 'Error!')
+          (error) => this.toastr.error(error.error.mensaje, 'Error! Aqui')
         )
     }
   }

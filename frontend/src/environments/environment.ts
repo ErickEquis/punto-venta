@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // endpoint: "http://localhost:8880/"
-  endpoint: 'https://p7hxbv6t-8880.usw3.devtunnels.ms/'
+  endpoint: 'https://2qsbvr2w-8880.usw3.devtunnels.ms/'
 };
 
 /*
