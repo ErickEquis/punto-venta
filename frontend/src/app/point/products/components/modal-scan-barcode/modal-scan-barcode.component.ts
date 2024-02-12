@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-modal-scan-barcode',
@@ -17,14 +17,12 @@ export class ModalScanBarcodeComponent implements OnInit {
 
   camaraEstatus() {
     this.camara = false
-    this.scanEvent.emit('');
+    this.scanEvent.emit()
   }
 
   scanSuccessHandler(barcode: string) {
-    if (barcode.length > 0) {
-      this.scanEvent.emit(barcode);
-      document.getElementById('cerrarScan').click()
-    }
+    document.getElementById('cerrarScan').click()
+    this.scanEvent.emit(barcode);
   }
 
 }

@@ -19,13 +19,13 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   listProductos: Productos[] = []
   ventaProductos: any[] = [
-    {
-      id: 1,
-      descripcion: 'string',
-      precio: 1,
-      cantidad: 1,
-      estatus: true
-    }
+    // {
+    //   id: 1,
+    //   descripcion: 'string',
+    //   precio: 1,
+    //   cantidad: 1,
+    //   estatus: true
+    // }
   ]
   productoBuscado: string = ''
   itemById: Productos[]
@@ -171,22 +171,19 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   camaraEstatus() {
     this.camara = true
-    return this.camara
   }
 
   scan($event?: any) {
     this.camara = false
-    console.log('token', this.identityUser.token)
     if ($event) {
-      this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-      console.log(this.options)
+      this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
       this.productoService.getProductoCode($event, this.options)
         .subscribe(
           (producto) => {
             this.itemById = producto
             this.agregarProducto()
           },
-          (error) => this.toastr.error(error.error.mensaje, 'Error! Aqui')
+          (error) => this.toastr.error(error.error.mensaje, 'Error!')
         )
     }
   }

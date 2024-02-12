@@ -16,7 +16,7 @@
       <tbody>
         <tr *ngFor="let producto of ventaProductos" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto"
           (click)="editProducto(producto)">
-          <td>{{ producto.descripcion | titlecase }}</td>
+          <td class="overflow-x-hidden text-nowrap" style="max-width: 1em;">{{ producto.descripcion | titlecase }}</td>
           <td>{{ producto.precio | currency }}</td>
           <td>{{ producto.cantidad }}</td>
           <td class="d-xs-none">

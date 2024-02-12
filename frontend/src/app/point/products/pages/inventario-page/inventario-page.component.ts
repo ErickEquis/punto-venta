@@ -91,7 +91,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
       }
     )
   }
-
+  7501082700237
   eliminar(id: number) {
     this.deleteProducto(id)
   }
