@@ -40,6 +40,12 @@ module.exports = {
       { id: -10, id_equipo: -2, descripcion: "dulce", precio: 1, cantidad: 25, codigo: null, estatus: true }
     ], {});
 
+    await queryInterface.bulkInsert({ tableName: 'ca_categoria_notificaciones', schema: schema }, [
+      { id: 1, descripcion: "Inventario" },
+      { id: 2, descripcion: "Equipo" },
+      { id: 3, descripcion: "Ventas" },
+    ], {});
+
   },
 
   async down(queryInterface, Sequelize) { }

@@ -1,6 +1,7 @@
 const producto = require('../controllers/productos.js')
 const usuario = require('../controllers/usuarios.js')
 const venta = require('../controllers/ventas.js')
+const notifiacion = require('../controllers/notificaciones.js')
 
 const auth = require('../services/auth.js')
 
@@ -26,7 +27,11 @@ module.exports = (app) => {
     app.get('/ventas', auth.ensureAuth, venta.findAll)
     app.get('/ventas/:id', auth.ensureAuth, venta.findById)
     app.get('/ventas-total', auth.ensureAuth, venta.findTotal)
+    app.get('/ventas-vendedores', auth.ensureAuth, venta.findMayorVendedores)
     app.post('/ventas', auth.ensureAuth, venta.create)
     app.patch('/ventas/:id', auth.ensureAuth, venta.update)
     app.delete('/ventas/:id', auth.ensureAuth, venta.remove)
+
+    app.get('/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)
+    app.get('/notificaciones/count', auth.ensureAuth, notifiacion.countNotificaciones)
 }

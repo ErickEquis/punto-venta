@@ -2,8 +2,10 @@
 
 const db = require('../models/index')
 const op = db.Sequelize.Op
+const config = require('../config/config')
 
-const model = require('../models/').ca_productos
+const ca_productos = require('../models/').ca_productos
+const ca_notificaciones = require('../models/').ca_notificaciones
 
 const rules = require('../rules/productos')
 
@@ -38,7 +40,7 @@ async function findAll(req, res) {
 
         clausula.id_equipo = usr.equipo
 
-        let rows = await model.findAll({
+        let rows = await ca_productos.findAll({
             where: clausula,
             order: [['descripcion', 'ASC']],
             raw: true,
@@ -48,7 +50,7 @@ async function findAll(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({msg: error})
+        return res.status(500).json({ msg: error })
     }
 }
 
@@ -57,7 +59,7 @@ async function findCodigo(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        let row = await model.findOne({
+        let row = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
                 codigo: req.params.codigo
@@ -78,9 +80,9 @@ async function findCodigo(req, res) {
 }
 
 async function findById(req, res) {
-    
+
     let json = {}
-    
+
     try {
 
         let usr = auth.decodeAuth(req)
@@ -91,7 +93,7 @@ async function findById(req, res) {
             return res.status(401).json(json)
         }
 
-        let row = await model.findOne({
+        let row = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
                 id: req.params.id,
@@ -103,7 +105,7 @@ async function findById(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({msg: error})
+        return res.status(500).json({ msg: error })
     }
 }
 
@@ -121,7 +123,7 @@ async function create(req, res) {
             return res.json(json)
         }
 
-        let existeProducto = await model.findOne({
+        let existeProducto = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
                 [op.or]: {
@@ -132,12 +134,12 @@ async function create(req, res) {
         })
 
         if (existeProducto) {
-            return res.status(400).json({mensaje: "Lo sentimos, existe un producto con la misma descripcion y/o codigo."})
+            return res.status(400).json({ mensaje: "Lo sentimos, existe un producto con la misma descripcion y/o codigo." })
         }
 
         let transaction = await db.sequelize.transaction();
 
-        let newProducto = await model.create({
+        let newProducto = await ca_productos.create({
             id_equipo: usr.equipo,
             descripcion: req.body.descripcion,
             precio: req.body.precio,
@@ -161,7 +163,7 @@ async function create(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({msg: error})
+        return res.status(500).json({ msg: error })
     }
 }
 
@@ -181,7 +183,7 @@ async function update(req, res) {
 
         let transaction = await db.sequelize.transaction()
 
-        let updateProducto = await model.update({
+        let updateProducto = await ca_productos.update({
             descripcion: req.body.descripcion,
             precio: req.body.precio,
             cantidad: req.body.cantidad,
@@ -208,14 +210,14 @@ async function update(req, res) {
         return res.status(200).json(json)
     } catch (error) {
         console.error(error)
-        return res.status(500).json({msg: error})
+        return res.status(500).json({ msg: error })
     }
 }
 
 async function remove(req, res) {
-    
+
     let json = {}
-    
+
     try {
 
         let usr = auth.decodeAuth(req)
@@ -228,7 +230,7 @@ async function remove(req, res) {
 
         let transaction = await db.sequelize.transaction()
 
-        let deleteProducto = await model.destroy({
+        let deleteProducto = await ca_productos.destroy({
             where: {
                 id_equipo: usr.equipo,
                 id: req.params.id
@@ -250,8 +252,72 @@ async function remove(req, res) {
 
     } catch (error) {
         console.error(error)
-        return res.status(500).json({msg: error})
+        return res.status(500).json({ msg: error })
     }
+}
+
+async function notificacionesInventario() {
+
+    try {
+
+        let id_equipos = await ca_productos.findAll({
+            attributes: ['id_equipo'],
+            group: ['id_equipo'],
+            raw: true
+        })
+
+        let productos
+        var arrNotificacion = []
+
+        for (let i = 0; i < id_equipos.length; i++) {
+            productos = await ca_productos.findAll({
+                attributes: ['descripcion', 'cantidad'],
+                where: {
+                    id_equipo: id_equipos[i].id_equipo,
+                    cantidad: {
+                        [op.lt]: [10]
+                    }
+                },
+                raw: true
+            })
+            if (productos.length != 0) {
+                arrNotificacion.push(
+                    {
+                        id_equipo: id_equipos[i].id_equipo,
+                        id_categoria: config.api.notifiaciones.categoria.inventario,
+                        informacion: productos
+                    }
+                )
+            }
+        }
+
+        let updateNotificacion
+        let transaction = await db.sequelize.transaction()
+
+        for (let j = 0; j < arrNotificacion.length; j++) {
+            updateNotificacion = await ca_notificaciones.create({
+                id_equipo: arrNotificacion[j].id_equipo,
+                id_categoria: arrNotificacion[j].id_categoria,
+                informacion: arrNotificacion[j].informacion
+            }, transaction)
+
+            if (!updateNotificacion) {
+                await transaction.rollback();
+                console.error('Error al enviar notificacion.')
+                return
+            }
+        }
+
+        await transaction.commit()
+
+        console.log('Notificaciones enviadas.')
+
+        return
+
+    } catch (error) {
+        console.error(error)
+    }
+
 }
 
 module.exports = {
@@ -261,4 +327,5 @@ module.exports = {
     create,
     update,
     remove,
+    notificacionesInventario,
 }

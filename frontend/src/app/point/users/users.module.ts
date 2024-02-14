@@ -8,9 +8,10 @@ import { EquipoPageComponent } from './pages/equipo-page/equipo-page.component';
 import { VentasPageComponent } from '../ventas/pages/ventas-page/ventas-page.component';
 import { ModalEditVentaComponent } from '../ventas/components/modal-edit-venta/modal-edit-venta.component';
 import { ModalAddMemberComponent } from './components/modal-add-member/modal-add-member.component';
+import { ModalNoficacionComponent } from './components/modal-noficacion/modal-noficacion.component';
 
 @NgModule({
-  declarations: [HomeUsersPageComponent, EquipoPageComponent, VentasPageComponent, ModalEditVentaComponent, ModalAddMemberComponent],
+  declarations: [HomeUsersPageComponent, EquipoPageComponent, VentasPageComponent, ModalEditVentaComponent, ModalAddMemberComponent, ModalNoficacionComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

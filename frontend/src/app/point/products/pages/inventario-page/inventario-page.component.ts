@@ -35,7 +35,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   ngDoCheck(): void {
-    this.productoBuscado != undefined
+    (this.productoBuscado != undefined)
       ? this.options.params = new HttpParams().set('descripcion', this.productoBuscado)
       : null
     if (this.reload == true) {
@@ -77,10 +77,13 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   deleteProducto(id: number) {
-    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.deleteProducto(id, this.options)
     .subscribe(
-      () => this.getProdutos(),
+      (response) => {
+        this.toastr.success(response.mensaje, 'Éxito!');
+        this.getProdutos()
+      },
       (error) => {
         if (error.status == 403) {
           setTimeout(() => {
@@ -91,7 +94,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
       }
     )
   }
-  7501082700237
+
   eliminar(id: number) {
     this.deleteProducto(id)
   }

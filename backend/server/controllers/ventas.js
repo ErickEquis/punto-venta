@@ -6,6 +6,7 @@ const op = db.Sequelize.Op
 const ca_ventas = require('../models/').ca_ventas
 const ca_historial_ventas = require('../models/').ca_historial_ventas
 const ca_productos = require('../models/').ca_productos
+const ca_usuarios = require('../models/').ca_usuarios
 
 const rules = require('../rules/ventas')
 
@@ -57,7 +58,7 @@ async function findTotal(req, res) {
         let usr = auth.decodeAuth(req)
 
         if (usr.rol != config.api.rol.administrador) {
-            return
+            return res.status(400).json({mensaje: config.api.error_general})
         }
 
         let total = await ca_ventas.sum(
@@ -77,6 +78,54 @@ async function findTotal(req, res) {
         )
 
         return res.status(200).json(total)
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ msg: error })
+    }
+
+}
+
+async function findMayorVendedores(req, res) {
+
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        if (usr.rol != config.api.rol.administrador) {
+            return
+        }
+
+        let mayorVendedores = await ca_ventas.findAll(
+            {
+                attributes: [
+                    'id_usuario',
+                    [db.sequelize.fn('SUM', db.sequelize.col('total_venta')), 'total'],
+                ],
+                where: {
+                    id_equipo: usr.equipo,
+                    fecha_venta: {
+                        [op.between]:
+                            [
+                                moment().tz("America/Mexico_City").format("YYYY-MM-DD"),
+                                moment().add(1, 'day').tz("America/Mexico_City").format("YYYY-MM-DD")
+                            ]
+                    }
+                },
+                include: {
+                    model: ca_usuarios,
+                    as: 'usuario',
+                    attributes: ['nombre'],
+                },
+                group: ['id_usuario', 'usuario.id'],
+                order: [['total', 'DESC']],
+                limit: req.query.limit,
+            }
+        )
+
+        let rows = mayorVendedores
+
+        return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
@@ -371,6 +420,7 @@ module.exports = {
     findAll,
     findById,
     findTotal,
+    findMayorVendedores,
     create,
     update,
     remove,

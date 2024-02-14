@@ -19,6 +19,7 @@ function decodeAuth(req) {
 
 function ensureAuth(req, res, next) {
     if (!req.headers.authorization) {
+        console.log('Entra aqui')
         return res.status(401).json({ mensaje: "Autenticación requerida." })
     }
 

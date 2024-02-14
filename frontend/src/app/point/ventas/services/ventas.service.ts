@@ -37,4 +37,8 @@ export class VentasService {
     return this.http.delete<any>(`${this.url}/${id}`, options)
   }
 
+  mayorVendedores(options: any): Observable<any> {
+    return this.http.get<any>(`${this.url}-vendedores`, options)
+  }
+
 }

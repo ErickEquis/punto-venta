@@ -36,6 +36,13 @@
       "administrador": 10,
       "empleado": 11
     },
+    "notifiaciones": {
+      "categoria": {
+        "inventario": 1,
+        "equipo": 2,
+        "ventas": 3
+      }
+    },
     "error_general": "Sin autorización."
   }
 }

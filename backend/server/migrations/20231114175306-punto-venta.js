@@ -281,6 +281,67 @@ module.exports = {
         schema: schema
       });
 
+    await queryInterface.createTable('ca_categoria_notificaciones', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      descripcion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
+
+    await queryInterface.createTable('ca_notificaciones', {
+      id: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      id_equipo: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_equipos',
+          },
+          key: 'id',
+        },
+      },
+      id_categoria: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: {
+            schema: schema,
+            tableName: 'ca_categoria_notificaciones',
+          },
+          key: 'id',
+        }
+      },
+      informacion: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+      },
+      estatus: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+    },
+      {
+        charset: 'UTF8',
+        schema: schema
+      });
+
   },
 
   async down(queryInterface, Sequelize) { }

@@ -232,7 +232,7 @@ async function findAll(req, res) {
                 attributes: ['descripcion'],
             },
             raw: true,
-            order: [['id', 'ASC']]
+            order: [['id_rol', 'ASC']]
         },
         )
 
