@@ -57,7 +57,7 @@ async function crearSesion(req, res) {
                 {
                     acceso: i,
                     slug: user['ca_role.permisos'][i]['slug'],
-                    body: user['ca_role.permisos'][i]['body'],
+                    icon: user['ca_role.permisos'][i]['icon'],
                 }
             )
         }

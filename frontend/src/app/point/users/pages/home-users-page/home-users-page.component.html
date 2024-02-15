@@ -1,6 +1,6 @@
-<div class="container-md row mx-auto p-1 h-100">
+<div class="container-md row mx-auto p-1" style="max-height: 100%;">
 
-  <div class="row col-12 col-md-10 card bg-primary m-auto">
+  <div class="row col-12 col-md-10 card bg-primary m-auto my-2">
     <div>
       <div class="row d-flex justify-content-center align-items-center">
         <div class="col-10">
@@ -22,12 +22,12 @@
     </div>
   </div>
 
-  <div class="row col-12 col-md-10 card bg-primary p-0 m-auto my-1 d-flex justify-content-center"
+  <div class="row col-12 col-md-10 card bg-primary p-0 m-auto my-2 d-flex justify-content-center"
     *ngIf="(identityUser.rol == 10)">
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
 
-        <div class="carousel-item active p-0 m-0">
+        <div class="carousel-item active">
           <div class="card-header">Tus ventas hoy</div>
           <div class="card-body d-flex justify-content-center">
             <h5 class="p-0 m-0">
@@ -36,7 +36,7 @@
           </div>
         </div>
 
-        <div class="carousel-item p-0">
+        <div class="carousel-item">
           <div class="card-header">El mejor vendedor hoy</div>
           <div class="card-body d-flex justify-content-evenly">
             <h5 class="p-0 m-0">
@@ -53,21 +53,19 @@
     </div>
   </div>
 
-  <div role="button" *ngFor="let permiso of identityUser.permisos" class="col-12 col-md-3 card bg-primary my-1"
-    [routerLink]=permiso.slug>
-    <div class="card-header">{{ permiso.acceso | titlecase }}</div>
-    <div class="card-body p-0">
-      {{ permiso.body }}
-    </div>
-  </div>
+  <div class="m-auto p-0 mx-0 my-1 row d-flex">
 
-  <div class="overflow-y-auto p-0" style="max-height: min-content;">
-    <div role="button" *ngFor="let notificacion of notificaciones" class="card bg-primary h-auto my-1"
-      data-bs-toggle="modal" data-bs-target="#notificacion" (click)="not(notificacion)">
-      <div class="card-body text-center">{{ notificacion.categoria.descripcion | titlecase }}</div>
-    </div>
-  </div>
+    <div class="card col-6 p-0 my-1" *ngFor="let permiso of identityUser.permisos" style="height: 9em;"
+      [routerLink]=permiso.slug>
 
-  <app-modal-noficacion [notificacion]="notificacion"></app-modal-noficacion>
+      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center" >
+        <span class="material-symbols-outlined">
+          {{ permiso.icon }}
+        </span>
+        <p style="font-size: .75rem;"> {{ permiso.acceso | titlecase }} </p>
+      </div>
+    </div>
+
+  </div>
 
 </div>

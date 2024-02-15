@@ -327,7 +327,11 @@ module.exports = {
           key: 'id',
         }
       },
-      informacion: {
+      descripcion: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      data: {
         type: DataTypes.JSONB,
         allowNull: false,
       },

@@ -10,9 +10,9 @@
           <table class="table table-hover table-striped align-middle">
 
             <tbody>
-              <tr *ngFor="let info of notificacion?.informacion">
+              <tr *ngFor="let data of notificacion?.data">
                 <td>
-                  {{ info.descripcion | titlecase }}  {{ info.cantidad }}
+                  {{ data.descripcion | titlecase }}  {{ data.cantidad }}
                 </td>
               </tr>
             </tbody>

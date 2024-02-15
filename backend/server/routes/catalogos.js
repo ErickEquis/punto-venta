@@ -32,6 +32,7 @@ module.exports = (app) => {
     app.patch('/ventas/:id', auth.ensureAuth, venta.update)
     app.delete('/ventas/:id', auth.ensureAuth, venta.remove)
 
-    app.get('/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)
     app.get('/notificaciones/count', auth.ensureAuth, notifiacion.countNotificaciones)
+    app.get('/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)
+    app.delete('/notificaciones', auth.ensureAuth, notifiacion.remove)
 }

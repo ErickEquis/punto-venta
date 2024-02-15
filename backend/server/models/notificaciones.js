@@ -34,7 +34,11 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
             },
-            informacion: {
+            descripcion: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            data: {
                 type: DataTypes.JSONB,
                 allowNull: false,
             },

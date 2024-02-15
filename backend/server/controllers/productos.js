@@ -285,7 +285,8 @@ async function notificacionesInventario() {
                     {
                         id_equipo: id_equipos[i].id_equipo,
                         id_categoria: config.api.notifiaciones.categoria.inventario,
-                        informacion: productos
+                        data: productos,
+                        descripcion: "Stock bajo",
                     }
                 )
             }
@@ -298,7 +299,8 @@ async function notificacionesInventario() {
             updateNotificacion = await ca_notificaciones.create({
                 id_equipo: arrNotificacion[j].id_equipo,
                 id_categoria: arrNotificacion[j].id_categoria,
-                informacion: arrNotificacion[j].informacion
+                data: arrNotificacion[j].data,
+                descripcion: arrNotificacion[j].descripcion
             }, transaction)
 
             if (!updateNotificacion) {
