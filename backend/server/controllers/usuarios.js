@@ -90,7 +90,7 @@ async function crearSesion(req, res) {
             "exp": moment().add(1, "day").unix()
         }
 
-        let response ={
+        let response = {
             token: auth.encodeAuth(payload),
             nombre: user.nombre,
             rol: user.id_rol,
@@ -134,7 +134,7 @@ async function restorePwd(req, res) {
 
         await transaction.commit()
 
-        return res.status(200).json({mensaje: "Éxito."})
+        return res.status(200).json({ mensaje: "Éxito." })
 
     } catch (error) {
         console.error(error)
@@ -165,7 +165,7 @@ async function forgotPwd(req, res) {
 
         // console.log('send', send)
 
-        return res.status(200).json({mensaje: "Éxito."})
+        return res.status(200).json({ mensaje: "Éxito." })
 
     } catch (error) {
         console.error(error)
@@ -177,9 +177,9 @@ async function newMemberToken(req, res) {
     try {
 
         let usr = auth.decodeAuth(req)
-        
+
         if (usr.rol != 10) {
-            return res.status(400).json({mensaje: config.api.error_general})
+            return res.status(400).json({ mensaje: config.api.error_general })
         }
 
         let member = await ca_usuarios.findOne({
@@ -190,9 +190,9 @@ async function newMemberToken(req, res) {
         })
 
         if (member) {
-            return res.status(400).json({mensaje: "El usuario ya se encuentra registrado."})
+            return res.status(400).json({ mensaje: "El usuario ya se encuentra registrado." })
         }
-        
+
         let user = await ca_usuarios.findOne({
             where: {
                 id: usr.id,
@@ -439,7 +439,7 @@ async function update(req, res) {
             contrasenia: req.body.contrasenia,
             correo: req.body.correo,
         },
-            { where: { id: req.params.id }}, transaction )
+            { where: { id: req.params.id } }, transaction)
 
         if (!updateUsuario) {
             await transaction.rollback();

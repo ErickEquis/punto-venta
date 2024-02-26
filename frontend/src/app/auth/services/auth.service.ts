@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -20,7 +20,6 @@ export class AuthService {
   }
 
   login(body: any): Observable<any> {
-    console.log(this.url)
     return this.http.patch<any>(this.url, body)
   }
 
@@ -42,7 +41,7 @@ export class AuthService {
   }
 
   checkSignIn(identity_user?: any) {
-    if (!identity_user) {
+    if (!identity_user.token) {
       window.location.assign('/auth/log-in')
     }
   }

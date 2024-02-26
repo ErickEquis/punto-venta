@@ -1,4 +1,3 @@
-
 const jwt = require('jwt-simple')
 const config = require('../config/config.json')
 const moment = require('moment')
@@ -19,7 +18,6 @@ function decodeAuth(req) {
 
 function ensureAuth(req, res, next) {
     if (!req.headers.authorization) {
-        console.log('Entra aqui')
         return res.status(401).json({ mensaje: "Autenticación requerida." })
     }
 

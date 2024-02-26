@@ -35,7 +35,6 @@ async function getNotificaciones(req, res) {
 async function countNotificaciones(req, res) {
 
     try {
-
         let usr = auth.decodeAuth(req)
 
         let row = await ca_notificaciones.count({

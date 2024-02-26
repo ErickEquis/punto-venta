@@ -2,7 +2,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { NotificacionesService } from 'src/app/point/notificaciones/services/notificaciones.service';
-import { PointService } from 'src/app/point/services/point.service';
 
 @Component({
   selector: 'layout-sidenav',
@@ -18,9 +17,7 @@ export class SidenavComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private notificacionesService: NotificacionesService,
-    ) {
-      this.countNotificaciones()
-     }
+  ) { }
 
   ngOnInit() {
     this.countNotificaciones()
