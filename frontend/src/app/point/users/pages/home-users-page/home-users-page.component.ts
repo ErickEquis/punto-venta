@@ -22,14 +22,12 @@ export class HomeUsersPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private ventasService: VentasService,
-    private pointService: PointService
   ) { }
 
   ngOnInit() {
     this.authService.checkSignIn(this.identityUser);
     this.ventas();
     this.mayorVendedor();
-    this.getNotificaciones();
   }
 
   getHeaders(token: string) {
@@ -55,19 +53,6 @@ export class HomeUsersPageComponent implements OnInit {
       .subscribe((res) => {
         this.vendedor = res[0]
       })
-  }
-
-  getNotificaciones() {
-    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.pointService.getNotificaciones(this.options)
-      .subscribe((res) => {
-        this.notificaciones = res
-        console.log(this.notificaciones)
-      })
-  }
-
-  not(data: any) {
-    this.notificacion = data
   }
 
 }

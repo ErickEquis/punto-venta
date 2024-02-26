@@ -34,5 +34,5 @@ module.exports = (app) => {
 
     app.get('/notificaciones/count', auth.ensureAuth, notifiacion.countNotificaciones)
     app.get('/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)
-    app.delete('/notificaciones', auth.ensureAuth, notifiacion.remove)
+    app.delete('/notificaciones/:id', auth.ensureAuth, notifiacion.remove)
 }

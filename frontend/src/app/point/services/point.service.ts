@@ -16,12 +16,4 @@ export class PointService {
     this.url = `${environment.endpoint}`
   }
 
-  countNotificaciones(options: any): Observable<any> {
-    return this.http.get<any>(`${this.url}notificaciones/count`, options)
-  }
-
-  getNotificaciones(options: any): Observable<any> {
-    return this.http.get<any>(`${this.url}notificaciones`, options)
-  }
-
 }

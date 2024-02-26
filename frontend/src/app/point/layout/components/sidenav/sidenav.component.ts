@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { NotificacionesService } from 'src/app/point/notificaciones/services/notificaciones.service';
 import { PointService } from 'src/app/point/services/point.service';
 
 @Component({
@@ -16,8 +17,10 @@ export class SidenavComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private pointService: PointService,
-    ) { }
+    private notificacionesService: NotificacionesService,
+    ) {
+      this.countNotificaciones()
+     }
 
   ngOnInit() {
     this.countNotificaciones()
@@ -37,7 +40,7 @@ export class SidenavComponent implements OnInit {
 
   countNotificaciones() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : null
-    this.pointService.countNotificaciones(this.options).subscribe((count) => {
+    this.notificacionesService.countNotificaciones(this.options).subscribe((count) => {
       this.count = count
     })
   }

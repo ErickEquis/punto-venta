@@ -59,11 +59,11 @@ async function remove(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        let transaction = await db.sequelize.transaction
+        let transaction = await db.sequelize.transaction()
 
         let eliminarNotificacion = await ca_notificaciones.destroy({
             where: {
-                id: req.query.id,
+                id: req.params.id,
                 id_equipo: usr.equipo
             }, transaction
         })
@@ -74,6 +74,8 @@ async function remove(req, res) {
         }
 
         await transaction.commit()
+
+        return res.status(200).json({mensaje: "Notificación eliminada."})
 
     } catch (error) {
         console.error(error)

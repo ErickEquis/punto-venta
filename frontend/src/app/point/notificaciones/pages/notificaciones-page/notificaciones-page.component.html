@@ -1,0 +1,30 @@
+<div>
+  <div class="tab container-lg pt-3 px-0 text-center">
+    <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
+
+      <tbody>
+        <tr *ngFor="let notificacion of notificaciones" (click)="setNotificacion(notificacion)">
+          <td data-bs-toggle="modal" data-bs-target="#notificacionModal">
+            {{ notificacion.descripcion }}
+          </td>
+          <td>
+            <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button w-100"
+              (click)="delete(notificacion.id)">
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+    <div class="alert alert-warning my-3" *ngIf="!notificaciones.length">
+      <h5><strong>Sin notificaciones.</strong></h5>
+    </div>
+
+  </div>
+</div>
+
+<app-modal-notificacion [data]="data"></app-modal-notificacion>
