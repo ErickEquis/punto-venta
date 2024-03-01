@@ -111,6 +111,16 @@ async function findById(req, res) {
 
 async function create(req, res) {
 
+    /**
+     * data_producto:
+     * {
+     *  paquete: ,
+     *  catidad: ,
+     *  unidad_medida: ,
+     *  abreviatura: ,
+     * }
+    */
+
     let json = {}
 
     try {
