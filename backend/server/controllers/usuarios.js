@@ -87,7 +87,7 @@ async function crearSesion(req, res) {
             "id": user.id,
             "rol": user.id_rol,
             "equipo": user.id_equipo,
-            "exp": moment().add(1, "day").unix()
+            "exp": moment().add(1, "day").unix(),
         }
 
         let response = {

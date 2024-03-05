@@ -21,7 +21,8 @@ export class NotificacionesPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getNotificaciones()
+    this.getNotificaciones();
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   getHeaders(token: string) {

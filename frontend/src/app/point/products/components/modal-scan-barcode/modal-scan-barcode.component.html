@@ -8,10 +8,11 @@
       <div class="modal-body">
         <zxing-scanner
         *ngIf="camara"
+        autofocus="true"
         (scanSuccess)="scanSuccessHandler($event)"
         [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
         >
-        </zxing-scanner>
+      </zxing-scanner>
     </div>
   </div>
 </div>

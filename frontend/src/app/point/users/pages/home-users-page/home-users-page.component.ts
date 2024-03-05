@@ -28,6 +28,7 @@ export class HomeUsersPageComponent implements OnInit {
     this.authService.checkSignIn(this.identityUser);
     this.ventas();
     this.mayorVendedor();
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   getHeaders(token: string) {

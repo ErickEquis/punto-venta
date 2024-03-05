@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-layout-point-page',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutPointPageComponent implements OnInit {
 
-  constructor() { }
+  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
+
+  constructor(
+    private authService: AuthService
+  ) {
+    this.identityUser ? null : this.authService.signOut();
+  }
 
   ngOnInit() {
   }

@@ -49,7 +49,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
   ngOnInit() {
     this.authService.checkSignIn(this.identityUser);
-    (window.innerWidth < 576) ? this.modal = 'modal' : this.modal = ''
+    (window.innerWidth < 576) ? this.modal = 'modal' : this.modal = '';
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   ngOnChanges(): void {
@@ -96,7 +97,7 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion']))
     p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item);
     this.productoBuscado = ''
-    this.itemById = []
+    this.itemById = null
     this.listProductos = []
   }
 

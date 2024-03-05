@@ -38,6 +38,7 @@ export class EquipoPageComponent implements OnInit {
     this.authService.checkSignIn(this.identityUser);
     (this.identityUser.rol == 10) ? (this.isAdmin = true) : (this.isAdmin = false);
     this.getUsers();
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   getUsers() {

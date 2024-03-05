@@ -22,15 +22,15 @@
             </div>
             <div class="form-floating input-group p-0 m-0 my-1">
               <input class="form-control" type="text" id="floatingCodigo" placeholder="Codigo" formControlName="codigo">
-              <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
-                <span class="material-symbols-outlined">barcode_scanner</span>
+              <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanBarcode" (click)="camaraEstatus()">
+                <span style="color: white;" class="material-symbols-outlined">barcode_scanner</span>
               </button>
               <label for="floatingCodigo">Codigo</label>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="h-100 btn btn-danger btn-sm mx-1" data-bs-dismiss="modal">Agregar</button>
-            <button type="button" class="h-100 btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-danger btn" data-bs-dismiss="modal">Agregar</button>
+            <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal" (click)="cleanForm()">Cancelar</button>
           </div>
         </form>
       </div>

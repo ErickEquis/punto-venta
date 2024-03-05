@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { NotificacionesService } from 'src/app/point/notificaciones/services/notificaciones.service';
 
@@ -17,10 +18,12 @@ export class SidenavComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private notificacionesService: NotificacionesService,
-  ) { }
+    private toastr: ToastrService,
+  ) {
+  }
 
   ngOnInit() {
-    this.countNotificaciones()
+    this.countNotificaciones();
   }
 
   getHeaders(token: string) {
@@ -37,9 +40,17 @@ export class SidenavComponent implements OnInit {
 
   countNotificaciones() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : null
-    this.notificacionesService.countNotificaciones(this.options).subscribe((count) => {
-      this.count = count
-    })
+    this.notificacionesService.countNotificaciones(this.options).subscribe(
+      (count) => { this.count = count },
+      (error) => {
+        if (error.status == 403) {
+          setTimeout(() => {
+            this.authService.signOut()
+          }, 1500);
+        }
+        this.toastr.error(error.error.mensaje, 'Error!');
+      }
+    )
   }
 
 }

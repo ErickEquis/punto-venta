@@ -11,7 +11,7 @@
   .menu-responsive {
     height: auto;
     position: fixed;
-    z-index: 9999;
+    /* z-index: 9999; */
     bottom: 0;
     right: 0;
   }

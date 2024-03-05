@@ -28,7 +28,8 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
 
   ngOnInit(): void {
     this.authService.checkSignIn(this.identityUser)
-    this.getProdutos()
+    this.getProdutos();
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   ngOnChanges(): void {

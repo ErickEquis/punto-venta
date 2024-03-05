@@ -23,7 +23,8 @@ export class VentasPageComponent implements OnInit, DoCheck {
     ) { }
 
   ngOnInit() {
-    this.getVentas()
+    this.getVentas();
+    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
   }
 
   ngDoCheck(): void {

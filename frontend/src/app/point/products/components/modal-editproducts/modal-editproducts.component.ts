@@ -36,7 +36,7 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.producto ? this.setEditValues(this.producto) : ''
+    this.producto ? this.setEditValues(this.producto) : '';
   }
 
   @Input() producto?: any
@@ -53,6 +53,18 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
         'Authorization': token
       })
     }
+  }
+
+  get descripcion() {
+    return this.formEdit.get('descripcion').value
+  }
+
+  get precio() {
+    return this.formEdit.get('precio').value
+  }
+
+  get cantidad() {
+    return this.formEdit.get('cantidad').value
   }
 
   editProducto() {
@@ -84,6 +96,10 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
       }
     )
     this.productoEditId = producto.id
+  }
+
+  clean() {
+    this.reloadInventario()
   }
 
 }
