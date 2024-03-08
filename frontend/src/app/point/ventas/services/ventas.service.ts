@@ -41,4 +41,8 @@ export class VentasService {
     return this.http.get<any>(`${this.url}-vendedores`, options)
   }
 
+  historialVentas(id: number, options: any): Observable<any> {
+    return this.http.get<any>(`${this.url}-historial/${id}`, options)
+  }
+
 }

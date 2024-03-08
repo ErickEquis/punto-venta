@@ -4,18 +4,15 @@
 
       <thead>
         <tr class="table-info">
-          <th>Id</th>
-          <th>Precio</th>
+          <!-- <th>Id</th> -->
+          <th>Total</th>
           <th>Fecha</th>
           <th></th>
         </tr>
       </thead>
 
-      <tbody *ngFor="let venta of listVentas">
+      <tbody *ngFor="let venta of listVentas; let i = index">
         <tr>
-          <td>
-            {{ venta.id }}
-          </td>
           <td>
             {{ venta.total_venta | currency }}
           </td>
@@ -23,7 +20,7 @@
             {{ venta.fecha_venta }}
           </td>
           <td>
-            <div class="d-flex row p-0 m-0">
+            <div class="d-flex row p-0 m-0 resposive-button">
               <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal"
                 data-bs-target="#editVenta" (click)="getVenta(venta.id)">
                 <span class="material-symbols-outlined">
@@ -36,14 +33,45 @@
                   delete
                 </span>
               </button>
+              <button class="btn btn-sm mx-sm-1 resposive-button w-auto" *ngIf="venta?.id_modificado" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#id' + i" aria-expanded="false" [attr.aria-controls]="'#id' + i"
+                (click)="historialVentas(venta.id)">
+                <span class="material-symbols-outlined">
+                  expand_circle_down
+                </span>
+              </button>
             </div>
           </td>
         </tr>
+
+        <tr class="collapse" [id]="'id' + i">
+          <td colspan="4">
+            <table class="w-100 table table-hover table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Modificó</th>
+                  <th>Total</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of historial" data-bs-toggle="modal" data-bs-target="#historialVenta" (click)="setItemHistorial(item)">
+                  <td> {{ item.ca_usuario.nombre }} </td>
+                  <td>{{ item.total_venta | currency }}</td>
+                  <td>{{ item.fecha_modificacion | date:'dd MMM. hh:mm aaa' }}</td>
+                </tr>
+              </tbody>
+
+            </table>
+          </td>
+        </tr>
+
       </tbody>
 
     </table>
 
-    <div class="alert alert-warning my-5" *ngIf="!listVentas.length">
+    <div class="alert alert-warning my-5" *ngIf="!listVentas?.length">
       <h5><strong>Sin ventas.</strong></h5>
     </div>
 
@@ -51,3 +79,4 @@
 </div>
 
 <app-modal-edit-venta [venta]="editVenta" (reloadGetEvent)="reload()"></app-modal-edit-venta>
+<app-modal-historial [item]="itemHistorial"></app-modal-historial>

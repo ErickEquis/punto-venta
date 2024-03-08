@@ -5,7 +5,7 @@
         <h5 class="modal-title fs-5" id="exampleModalLabel">Editar venta</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <form [formGroup]="formEditVenta" (ngSubmit)="editVenta()">
           <div class="d-flex row justify-content-center overflow-y-auto" style="max-height: 50vh;">
 
@@ -16,14 +16,15 @@
                   <th>Descripcion</th>
                   <th>Cantidad</th>
                   <th>Total</th>
-                  <th></th>
                 </tr>
               </thead>
 
-              <tbody *ngFor="let item of venta?.productos">
-                <tr>
+              <tbody *ngFor="let item of venta?.productos; let i = index">
+                <tr data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#id_edit' + i" aria-expanded="false" [attr.aria-controls]="'#id_edit' + i"
+                (click)="hiddenData()">
                   <td>
-                    {{ item.descripcion }}
+                    {{ item.descripcion | titlecase }}
                   </td>
                   <td>
                     {{ item.cantidad }}
@@ -31,21 +32,23 @@
                   <td>
                     {{ (item.precio * item.cantidad) | currency }}
                   </td>
-                  <td>
-                    <div class="modal-body d-flex justify-content-evenly">
-                      <button type="button" class="btn btn-danger btn-sm" [attr.disabled]="isDisabledAdd"
+                </tr>
+                <tr>
+                  <td colspan=3 class="p-0">
+                    <div class="collapse p-2" [id]="'id_edit' + i">
+                      <button type="button" class="btn btn-primary btn-sm" [id]="item.id+'add'"
                         (click)="edit(1, item)">
                         <span class="material-symbols-outlined">
                           add
                         </span>
                       </button>
-                      <button type="button" class="btn btn-danger btn-sm" (click)="delete(item)">
+                      <button type="button" class="btn btn-danger btn-sm mx-3" (click)="delete(item)">
                         <span class="material-symbols-outlined">
                           delete
                         </span>
                       </button>
-                      <button [id]=item.id type="button" class="btn btn-danger btn-sm" [attr.disabled]="isDisabledRemove"
-                        (click)="edit(-1, item)">
+                      <button [id]="item.id+'remove'" type="button" class="btn btn-primary btn-sm"
+                        [attr.disabled]="isDisabledRemove" (click)="edit(-1, item)">
                         <span class="material-symbols-outlined">
                           remove
                         </span>
@@ -55,20 +58,19 @@
                 </tr>
               </tbody>
 
-              <div class="d-flex justify-content-evenly" style="border: solid;">
-                <div>
-                  Total de venta
-                </div>
-                <div>
-                  {{ total | currency }}
-                </div>
-              </div>
-
             </table>
+            <div class="d-flex justify-content-evenly w-100">
+              <div>
+                Total de venta
+              </div>
+              <div>
+                {{ total | currency }}
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn-sm mx-1" data-bs-dismiss="modal">Editar</button>
-            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Editar</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
           </div>
         </form>
       </div>

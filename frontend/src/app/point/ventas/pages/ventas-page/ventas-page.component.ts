@@ -16,11 +16,13 @@ export class VentasPageComponent implements OnInit, DoCheck {
   editVenta: any
   options: any = {}
   refresh: boolean = false
+  historial: any[]
+  itemHistorial: any[]
 
   constructor(
     private ventasService: VentasService,
     private toastr: ToastrService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getVentas();
@@ -60,7 +62,6 @@ export class VentasPageComponent implements OnInit, DoCheck {
 
   deleteVenta(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    console.log(id)
     this.ventasService.deleteVenta(id, this.options).subscribe(
       (response) => {
         this.getVentas()
@@ -74,6 +75,25 @@ export class VentasPageComponent implements OnInit, DoCheck {
 
   reload() {
     this.refresh = true
+  }
+
+  historialVentas(id: number) {
+    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.ventasService.historialVentas(id, this.options).subscribe(
+      (res) => {
+        this.historial = res;
+      }
+    )
+    this.hiddenData();
+  }
+
+  hiddenData() {
+    let tag = document.querySelectorAll('.show')
+    tag.length ? tag.item(0).classList.remove('show') : null
+  }
+
+  setItemHistorial(item: any) {
+    this.itemHistorial = item
   }
 
 }

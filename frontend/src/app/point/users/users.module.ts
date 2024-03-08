@@ -11,9 +11,10 @@ import { ModalAddMemberComponent } from './components/modal-add-member/modal-add
 import { ModalNoficacionComponent } from './components/modal-noficacion/modal-noficacion.component';
 import { NotificacionesPageComponent } from '../notificaciones/pages/notificaciones-page/notificaciones-page.component';
 import { ModalNotificacionComponent } from '../notificaciones/components/modal-notificacion/modal-notificacion.component';
+import { ModalHistorialComponent } from '../ventas/components/modal-historial/modal-historial.component';
 
 @NgModule({
-  declarations: [HomeUsersPageComponent, EquipoPageComponent, VentasPageComponent, ModalEditVentaComponent, ModalAddMemberComponent, ModalNoficacionComponent, NotificacionesPageComponent, ModalNotificacionComponent],
+  declarations: [HomeUsersPageComponent, EquipoPageComponent, VentasPageComponent, ModalEditVentaComponent, ModalAddMemberComponent, ModalNoficacionComponent, NotificacionesPageComponent, ModalNotificacionComponent, ModalHistorialComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

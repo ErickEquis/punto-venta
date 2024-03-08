@@ -31,6 +31,7 @@ module.exports = (app) => {
     app.post('/ventas', auth.ensureAuth, venta.create)
     app.patch('/ventas/:id', auth.ensureAuth, venta.update)
     app.delete('/ventas/:id', auth.ensureAuth, venta.remove)
+    app.get('/ventas-historial/:id', auth.ensureAuth, venta.historialVentas)
 
     app.get('/notificaciones/count', auth.ensureAuth, notifiacion.countNotificaciones)
     app.get('/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)

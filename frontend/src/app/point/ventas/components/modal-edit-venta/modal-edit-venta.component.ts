@@ -15,7 +15,6 @@ export class ModalEditVentaComponent implements OnInit, OnChanges, DoCheck {
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   total: number
   formEditVenta: any
-  isDisabledRemove: boolean
 
   constructor(
     private ventasService: VentasService,
@@ -63,10 +62,22 @@ export class ModalEditVentaComponent implements OnInit, OnChanges, DoCheck {
   edit(n: number, item: any) {
     (item.cantidad += n);
     if (item.cantidad <= 1) {
-      document.getElementById(String(item.id)).setAttribute('disabled', 'true')
+      document.getElementById(String(`${item.id}remove`)).setAttribute('disabled', 'true')
     } else {
-      document.getElementById(String(item.id)).removeAttribute('disabled')
+      document.getElementById(String(`${item.id}remove`)).removeAttribute('disabled')
     }
+
+    if (item.cantidad == item.stock) {
+      document.getElementById(String(`${item.id}add`)).setAttribute('disabled', 'true')
+    } else {
+      document.getElementById(String(`${item.id}add`)).removeAttribute('disabled')
+    }
+
+  }
+
+  hiddenData() {
+    let tag = document.querySelectorAll('.show.collapse')
+    tag.length ? tag.item(0).classList.remove('show') : null
   }
 
   delete(item: any) {
