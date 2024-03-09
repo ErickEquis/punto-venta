@@ -143,7 +143,6 @@ async function findMayorVendedores(req, res) {
             }
         )
 
-
         let rows = mayorVendedores
 
         await transaction.commit()
@@ -166,6 +165,8 @@ async function findById(req, res) {
 
         let usr = auth.decodeAuth(req)
 
+        transaction = await db.sequelize.transaction()
+
         let row = await ca_ventas.findOne({
             where: {
                 id: req.params.id,
@@ -174,6 +175,12 @@ async function findById(req, res) {
             raw: true,
             transaction
         })
+
+        if (!row) {
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible obtener el registro de la venta.',
+            });
+        }
 
         for (let i = 0; i < row.productos.length; i++) {
             let stock = await ca_productos.findOne({
@@ -186,14 +193,8 @@ async function findById(req, res) {
                 transaction
             })
 
-            row.productos[i].stock = stock.cantidad
+            row.productos[i].stock = stock ? stock.cantidad : 0
 
-        }
-
-        if (!row) {
-            return res.status(400).send({
-                mensaje: 'Lo sentimos, no fue posible obtener el registro de la venta.',
-            });
         }
 
         await transaction.commit()
@@ -248,16 +249,15 @@ async function create(req, res) {
             }
         }
 
-
         let newVenta = await ca_ventas.create({
             id_usuario: usr.id,
             id_equipo: usr.equipo,
             productos: req.body.productos,
             total_venta: req.body.total_venta,
             fecha_venta: moment()
-        }, transaction)
+        }, { transaction })
 
-        if (!newVenta || newVenta[0][1] !== 1) {
+        if (!newVenta) {
             await transaction.rollback();
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no fue posible registrar la venta.',
@@ -277,11 +277,15 @@ async function create(req, res) {
                     transaction
                 },
             )
+            console.log(cantidad[0][0][0].cantidad)
             if (cantidad[0][1] !== 1) {
                 await transaction.rollback();
                 return res.status(400).send({
                     mensaje: `Lo sentimos, el inventario no es suficiente para ${req.body.productos[i].descripcion}.`,
                 });
+            }
+            if (cantidad[0][0][0].cantidad < 10) {
+                
             }
         }
 
@@ -368,9 +372,9 @@ async function update(req, res) {
             total_venta_modificado: venta.total_venta,
             fecha_modificacion: moment(),
             fecha_venta_modificada: venta.fecha_venta
-        }, transaction)
+        }, { transaction })
 
-        if (!newVentaMod || newVentaMod[0][1] !== 1) {
+        if (!newVentaMod) {
             await transaction.rollback();
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no fue posible registrar la venta.',
@@ -390,7 +394,7 @@ async function update(req, res) {
             transaction
         })
 
-        if (!updateVenta || updateVenta[0][1] !== 1) {
+        if (!updateVenta || updateVenta[0] !== 1) {
             await transaction.rollback();
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no fue posible actualizar la venta.',
@@ -433,6 +437,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
 
+    let transaction
+
     try {
 
         let usr = auth.decodeAuth(req)
@@ -441,14 +447,44 @@ async function remove(req, res) {
             return res.status(401).json({ mensaje: config.api.error_general })
         }
 
-        let transaction = await db.sequelize.transaction()
+        transaction = await db.sequelize.transaction()
+
+        let producto = await ca_ventas.findOne({
+            attributes: ['id', 'productos'],
+            where: {
+                id: req.params.id,
+                id_equipo: usr.equipo,
+            },
+            raw: true,
+            transaction
+        })
+
+        for (let i = 0; i < producto.length; i++) {
+            let cantidad = await ca_productos.increment(
+                {
+                    cantidad: producto[i].cantidad
+                },
+                {
+                    where: {
+                        id: producto.id,
+                    },
+                    transaction
+                },
+            )
+
+            if (!cantidad || cantidad[0][1] !== 1) {
+                await transaction.rollback()
+                return res.status(400).json({ mensaje: "No fue posible actualizar el inventario." })
+            }
+
+        }
 
         let row = await ca_ventas.destroy({
             where: {
                 id: req.params.id,
                 id_equipo: usr.equipo
             }
-        }, transaction)
+        }, { transaction })
 
         if (!row || row[0][1] !== 1) {
             await transaction.rollback()
@@ -461,6 +497,7 @@ async function remove(req, res) {
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
@@ -468,9 +505,13 @@ async function remove(req, res) {
 
 async function historialVentas(req, res) {
 
+    let transaction
+
     try {
 
         let usr = auth.decodeAuth(req)
+
+        transaction = await db.sequelize.transaction()
 
         let rows = await ca_historial_ventas.findAll({
             where: {
@@ -481,12 +522,16 @@ async function historialVentas(req, res) {
                 attributes: ['nombre']
             },
             order: [['fecha_modificacion', 'DESC']],
+            transaction
         })
+
+        await transaction.commit()
 
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 

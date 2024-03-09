@@ -4,7 +4,6 @@
 
       <thead>
         <tr class="table-info">
-          <!-- <th>Id</th> -->
           <th>Total</th>
           <th>Fecha</th>
           <th></th>
@@ -33,9 +32,9 @@
                   delete
                 </span>
               </button>
-              <button class="btn btn-sm mx-sm-1 resposive-button w-auto" *ngIf="venta?.id_modificado" data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#id' + i" aria-expanded="false" [attr.aria-controls]="'#id' + i"
-                (click)="historialVentas(venta.id)">
+              <button class="btn btn-sm mx-sm-1 resposive-button w-auto" *ngIf="venta?.id_modificado"
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#id' + i" aria-expanded="false"
+                [attr.aria-controls]="'#id' + i" (click)="historialVentas(venta.id)">
                 <span class="material-symbols-outlined">
                   expand_circle_down
                 </span>
@@ -56,7 +55,8 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let item of historial" data-bs-toggle="modal" data-bs-target="#historialVenta" (click)="setItemHistorial(item)">
+                <tr *ngFor="let item of historial" data-bs-toggle="modal" data-bs-target="#historialVenta"
+                  (click)="setItemHistorial(item)">
                   <td> {{ item.ca_usuario.nombre }} </td>
                   <td>{{ item.total_venta | currency }}</td>
                   <td>{{ item.fecha_modificacion | date:'dd MMM. hh:mm aaa' }}</td>

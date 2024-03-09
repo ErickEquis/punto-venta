@@ -79,21 +79,21 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
 
   deleteProducto(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.deleteProducto(id, this.options)
-    .subscribe(
-      (response) => {
-        this.toastr.success(response.mensaje, 'Éxito!');
-        this.getProdutos()
-      },
-      (error) => {
-        if (error.status == 403) {
-          setTimeout(() => {
-            this.authService.signOut()
-          }, 1500);
+    this.productoService.logicalDeleteProducto(id, this.options)
+      .subscribe(
+        (response) => {
+          this.toastr.success(response.mensaje, 'Éxito!');
+          this.getProdutos()
+        },
+        (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
+          this.toastr.error(error.error.mensaje, 'Error!');
         }
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+      )
   }
 
   eliminar(id: number) {

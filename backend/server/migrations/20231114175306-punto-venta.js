@@ -155,6 +155,10 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      logical_delete: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

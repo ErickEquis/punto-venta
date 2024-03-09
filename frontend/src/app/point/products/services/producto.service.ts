@@ -36,8 +36,12 @@ export class ProductoService {
     return this.http.patch<Productos[]>(`${this.url}/${id}`, body, options)
   }
 
-  deleteProducto(id: number, options: any): Observable<any> {
+  logicalDeleteProducto(id: number, options: any,): Observable<any> {
     return this.http.delete<Productos[]>(`${this.url}/${id}`, options)
   }
+
+  // deleteProducto(id: number, options: any): Observable<any> {
+  //   return this.http.delete<Productos[]>(`${this.url}/${id}`, options)
+  // }
 
 }

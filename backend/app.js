@@ -2,7 +2,7 @@ const express = require("express")
 const http = require('http')
 const cors = require('cors')
 const cron = require('node-cron');
-const { notificacionesInventario } = require('./server/controllers/productos')
+const { notificacionesInventario, deleteProductos } = require('./server/controllers/productos')
 
 const app = express()
 // Permite JSON (middleware)
@@ -26,8 +26,13 @@ require('./server/routes/catalogos')(app);
 
 // cron.schedule('* * * * * *', async () => {
 //     try {
-//         await notificacionesInventario()
+
+//         // await notificacionesInventario()
+
+//         // await deleteProductos()
+
 //     } catch (error) {
 //         console.error(error)
 //     }
+
 // });

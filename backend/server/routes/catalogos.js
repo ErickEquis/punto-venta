@@ -22,7 +22,8 @@ module.exports = (app) => {
     app.get('/productos/codigo/:codigo', auth.ensureAuth, producto.findCodigo)
     app.post('/productos', auth.ensureAuth, producto.create)
     app.patch('/productos/:id', auth.ensureAuth, producto.update)
-    app.delete('/productos/:id', auth.ensureAuth, producto.remove)
+    app.delete('/productos/:id', auth.ensureAuth, producto.logicalDelete)
+    // app.delete('/productos/delete/:id', auth.ensureAuth, producto.remove)
 
     app.get('/ventas', auth.ensureAuth, venta.findAll)
     app.get('/ventas/:id', auth.ensureAuth, venta.findById)

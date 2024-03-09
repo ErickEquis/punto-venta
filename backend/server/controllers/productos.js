@@ -11,6 +11,8 @@ const rules = require('../rules/productos')
 
 const auth = require('../services/auth')
 
+const moment = require('moment')
+
 async function findAll(req, res) {
     try {
 
@@ -39,6 +41,7 @@ async function findAll(req, res) {
         }
 
         clausula.id_equipo = usr.equipo
+        clausula.estatus = true
 
         let rows = await ca_productos.findAll({
             where: clausula,
@@ -62,7 +65,8 @@ async function findCodigo(req, res) {
         let row = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
-                codigo: req.params.codigo
+                codigo: req.params.codigo,
+                estatus: true
             },
             raw: true,
         })
@@ -97,7 +101,8 @@ async function findById(req, res) {
             where: {
                 id_equipo: usr.equipo,
                 id: req.params.id,
-                // cantidad: { [op.gt]: 0 }
+                cantidad: { [op.gt]: 0 },
+                estatus: true,
             }
         })
 
@@ -110,16 +115,6 @@ async function findById(req, res) {
 }
 
 async function create(req, res) {
-
-    /**
-     * data_producto:
-     * {
-     *  paquete: ,
-     *  catidad: ,
-     *  unidad_medida: ,
-     *  abreviatura: ,
-     * }
-    */
 
     let json = {}
 
@@ -203,6 +198,7 @@ async function update(req, res) {
                 where: {
                     id_equipo: usr.equipo,
                     id: req.params.id,
+                    estatus: true,
                 }, transaction
             })
 
@@ -224,47 +220,47 @@ async function update(req, res) {
     }
 }
 
-async function remove(req, res) {
+// async function remove(req, res) {
 
-    let json = {}
+//     let json = {}
 
-    try {
+//     try {
 
-        let usr = auth.decodeAuth(req)
+//         let usr = auth.decodeAuth(req)
 
-        let rule = rules.remove(req)
-        if (rule.codigo != 0) {
-            json.mensaje = rule.mensaje
-            return res.status(401).json(json)
-        }
+//         let rule = rules.remove(req)
+//         if (rule.codigo != 0) {
+//             json.mensaje = rule.mensaje
+//             return res.status(401).json(json)
+//         }
 
-        let transaction = await db.sequelize.transaction()
+//         let transaction = await db.sequelize.transaction()
 
-        let deleteProducto = await ca_productos.destroy({
-            where: {
-                id_equipo: usr.equipo,
-                id: req.params.id
-            }, transaction
-        })
+//         let deleteProducto = await ca_productos.destroy({
+//             where: {
+//                 id_equipo: usr.equipo,
+//                 id: req.params.id
+//             }, transaction
+//         })
 
-        if (!deleteProducto) {
-            await transaction.rollback();
-            return res.status(400).send({
-                mensaje: 'Lo sentimos, no fue posible eliminar el producto.',
-            });
-        }
+//         if (!deleteProducto) {
+//             await transaction.rollback();
+//             return res.status(400).send({
+//                 mensaje: 'Lo sentimos, no fue posible eliminar el producto.',
+//             });
+//         }
 
-        await transaction.commit();
+//         await transaction.commit();
 
-        json.mensaje = "Producto eliminado con exito."
+//         json.mensaje = "Producto eliminado con exito."
 
-        res.status(200).json(json)
+//         res.status(200).json(json)
 
-    } catch (error) {
-        console.error(error)
-        return res.status(500).json({ msg: error })
-    }
-}
+//     } catch (error) {
+//         console.error(error)
+//         return res.status(500).json({ msg: error })
+//     }
+// }
 
 async function notificacionesInventario() {
 
@@ -332,12 +328,117 @@ async function notificacionesInventario() {
 
 }
 
+async function logicalDelete(req, res) {
+
+    let transaction
+
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        transaction = await db.sequelize.transaction()
+
+        let producto = await ca_productos.findOne({
+            attributes: ['estatus'],
+            where: {
+                id: req.params.id,
+                id_equipo: usr.equipo
+            },
+            raw: true,
+            transaction
+        })
+
+        if (!producto) {
+            return res.status(400).json({ mensaje: 'No fue posible encontrar el producto.' })
+        }
+
+        let logicalProducto = await ca_productos.update(
+            {
+                estatus: !producto.estatus,
+                logical_delete: moment().tz("America/Mexico_City")
+            },
+            {
+                where: {
+                    id: req.params.id,
+                    id_equipo: usr.equipo
+                },
+                transaction
+            }
+        )
+
+        if (!logicalProducto || logicalProducto[0] != 1) {
+            await transaction.rollback()
+            return res.status(400).json({ mensaje: 'No fue posible eliminar el producto.' })
+        }
+
+        await transaction.commit()
+
+        return res.status(200).json({ mensaje: 'Producto eliminado.' })
+
+    } catch (error) {
+        console.error(error)
+        await transaction.rollback()
+        return res.status(500).json({ msg: error })
+    }
+
+}
+
+async function deleteProductos() {
+
+    let transaction
+
+    try {
+
+        transaction = await db.sequelize.transaction()
+
+        let productos = await ca_productos.findAll({
+            attributes: ['id'],
+            where: {
+                logical_delete: moment().add(-7, 'days').tz("America/Mexico_City").format("YYYY-MM-DD"),
+                estatus: false
+            },
+            raw: true,
+            transaction
+        })
+
+        if (productos) {
+
+            for (let i = 0; i < productos.length; i++) {
+                let deleteProducto = await ca_productos.destroy({
+                    where: {
+                        id: productos[i].id
+                    },
+                    transaction
+                })
+
+                if (!deleteProducto) {
+                    console.log(`El producto con id ${i} no pudo ser eliminado`)
+                    await transaction.rollback()
+                }
+            }
+
+        }
+
+        console.log('Cron: Productos.')
+
+        await transaction.commit()
+
+    } catch (error) {
+        console.error(error)
+        await transaction.rollback()
+        return res.status(500).json({ msg: error })
+    }
+
+}
+
 module.exports = {
     findAll,
     findById,
     findCodigo,
     create,
     update,
-    remove,
+    // remove,
     notificacionesInventario,
+    logicalDelete,
+    deleteProductos
 }
