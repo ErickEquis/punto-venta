@@ -43,6 +43,8 @@
         "ventas": 3
       }
     },
-    "error_general": "Sin autorización."
+    "error_general": "Sin autorización.",
+    "mail": "no.responder.point@gmail.com",
+    "token_mail": "zrjooozjkxbnyxvc"
   }
 }

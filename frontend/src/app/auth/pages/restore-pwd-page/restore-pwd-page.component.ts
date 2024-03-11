@@ -6,6 +6,7 @@ import { Md5 } from 'md5-typescript';
 
 import { AuthService } from '../../services/auth.service';
 import { HttpParams } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class RestorePwdPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -52,8 +54,12 @@ export class RestorePwdPageComponent implements OnInit {
       .set('token', this.token)
     this.formRestorePwd.value.contrasenia = Md5.init(this.formRestorePwd.value.contrasenia)
     this.authService.restorePwd(this.formRestorePwd.value, this.options)
-      .subscribe()
-    window.location.assign('/auth/log-in')
+      .subscribe(response => {
+        this.toastr.success('', response.mensaje);
+        this.router.navigate(["/auth/log-in"])
+      },
+        error => { this.toastr.error('', error.error.mensaje); }
+      )
   }
 
 }

@@ -19,7 +19,7 @@ export class ModalAddMemberComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    ) {
+  ) {
     this.formAddMember = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email])
     })
@@ -42,14 +42,20 @@ export class ModalAddMemberComponent implements OnInit {
 
   addMember() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    console.log(this.formAddMember)
     this.authService.addMember(this.formAddMember.value, this.options).subscribe(
-      (response) => this.toastr.success(response.mensaje, 'Éxito!'),
+      (response) => {
+        this.toastr.success('', response.mensaje)
+        this.resetForm()
+      },
       (error) => {
-        this.toastr.error(error.error.mensaje, 'Error!')
-        this.formAddMember.reset()
+        this.toastr.error('', error.error.mensaje)
+        this.resetForm()
       }
     )
+  }
+
+  resetForm() {
+    this.formAddMember.reset()
   }
 
 }

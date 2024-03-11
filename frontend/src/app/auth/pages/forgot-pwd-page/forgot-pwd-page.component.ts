@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-pwd-page',
@@ -11,7 +13,11 @@ export class ForgotPwdPageComponent implements OnInit {
 
   formForgotPwd: any
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit() {
     localStorage.removeItem("identity_user")
@@ -26,7 +32,13 @@ export class ForgotPwdPageComponent implements OnInit {
 
   forgotPwd() {
     this.authService.forgotPwd(this.formForgotPwd.value)
-    .subscribe()
+      .subscribe(
+        response => {
+          this.toastr.success('', response.mensaje);
+          this.router.navigate(["/auth/log-in"])
+        },
+        error => { this.toastr.error('', error.error.mensaje); }
+      )
   }
 
 }

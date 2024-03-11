@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'md5-typescript';
 
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup-page',
@@ -18,7 +19,8 @@ export class SignupPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
-    ) {
+    private router: Router,
+  ) {
   }
 
   ngOnInit() {
@@ -52,10 +54,10 @@ export class SignupPageComponent implements OnInit {
     this.authService.signUp(this.formSignUp.value)
       .subscribe(
         (response) => {
-          this.toastr.success(response.mensaje, '')
-          window.location.assign('/auth/log-in')
+          this.toastr.success('', response.mensaje);
+          this.router.navigate(["/auth/log-in"])
         },
-        (error) => { this.toastr.error(error.mensaje, 'Error!'); }
+        error => { this.toastr.error('', error.error.mensaje); }
       )
   }
 

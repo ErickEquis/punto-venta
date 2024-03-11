@@ -39,7 +39,7 @@ function ensureAuthParam(req, res, next) {
     try {
         decodeAuth(req)
     } catch (error) {
-        return res.status(403).json({ mensaje: "Sesión expirada, por favor inicie de nuevo la sesión." })
+        return res.status(403).json({ mensaje: "Token expirado." })
     }
 
     next()

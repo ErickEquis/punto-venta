@@ -56,10 +56,10 @@ export class NewMemberComponent implements OnInit {
     this.authService.signUpMember(this.formMember.value, this.options)
       .subscribe(
         (response) => {
-          this.toastr.success(response.mensaje, '')
-          window.location.assign('/auth/sign-in')
+          this.toastr.success('', response.mensaje);
+          this.router.navigate(["/auth/log-in"])
         },
-        (error) => { this.toastr.error(error.mensaje, 'Error!'); }
+          error => { this.toastr.error('', error.error.mensaje); }
       )
   }
 

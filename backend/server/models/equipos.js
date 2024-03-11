@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
             },
             nombre: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
             },
             integrantes: {
                 type: DataTypes.JSONB,

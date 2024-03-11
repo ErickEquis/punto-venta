@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fs-5" id="exampleModalLabel">Agrega un miembro a tu equipo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="formAddMember" (ngSubmit)="addMember()">
@@ -20,7 +20,7 @@
           <div class="modal-footer">
             <button type="submit" class="btn btn-danger btn mx-1" [disabled]="!formAddMember.valid"
               data-bs-dismiss="modal">Agregar</button>
-            <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal" (click)="resetForm()">Cancelar</button>
           </div>
         </form>
       </div>

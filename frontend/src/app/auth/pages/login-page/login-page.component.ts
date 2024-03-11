@@ -44,7 +44,7 @@ export class LoginPageComponent implements OnInit {
         window.location.assign('/point/home')
       },
         (error) => {
-          this.toastr.error(error.error.mensaje, 'Error!');
+          this.toastr.error('', error.error.mensaje);
         }
       )
   }
