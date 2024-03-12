@@ -6,6 +6,7 @@ import { LayoutAuthPageComponent } from './pages/layout-auth-page/layout-auth-pa
 import { RestorePwdPageComponent } from './pages/restore-pwd-page/restore-pwd-page.component';
 import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.component';
 import { NewMemberComponent } from './pages/new-member/new-member.component';
+import { ConfirmarCuentaComponent } from './pages/confirmar-cuenta/confirmar-cuenta.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'new-member', component: NewMemberComponent
+      },
+      {
+        path: 'confirmar-cuenta', component: ConfirmarCuentaComponent
       },
       {
         path: "**", redirectTo: 'log-in', pathMatch: 'full'

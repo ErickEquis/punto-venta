@@ -18,7 +18,18 @@ function restorePwd(data) {
 
 }
 
+function newUsuario(data) {
+
+    return `
+    <h1>Bienvenido a Point.</h1>
+    <p>Por favor da click en el siguiente enlace para confirmar tu correo electronico.</p>
+    <a href="http://localhost:4040/auth/confirmar-cuenta?token=${data.token}"> Confirmar cuenta. </a>
+    `
+
+}
+
 module.exports = {
     newMember,
     restorePwd,
+    newUsuario
 }

@@ -117,7 +117,7 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
                 this.authService.signOut()
               }, 1500);
             }
-            this.toastr.error(error.error.mensaje, 'Error!');
+            this.toastr.error('', error.error.mensaje);
           }
         )
     }
@@ -136,7 +136,7 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
               this.authService.signOut()
             }, 1500);
           }
-          this.toastr.error(error.error.mensaje, 'Error!');
+          this.toastr.error('', error.error.mensaje);
         }
       )
   }
@@ -163,8 +163,8 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
 
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.ventasService.createVenta(this.bodyVenta, this.options).subscribe(
-      (response) => this.toastr.success(response.mensaje, 'Éxito!'),
-      (error) => this.toastr.error(error.error.mensaje, 'Error!')
+      (response) => this.toastr.success('', response.mensaje),
+      (error) => this.toastr.error('', error.error.mensaje)
     )
 
     this.ventaProductos = []
@@ -184,7 +184,7 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
             this.itemById = producto
             this.agregarProducto()
           },
-          (error) => this.toastr.error(error.error.mensaje, 'Error!')
+          (error) => this.toastr.error('', error.error.mensaje)
         )
     }
   }

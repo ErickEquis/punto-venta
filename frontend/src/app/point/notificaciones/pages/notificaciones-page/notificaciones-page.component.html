@@ -7,6 +7,9 @@
           <td data-bs-toggle="modal" data-bs-target="#notificacionModal">
             {{ notificacion.descripcion }}
           </td>
+          <td data-bs-toggle="modal" data-bs-target="#notificacionModal">
+            {{ notificacion.fecha }}
+          </td>
           <td>
             <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button w-100"
               (click)="delete(notificacion.id)">

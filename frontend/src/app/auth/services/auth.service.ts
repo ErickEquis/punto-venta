@@ -60,4 +60,8 @@ export class AuthService {
       : { PasswordNoMatch: true };
   }
 
+  confirmarCuenta(options: any): Observable<any> {
+    return this.http.patch(`${this.url}confirmar-cuenta`, null, options)
+  }
+
 }

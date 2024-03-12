@@ -12,6 +12,7 @@ module.exports = (app) => {
     app.patch('/auth/restore-pwd', auth.ensureAuthParam, usuario.restorePwd)
     app.put('/auth/new-member/token', auth.ensureAuth, usuario.newMemberToken)
     app.post('/auth/new-member', auth.ensureAuthParam, usuario.createMember)
+    app.patch('/auth/confirmar-cuenta', auth.ensureAuthParam, usuario.confirmar)
 
     app.get('/usuarios', auth.ensureAuth, usuario.findAll)
     app.get('/usuarios/:id', auth.ensureAuth, usuario.findById)

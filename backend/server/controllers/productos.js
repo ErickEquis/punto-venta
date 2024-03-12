@@ -14,6 +14,9 @@ const auth = require('../services/auth')
 const moment = require('moment')
 
 async function findAll(req, res) {
+
+    let transaction
+
     try {
 
         let usr = auth.decodeAuth(req)
@@ -43,24 +46,35 @@ async function findAll(req, res) {
         clausula.id_equipo = usr.equipo
         clausula.estatus = true
 
+        transaction = await db.sequelize.transaction()
+
         let rows = await ca_productos.findAll({
             where: clausula,
             order: [['descripcion', 'ASC']],
             raw: true,
+            transaction
         });
+
+        await transaction.commit()
 
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
 
 async function findCodigo(req, res) {
+
+    let transaction
+
     try {
 
         let usr = auth.decodeAuth(req)
+
+        transaction = await db.sequelize.transaction()
 
         let row = await ca_productos.findOne({
             where: {
@@ -69,16 +83,20 @@ async function findCodigo(req, res) {
                 estatus: true
             },
             raw: true,
+            transaction
         })
 
         if (!row) {
             return res.status(400).json({ mensaje: "Producto no encontrado." })
         }
 
+        await transaction.commit()
+
         return res.status(200).json(row)
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
@@ -86,6 +104,7 @@ async function findCodigo(req, res) {
 async function findById(req, res) {
 
     let json = {}
+    let transaction
 
     try {
 
@@ -97,19 +116,25 @@ async function findById(req, res) {
             return res.status(401).json(json)
         }
 
+        transaction = db.sequelize.transaction()
+
         let row = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
                 id: req.params.id,
                 cantidad: { [op.gt]: 0 },
                 estatus: true,
-            }
+            },
+            transaction
         })
+
+        await transaction.commit()
 
         return res.status(200).json(row)
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
@@ -117,6 +142,7 @@ async function findById(req, res) {
 async function create(req, res) {
 
     let json = {}
+    let transaction
 
     try {
 
@@ -128,6 +154,8 @@ async function create(req, res) {
             return res.json(json)
         }
 
+        transaction = db.sequelize.transaction()
+
         let existeProducto = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
@@ -135,14 +163,13 @@ async function create(req, res) {
                     descripcion: req.body.descripcion,
                     codigo: req.body.codigo,
                 }
-            }
+            },
+            transaction
         })
 
         if (existeProducto) {
             return res.status(400).json({ mensaje: "Lo sentimos, existe un producto con la misma descripcion y/o codigo." })
         }
-
-        let transaction = await db.sequelize.transaction();
 
         let newProducto = await ca_productos.create({
             id_equipo: usr.equipo,
@@ -151,7 +178,7 @@ async function create(req, res) {
             cantidad: req.body.cantidad,
             codigo: req.body.codigo,
             estatus: true
-        }, transaction)
+        }, { transaction })
 
         if (!newProducto) {
             await transaction.rollback();
@@ -168,6 +195,7 @@ async function create(req, res) {
 
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
@@ -175,6 +203,7 @@ async function create(req, res) {
 async function update(req, res) {
 
     let json = {}
+    let transaction
 
     try {
 
@@ -186,7 +215,7 @@ async function update(req, res) {
             return res.status(401).json(json)
         }
 
-        let transaction = await db.sequelize.transaction()
+        transaction = await db.sequelize.transaction()
 
         let updateProducto = await ca_productos.update({
             descripcion: req.body.descripcion,
@@ -202,7 +231,7 @@ async function update(req, res) {
                 }, transaction
             })
 
-        if (!updateProducto) {
+        if (!updateProducto || updateProducto[0] != 1) {
             await transaction.rollback();
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no fue posible actualizar el producto.',
@@ -216,6 +245,7 @@ async function update(req, res) {
         return res.status(200).json(json)
     } catch (error) {
         console.error(error)
+        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
@@ -264,6 +294,8 @@ async function update(req, res) {
 
 async function notificacionesInventario() {
 
+    let transaction
+
     try {
 
         let id_equipos = await ca_productos.findAll({
@@ -275,6 +307,8 @@ async function notificacionesInventario() {
         let productos
         var arrNotificacion = []
 
+        transaction = await db.sequelize.transaction()
+
         for (let i = 0; i < id_equipos.length; i++) {
             productos = await ca_productos.findAll({
                 attributes: ['descripcion', 'cantidad'],
@@ -284,7 +318,8 @@ async function notificacionesInventario() {
                         [op.lt]: [10]
                     }
                 },
-                raw: true
+                raw: true,
+                transaction
             })
             if (productos.length != 0) {
                 arrNotificacion.push(
@@ -299,15 +334,15 @@ async function notificacionesInventario() {
         }
 
         let updateNotificacion
-        let transaction = await db.sequelize.transaction()
 
         for (let j = 0; j < arrNotificacion.length; j++) {
             updateNotificacion = await ca_notificaciones.create({
                 id_equipo: arrNotificacion[j].id_equipo,
                 id_categoria: arrNotificacion[j].id_categoria,
                 data: arrNotificacion[j].data,
-                descripcion: arrNotificacion[j].descripcion
-            }, transaction)
+                descripcion: arrNotificacion[j].descripcion,
+                fecha: moment().tz("America/Mexico_City")
+            }, { transaction })
 
             if (!updateNotificacion) {
                 await transaction.rollback();
@@ -323,6 +358,7 @@ async function notificacionesInventario() {
         return
 
     } catch (error) {
+        await transaction.rollback()
         console.error(error)
     }
 

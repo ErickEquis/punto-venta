@@ -48,12 +48,15 @@ async function sendMail(data) {
 }
 
 function selectTemplate(data) {
-    switch (data.subject) {
-        case "Unete a tu equipo.":
+    switch (data.option) {
+        case 1:
             return template_usuarios.newMember(data);
 
-        case "Restaurar contraseña.":
-            return template_usuarios.restorePwd(data)
+        case 2:
+            return template_usuarios.restorePwd(data);
+
+        case 3:
+            return template_usuarios.newUsuario(data);
 
         default:
             break;

@@ -68,7 +68,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
               this.authService.signOut()
             }, 1500);
           }
-          this.toastr.error(error.error.mensaje, 'Error!');
+          this.toastr.error('', error.error.mensaje);
         }
       )
   }
@@ -82,7 +82,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
     this.productoService.logicalDeleteProducto(id, this.options)
       .subscribe(
         (response) => {
-          this.toastr.success(response.mensaje, 'Éxito!');
+          this.toastr.success('', response.mensaje);
           this.getProdutos()
         },
         (error) => {
@@ -91,7 +91,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
               this.authService.signOut()
             }, 1500);
           }
-          this.toastr.error(error.error.mensaje, 'Error!');
+          this.toastr.error('', error.error.mensaje);
         }
       )
   }

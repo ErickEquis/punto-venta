@@ -12,7 +12,7 @@ export class NotificacionesPageComponent implements OnInit {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   options: any = {}
-  notificaciones: any
+  notificaciones: any[] = []
   data: any
 
   constructor(
@@ -48,11 +48,11 @@ export class NotificacionesPageComponent implements OnInit {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : null
     this.notificacionesService.deleteNotificacion(id, this.options).subscribe(
       (response) => {
-        this.toastr.success(response.mensaje, 'Éxito!');
+        this.toastr.success('', response.mensaje);
         this.getNotificaciones()
       },
       (error) => {
-        this.toastr.error(error.error.mensaje, 'Error!');
+        this.toastr.error('', error.error.mensaje);
       }
     )
   }

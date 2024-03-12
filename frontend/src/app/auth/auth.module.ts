@@ -9,6 +9,7 @@ import { CarouselComponent } from './components/carousel/carousel.component';
 import { RestorePwdPageComponent } from './pages/restore-pwd-page/restore-pwd-page.component';
 import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.component';
 import { NewMemberComponent } from './pages/new-member/new-member.component';
+import { ConfirmarCuentaComponent } from './pages/confirmar-cuenta/confirmar-cuenta.component';
 
 
 
@@ -20,7 +21,8 @@ import { NewMemberComponent } from './pages/new-member/new-member.component';
     CarouselComponent,
     RestorePwdPageComponent,
     ForgotPwdPageComponent,
-    NewMemberComponent
+    NewMemberComponent,
+    ConfirmarCuentaComponent
   ],
   imports: [
     CommonModule,

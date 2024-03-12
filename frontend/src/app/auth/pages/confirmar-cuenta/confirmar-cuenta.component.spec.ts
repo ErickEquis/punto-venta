@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalNoficacionComponent } from './modal-noficacion.component';
+import { ConfirmarCuentaComponent } from './confirmar-cuenta.component';
 
-describe('ModalNoficacionComponent', () => {
-  let component: ModalNoficacionComponent;
-  let fixture: ComponentFixture<ModalNoficacionComponent>;
+describe('ConfirmarCuentaComponent', () => {
+  let component: ConfirmarCuentaComponent;
+  let fixture: ComponentFixture<ConfirmarCuentaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalNoficacionComponent ]
+      declarations: [ ConfirmarCuentaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalNoficacionComponent);
+    fixture = TestBed.createComponent(ConfirmarCuentaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -194,7 +194,8 @@ async function forgotPwd(req, res) {
         let data = {
             correo: req.body.correo,
             subject: "Restaurar contraseña.",
-            token: token
+            token: token,
+            option: 2
         }
 
         let send = await mail.sendMail(data)
@@ -265,7 +266,8 @@ async function newMemberToken(req, res) {
             equipo: user.ca_equipo.nombre,
             token: token,
             correo: req.body.correo,
-            subject: "Unete a tu equipo."
+            subject: "Unete a tu equipo.",
+            option: 1
         }
 
         let send = await mail.sendMail(data)
@@ -306,7 +308,7 @@ async function findAll(req, res) {
             transaction
         },
         )
-
+        Éxito
         return res.status(200).json(users)
 
     } catch (error) {
@@ -389,7 +391,7 @@ async function create(req, res) {
             correo: req.body.correo,
             id_rol: config.api.rol.administrador,
             is_admin: true,
-            estatus: true
+            estatus: false
         }, { transaction })
 
         if (!newUsuario) {
@@ -401,7 +403,29 @@ async function create(req, res) {
 
         await transaction.commit();
 
-        json.mensaje = "Usuario creado con éxito."
+        let payload = {
+            "id": newUsuario["dataValues"].id,
+            "correo": newUsuario["dataValues"].correo,
+            "estatus": newUsuario["dataValues"].estatus,
+            "exp": moment().add(1, "hour").unix(),
+        }
+
+        let token = auth.encodeAuth(payload)
+
+        let data = {
+            correo: newUsuario["dataValues"].correo,
+            subject: "Confirmar cuenta.",
+            token: token,
+            option: 3
+        }
+
+        let send = await mail.sendMail(data)
+
+        if (send.status != 200) {
+            return res.status(400).json({ mensaje: "No fue posible enviar el correo." })
+        }
+
+        json.mensaje = "Revisa tu correo electronico para confirmar tu cuenta."
 
         return res.status(200).json(json)
 
@@ -594,6 +618,60 @@ async function remove(req, res) {
     }
 }
 
+async function confirmar(req, res) {
+
+    let transaction
+
+    try {
+
+        let usr = auth.decodeAuth(req)
+
+        transaction = await db.sequelize.transaction()
+
+        let user = await ca_usuarios.findOne({
+            where: {
+                id: usr.id,
+                correo: usr.correo,
+                estatus: usr.estatus
+            },
+            transaction
+        })
+
+        if (!user) {
+            await transaction.rollback()
+            return res.status(400).json({ mensaje: 'Error!' })
+        }
+
+        let update = await ca_usuarios.update(
+            {
+                estatus: true
+            },
+            {
+                where: {
+                    id: usr.id,
+                    correo: usr.correo,
+                    estatus: usr.estatus
+                },
+                transaction
+            },
+        )
+
+        if (!update || update[0] != 1) {
+            await transaction.rollback()
+            return res.status(400).json({ mensaje: 'No fue posible confirmar la cuenta.' })
+        }
+
+        await transaction.commit()
+
+        return res.status(200).json({ mensaje: 'Cuenta confirmada.' })
+
+    } catch (error) {
+        console.error(error)
+        await transaction.rollback()
+        return res.status(500).json({ msg: error })
+    }
+}
+
 module.exports = {
     crearSesion,
     restorePwd,
@@ -605,4 +683,5 @@ module.exports = {
     createMember,
     update,
     remove,
+    confirmar,
 }

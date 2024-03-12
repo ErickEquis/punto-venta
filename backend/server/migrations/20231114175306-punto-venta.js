@@ -339,6 +339,10 @@ module.exports = {
         type: DataTypes.JSONB,
         allowNull: false,
       },
+      fecha: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
       estatus: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

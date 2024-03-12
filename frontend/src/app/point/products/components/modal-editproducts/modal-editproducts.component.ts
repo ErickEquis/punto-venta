@@ -72,7 +72,7 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
     this.productoService.editProducto(this.productoEditId, this.formEdit.value, options)
       .subscribe(
         (response) => {
-          this.toastr.success(response.mensaje, 'Éxito!');
+          this.toastr.success('', response.mensaje);
           this.reloadInventario()
         },
         (error) => {
@@ -81,7 +81,7 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
               this.authService.signOut()
             }, 1500);
           }
-          this.toastr.error(error.error.mensaje, 'Error!');
+          this.toastr.error('', error.error.mensaje);
         }
       )
   }
