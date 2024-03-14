@@ -54,6 +54,7 @@ export class ModalAddproductsComponent implements OnInit {
         (response) => {
           this.toastr.success('', response.mensaje);
           this.reloadInventario()
+          this.formAdd.reset()
         },
         (error) => {
           if (error.status == 403) {
@@ -62,6 +63,7 @@ export class ModalAddproductsComponent implements OnInit {
             }, 1500);
           }
           this.toastr.error('', error.error.mensaje);
+          this.formAdd.reset()
         }
       )
   }
@@ -77,6 +79,18 @@ export class ModalAddproductsComponent implements OnInit {
 
   cleanForm() {
     this.formAdd.reset()
+  }
+
+  get descripcion() {
+    return this.formAdd.get('descripcion').value
+  }
+
+  get precio() {
+    return this.formAdd.get('precio').value
+  }
+
+  get cantidad() {
+    return this.formAdd.get('cantidad').value
   }
 
 }

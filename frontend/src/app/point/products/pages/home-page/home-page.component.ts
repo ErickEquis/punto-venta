@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnChanges, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError } from 'rxjs';
@@ -14,19 +14,11 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent implements OnInit, OnChanges, DoCheck {
+export class HomePageComponent implements OnInit, DoCheck {
 
   identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
   listProductos: Productos[] = []
-  ventaProductos: any[] = [
-    // {
-    //   id: 1,
-    //   descripcion: 'string',
-    //   precio: 1,
-    //   cantidad: 1,
-    //   estatus: true
-    // }
-  ]
+  ventaProductos: any[] = []
   productoBuscado: string = ''
   itemById: Productos[]
   item: any = {}
@@ -38,7 +30,6 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
   isDisabledAgregar: boolean
   camara: boolean = false
   options: any = {}
-  isDisabledAdd: boolean
 
   constructor(
     private productoService: ProductoService,
@@ -51,9 +42,6 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     this.authService.checkSignIn(this.identityUser);
     (window.innerWidth < 576) ? this.modal = 'modal' : this.modal = '';
     document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
-  }
-
-  ngOnChanges(): void {
   }
 
   ngDoCheck(): void {
@@ -74,9 +62,23 @@ export class HomePageComponent implements OnInit, OnChanges, DoCheck {
     let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
     let i = this.ventaProductos.indexOf(p);
     this.ventaProductos[i].cantidad += n;
-    (this.ventaProductos[i].cantidad == this.ventaProductos[i].stock) ? this.isDisabledAdd = true : this.isDisabledAdd = null
+    this.edit(this.ventaProductos[i])
     if (this.ventaProductos[i].cantidad == 0) {
       this.eliminar(p)
+    }
+  }
+
+  edit(item: any) {
+    if (item.cantidad <= 1) {
+      document.getElementById(String(`${item.id}remove`)).setAttribute('disabled', 'true')
+    } else {
+      document.getElementById(String(`${item.id}remove`)).removeAttribute('disabled')
+    }
+
+    if (item.cantidad == item.stock) {
+      document.getElementById(String(`${item.id}add`)).setAttribute('disabled', 'true')
+    } else {
+      document.getElementById(String(`${item.id}add`)).removeAttribute('disabled')
     }
   }
 

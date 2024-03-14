@@ -116,7 +116,7 @@ async function findById(req, res) {
             return res.status(401).json(json)
         }
 
-        transaction = db.sequelize.transaction()
+        transaction = await db.sequelize.transaction()
 
         let row = await ca_productos.findOne({
             where: {
@@ -151,19 +151,30 @@ async function create(req, res) {
         let rule = rules.create(req.body)
         if (rule.codigo != 0) {
             json.mensaje = rule.mensaje
-            return res.json(json)
+            return res.status(400).json(json)
         }
 
-        transaction = db.sequelize.transaction()
+        let clausula = {}
 
-        let existeProducto = await ca_productos.findOne({
-            where: {
-                id_equipo: usr.equipo,
+        if (req.body.codigo) {
+            clausula = {
                 [op.or]: {
                     descripcion: req.body.descripcion,
                     codigo: req.body.codigo,
-                }
-            },
+                },
+                id_equipo: usr.equipo,
+            }
+        } else {
+            clausula = {
+                descripcion: req.body.descripcion,
+                id_equipo: usr.equipo,
+            }
+        }
+
+        transaction = await db.sequelize.transaction()
+
+        let existeProducto = await ca_productos.findOne({
+            where: clausula,
             transaction
         })
 

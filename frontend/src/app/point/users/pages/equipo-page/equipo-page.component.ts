@@ -59,7 +59,7 @@ export class EquipoPageComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-    this.options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.options.token = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.userService.deleteUser(id, this.options)
       .subscribe(
         (response) => {

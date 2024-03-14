@@ -72,7 +72,6 @@ export class ModalEditVentaComponent implements OnInit, OnChanges, DoCheck {
     } else {
       document.getElementById(String(`${item.id}add`)).removeAttribute('disabled')
     }
-
   }
 
   hiddenData() {

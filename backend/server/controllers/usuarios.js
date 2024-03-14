@@ -308,7 +308,6 @@ async function findAll(req, res) {
             transaction
         },
         )
-        Éxito
         return res.status(200).json(users)
 
     } catch (error) {
@@ -598,7 +597,7 @@ async function remove(req, res) {
             }, transaction
         })
 
-        if (!deleteUsuario || deleteUsuario[0] != 1) {
+        if (!deleteUsuario) {
             await transaction.rollback();
             return res.status(400).send({
                 mensaje: 'Lo sentimos, no fue posible eliminar al usuario.',

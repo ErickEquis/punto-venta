@@ -14,13 +14,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let producto of ventaProductos" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto"
+        <tr *ngFor="let producto of ventaProductos, let i = index" [attr.data-bs-toggle]="modal" data-bs-target="#editProducto"
           (click)="editProducto(producto)">
           <td class="overflow-x-hidden text-nowrap" style="max-width: 1em;">{{ producto.descripcion | titlecase }}</td>
           <td>{{ producto.precio | currency }}</td>
           <td>{{ producto.cantidad }}</td>
           <td class="d-xs-none">
-            <button type="button" class="btn btn-primary btn-sm" [attr.disabled]="isDisabledAdd"
+            <button [id]="producto.id+'add'" type="button" class="btn btn-primary btn-sm"
               (click)="cantidadVenta(1, producto)">
               <span class="material-symbols-outlined">
                 add
@@ -31,7 +31,7 @@
                 delete
               </span>
             </button>
-            <button type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
+            <button [id]="producto.id+'remove'" type="button" class="btn btn-primary btn-sm" (click)="cantidadVenta(-1, producto)">
               <span class="material-symbols-outlined">
                 remove
               </span>
@@ -56,7 +56,7 @@
   <div class="container-fluid">
     <form (ngSubmit)='agregarProducto(item)'>
       <div class="input-group">
-        <input name="productoInput" type="text" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
+        <input name="productoInput" type="text" autocomplete="off" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
           aria-label="Producto" [(ngModel)]="productoBuscado" (keyup)="getProductos()">
         <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal"
           data-bs-target="#scanBarcode" (click)="camaraEstatus()">

@@ -277,7 +277,6 @@ async function create(req, res) {
                     transaction
                 },
             )
-            console.log(cantidad[0][0][0].cantidad)
             if (cantidad[0][1] !== 1) {
                 await transaction.rollback();
                 return res.status(400).send({
@@ -291,7 +290,7 @@ async function create(req, res) {
 
         await transaction.commit();
 
-        return res.status(200).json({ mensaje: "Éxito." })
+        return res.status(200).json({ mensaje: "Venta registrada." })
 
     } catch (error) {
         console.error(error)

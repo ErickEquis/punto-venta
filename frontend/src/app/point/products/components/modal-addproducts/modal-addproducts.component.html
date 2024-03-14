@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn" data-bs-dismiss="modal">Agregar</button>
+            <button type="submit" class="btn btn-danger btn" data-bs-dismiss="modal" [disabled]="(!descripcion || !precio || !cantidad)">Agregar</button>
             <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal" (click)="cleanForm()">Cancelar</button>
           </div>
         </form>
