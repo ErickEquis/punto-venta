@@ -69,6 +69,7 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
 
   editProducto() {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.formEdit.value.descripcion = this.formEdit.value.descripcion.toLowerCase()
     this.productoService.editProducto(this.productoEditId, this.formEdit.value, options)
       .subscribe(
         (response) => {

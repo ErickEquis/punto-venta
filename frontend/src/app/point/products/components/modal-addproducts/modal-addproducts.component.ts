@@ -49,6 +49,7 @@ export class ModalAddproductsComponent implements OnInit {
 
   addProducto() {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
+    this.formAdd.value.descripcion = this.formAdd.value.descripcion.toLowerCase()
     this.productoService.createProducto(this.formAdd.value, options)
       .subscribe(
         (response) => {

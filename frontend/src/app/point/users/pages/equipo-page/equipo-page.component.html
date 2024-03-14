@@ -1,4 +1,4 @@
-<div class="container-lg h-100">
+<div class="container-sm h-100">
 
   <div class="container-fluid tab pt-3 h-50 px-0 text-center">
     <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
@@ -16,7 +16,7 @@
       <tbody>
 
         <tr *ngFor="let user of listUsers">
-          <td>
+          <td class="overflow-x-hidden text-nowrap" style="max-width: 1rem;">
             {{ user.nombre }}
           </td>
           <td>
@@ -26,7 +26,7 @@
             <button type="submit" class="btn btn-danger btn-sm mx-1" (click)="deleteUser(user.id)">Eliminar</button>
           </td>
         </tr>
-        
+
       </tbody>
     </table>
 

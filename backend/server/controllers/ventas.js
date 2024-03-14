@@ -110,7 +110,7 @@ async function findMayorVendedores(req, res) {
         let usr = auth.decodeAuth(req)
 
         if (usr.rol != config.api.rol.administrador) {
-            return
+            return res.status(400).mensaje({mensaje: config.api.error_general})
         }
 
         transaction = await db.sequelize.transaction()

@@ -24,15 +24,15 @@ app.use(cors())
 
 require('./server/routes/catalogos')(app);
 
-// cron.schedule('* * * * * *', async () => {
-//     try {
+cron.schedule('0 1 * * *', async () => {
+    try {
 
-//         // await notificacionesInventario()
+        await notificacionesInventario()
 
-//         // await deleteProductos()
+        await deleteProductos()
 
-//     } catch (error) {
-//         console.error(error)
-//     }
+    } catch (error) {
+        console.error(error)
+    }
 
-// });
+});

@@ -163,11 +163,13 @@ async function create(req, res) {
                     codigo: req.body.codigo,
                 },
                 id_equipo: usr.equipo,
+                estatus: true
             }
         } else {
             clausula = {
                 descripcion: req.body.descripcion,
                 id_equipo: usr.equipo,
+                estatus: true
             }
         }
 
@@ -182,20 +184,62 @@ async function create(req, res) {
             return res.status(400).json({ mensaje: "Lo sentimos, existe un producto con la misma descripcion y/o codigo." })
         }
 
-        let newProducto = await ca_productos.create({
-            id_equipo: usr.equipo,
-            descripcion: req.body.descripcion,
-            precio: req.body.precio,
-            cantidad: req.body.cantidad,
-            codigo: req.body.codigo,
-            estatus: true
-        }, { transaction })
+        // Si el producto tiene estatus = false, se reactiva.
+        let is_disabled = await ca_productos.findOne({
+            where: {
+                id_equipo: usr.equipo,
+                descripcion: req.body.descripcion,
+                codigo: req.body.codigo,
+                estatus: false,
+            },
+            raw: true,
+            transaction
+        })
 
-        if (!newProducto) {
-            await transaction.rollback();
-            return res.status(400).send({
-                mensaje: 'Lo sentimos, no fue posible agregar el producto.',
-            });
+        if (is_disabled) {
+
+            let reactivar_producto = await ca_productos.update(
+                {
+                    cantidad: req.body.cantidad,
+                    precio: req.body.precio,
+                    estatus: true,
+                    logical_delete: null
+                },
+                {
+                    where: {
+                        id: is_disabled.id,
+                        id_equipo: usr.equipo,
+                        descripcion: is_disabled.descripcion,
+                        codigo: is_disabled.codigo,
+                    },
+                    transaction
+                }
+            )
+
+            if (!reactivar_producto || reactivar_producto[0] != 1) {
+                await transaction.rollback();
+                return res.status(400).send({
+                    mensaje: 'Lo sentimos, no fue posible agregar el producto.',
+                });
+            }
+
+        } else {
+            let newProducto = await ca_productos.create({
+                id_equipo: usr.equipo,
+                descripcion: req.body.descripcion,
+                precio: req.body.precio,
+                cantidad: req.body.cantidad,
+                codigo: req.body.codigo,
+                estatus: true
+            }, { transaction })
+
+            if (!newProducto) {
+                await transaction.rollback();
+                return res.status(400).send({
+                    mensaje: 'Lo sentimos, no fue posible agregar el producto.',
+                });
+            }
+
         }
 
         await transaction.commit();

@@ -1,4 +1,4 @@
-<div class="container-sm row mx-auto p-1" style="max-height: 100%;">
+<div class="container-sm row m-auto p-1" style="max-height: 100%;">
 
   <div class="row col-12 col-md-10 card bg-primary m-auto my-2">
     <div>
@@ -53,9 +53,9 @@
     </div>
   </div>
 
-  <div class="m-auto p-0 mx-0 my-1 row d-flex">
+  <div class="p-0 mx-auto row d-flex col-12 col-md-10 margin">
 
-    <div class="card col-6 p-0 my-1" role="button" *ngFor="let permiso of identityUser.permisos" style="height: 9em;"
+    <div class="card col-6 col-md-4 p-0 my-1" role="button" *ngFor="let permiso of identityUser.permisos" style="height: 9em;"
       [routerLink]=permiso.slug>
 
       <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">

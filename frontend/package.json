@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --port 4040",
+    "start": "ng serve --port 4040",
     "mstart": "ng serve --port 4040 --host",
     "build": "ng build",
     "test": "ng test",

@@ -5,7 +5,7 @@
       <thead>
         <tr class="table-info">
           <th>Producto</th>
-          <th>Precio</th>
+          <th style="max-width: auto;">Precio</th>
           <th>Cantidad</th>
           <th style="width: 10em;"></th>
         </tr>
@@ -13,10 +13,10 @@
 
       <tbody>
         <tr *ngFor="let producto of listProductos">
-          <td class="overflow-x-hidden text-nowrap" style="max-width: 1em;">
+          <td class="overflow-x-hidden text-nowrap" style="max-width: 1rem;">
             {{ producto.descripcion | titlecase }}
           </td>
-          <td>
+          <td class="overflow-x-hidden text-nowrap" style="max-width: 1rem;">
             {{ producto.precio | currency }}
           </td>
           <td>
