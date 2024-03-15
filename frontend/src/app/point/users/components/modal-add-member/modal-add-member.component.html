@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="formAddMember" (ngSubmit)="addMember()">
-          <input type="text" class="form-control" placeholder="Correo electronico" aria-label="Correo"
+          <input type="email" class="form-control" placeholder="Correo electronico" aria-label="Correo"
             formControlName="correo">
           <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
             *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">

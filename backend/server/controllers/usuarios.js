@@ -155,7 +155,7 @@ async function restorePwd(req, res) {
 
         await transaction.commit()
 
-        return res.status(200).json({ mensaje: "Éxito." })
+        return res.status(200).json({ mensaje: "Contraseña restaurada." })
 
     } catch (error) {
         console.error(error)
@@ -206,7 +206,7 @@ async function forgotPwd(req, res) {
 
         await transaction.commit()
 
-        return res.status(200).json({ mensaje: "Correo enviado." })
+        return res.status(200).json({ mensaje: "Revisa tu correo electronico para restaurar tu contraseña." })
 
     } catch (error) {
         console.error(error)
@@ -463,14 +463,6 @@ async function createMember(req, res) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
 
-        let equipo = await ca_equipos.findOne({
-            where: {
-                id: usr.equipo
-            },
-            raw: true,
-            transaction
-        })
-
         let newUsuario = await ca_usuarios.create({
             id_equipo: usr.equipo,
             nombre: req.body.nombre,
@@ -487,6 +479,14 @@ async function createMember(req, res) {
                 mensaje: 'Lo sentimos, no fue posible agregar al usuario.',
             });
         }
+
+        let equipo = await ca_equipos.findOne({
+            where: {
+                id: usr.equipo
+            },
+            raw: true,
+            transaction
+        })
 
         equipo.integrantes['id'].push(parseInt(newUsuario["dataValues"].id))
 
