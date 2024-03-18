@@ -14,7 +14,7 @@ export class HomeUsersPageComponent implements OnInit {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   total_ventas: number
-  vendedor: any[]
+  vendedor?: any[]
   notificaciones: any[]
   options: any = {}
   notificacion: any

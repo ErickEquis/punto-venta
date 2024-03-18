@@ -54,7 +54,7 @@
   </div>
 
   <div class="container-fluid">
-    <form (ngSubmit)='agregarProducto(item)'>
+    <form (ngSubmit)='agregarProducto()'>
       <div class="input-group">
         <input name="productoInput" type="text" autocomplete="off" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
           aria-label="Producto" [(ngModel)]="productoBuscado" (keyup)="getProductos()">
