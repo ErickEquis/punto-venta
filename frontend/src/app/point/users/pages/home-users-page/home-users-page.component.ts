@@ -14,7 +14,7 @@ export class HomeUsersPageComponent implements OnInit {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   total_ventas: number
-  vendedor?: any[]
+  vendedor?: any = []
   notificaciones: any[]
   options: any = {}
   notificacion: any
@@ -51,7 +51,7 @@ export class HomeUsersPageComponent implements OnInit {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.options.params = new HttpParams().set('limit', '1')
     this.ventasService.mayorVendedores(this.options)
-      .subscribe((res) => {
+      .subscribe((res?) => {
         this.vendedor = res[0]
       })
   }
