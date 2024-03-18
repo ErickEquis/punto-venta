@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "127.0.0.1",
+    "host": "89.116.51.180",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
@@ -14,7 +14,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "127.0.0.1",
+    "host": "89.116.51.180",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
@@ -25,7 +25,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "127.0.0.1",
+    "host": "89.116.51.180",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
