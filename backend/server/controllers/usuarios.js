@@ -117,7 +117,7 @@ async function restorePwd(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        let transaction = await db.sequelize.transaction()
+        transaction = await db.sequelize.transaction()
 
         let user = await ca_usuarios.findOne({
             where: {
@@ -534,7 +534,7 @@ async function update(req, res) {
             return res.status(401).json(json)
         }
 
-        let transaction = await db.sequelize.transaction()
+        transaction = await db.sequelize.transaction()
 
         let updateUsuario = await ca_usuarios.update(
             {
