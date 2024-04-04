@@ -195,6 +195,7 @@ async function forgotPwd(req, res) {
             correo: req.body.correo,
             subject: "Restaurar contraseña.",
             token: token,
+            origin: req.headers.origin,
             option: 2
         }
 
@@ -267,6 +268,7 @@ async function newMemberToken(req, res) {
             token: token,
             correo: req.body.correo,
             subject: "Unete a tu equipo.",
+            origin: req.headers.origin,
             option: 1
         }
 
@@ -415,6 +417,7 @@ async function create(req, res) {
             correo: newUsuario["dataValues"].correo,
             subject: "Confirmar cuenta.",
             token: token,
+            origin: req.headers.origin,
             option: 3
         }
 

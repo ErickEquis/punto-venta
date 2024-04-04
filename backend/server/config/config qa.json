@@ -37,7 +37,7 @@
       "schema": "public"
     }
   },
-  "token_secret": "@pUn70-v3N74!_pr0d",
+  "token_secret": "@pUn70-v3N74!_qa",
   "api": {
     "base_path": "/api",
     "rol": {
