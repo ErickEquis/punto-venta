@@ -53,6 +53,7 @@ export class RestorePwdPageComponent implements OnInit {
     this.options.params = new HttpParams()
       .set('token', this.token)
     this.formRestorePwd.value.contrasenia = Md5.init(this.formRestorePwd.value.contrasenia)
+    this.formRestorePwd.value.confContrasenia = null
     this.authService.restorePwd(this.formRestorePwd.value, this.options)
       .subscribe(response => {
         this.toastr.success('', response.mensaje);

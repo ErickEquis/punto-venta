@@ -53,6 +53,7 @@ export class NewMemberComponent implements OnInit {
     this.options.params = new HttpParams()
     .set('token', this.token)
     this.formMember.value.contrasenia = Md5.init(this.formMember.value.contrasenia)
+    this.formMember.value.confContrasenia = null
     this.authService.signUpMember(this.formMember.value, this.options)
       .subscribe(
         (response) => {

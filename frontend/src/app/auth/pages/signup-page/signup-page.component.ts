@@ -51,6 +51,7 @@ export class SignupPageComponent implements OnInit {
 
   createUser() {
     this.formSignUp.value.contrasenia = Md5.init(this.formSignUp.value.contrasenia)
+    this.formSignUp.value.confContrasenia = null
     this.authService.signUp(this.formSignUp.value)
       .subscribe(
         (response) => {
