@@ -29,8 +29,6 @@ async function crearSesion(req, res) {
             return res.status(401).json(json)
         }
 
-        transaction = await db.sequelize.transaction()
-
         let user = await ca_usuarios.findOne({
             attributes: ['id', 'id_rol', 'id_equipo', 'nombre', 'estatus'],
             where: {
@@ -43,7 +41,6 @@ async function crearSesion(req, res) {
                 attributes: ['permisos']
             },
             raw: true,
-            transaction
         })
 
         if (!user) {
@@ -54,17 +51,7 @@ async function crearSesion(req, res) {
             return res.status(401).json({ mensaje: "Usuario no valido." })
         }
 
-        let permisos = []
-
-        for (let i in user['ca_role.permisos']) {
-            permisos.push(
-                {
-                    acceso: i,
-                    slug: user['ca_role.permisos'][i]['slug'],
-                    icon: user['ca_role.permisos'][i]['icon'],
-                }
-            )
-        }
+        transaction = await db.sequelize.transaction()
 
         let updateAcceso = await ca_usuarios.update(
             { ultimo_acceso: moment.tz("America/Mexico_City") },
@@ -84,6 +71,18 @@ async function crearSesion(req, res) {
         }
 
         await transaction.commit();
+
+        let permisos = []
+
+        for (let i in user['ca_role.permisos']) {
+            permisos.push(
+                {
+                    acceso: i,
+                    slug: user['ca_role.permisos'][i]['slug'],
+                    icon: user['ca_role.permisos'][i]['icon'],
+                }
+            )
+        }
 
         let payload = {
             "id": user.id,
