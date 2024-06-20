@@ -165,17 +165,12 @@ async function restorePwd(req, res) {
 
 async function forgotPwd(req, res) {
 
-    let transaction
-
     try {
-
-        transaction = await db.sequelize.transaction()
 
         let user = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo
             },
-            transaction
         })
 
         if (!user) {
@@ -204,20 +199,15 @@ async function forgotPwd(req, res) {
             return res.status(400).json({ mensaje: "No fue posible enviar el correo." })
         }
 
-        await transaction.commit()
-
         return res.status(200).json({ mensaje: "Revisa tu correo electronico para restaurar tu contraseña." })
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json(error)
     }
 }
 
 async function newMemberToken(req, res) {
-
-    let transaction
 
     try {
 
@@ -227,14 +217,11 @@ async function newMemberToken(req, res) {
             return res.status(400).json({ mensaje: config.api.error_general })
         }
 
-        transaction = await db.sequelize.transaction()
-
         let member = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo
             },
             raw: true,
-            transaction
         })
 
         if (member) {
@@ -250,7 +237,6 @@ async function newMemberToken(req, res) {
                 model: ca_equipos,
                 attributes: ['nombre']
             },
-            transaction
         })
 
 
@@ -281,7 +267,6 @@ async function newMemberToken(req, res) {
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json(error)
     }
 }
@@ -294,8 +279,6 @@ async function findAll(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        transaction = await db.sequelize.transaction()
-
         let users = await ca_usuarios.findAll({
             where: {
                 id_equipo: usr.equipo
@@ -306,25 +289,19 @@ async function findAll(req, res) {
             },
             raw: true,
             order: [['id_rol', 'ASC']],
-            transaction
         },
         )
         return res.status(200).json(users)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
 
 async function findById(req, res) {
 
-    let transaction
-
     try {
-
-        transaction = await db.sequelize.transaction()
 
         let user = await ca_usuarios.findOne({
             where: {
@@ -341,7 +318,6 @@ async function findById(req, res) {
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json(error)
     }
 }
@@ -359,18 +335,18 @@ async function create(req, res) {
             return res.json(json)
         }
 
-        transaction = await db.sequelize.transaction()
 
         let repeat = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo,
             },
-            transaction
         })
 
         if (repeat) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
+
+        transaction = await db.sequelize.transaction();
 
         let newEquipo = await ca_equipos.create({
             nombre: req.body.nombre_equipo,
@@ -452,18 +428,18 @@ async function createMember(req, res) {
             return res.json(json)
         }
 
-        transaction = await db.sequelize.transaction()
 
         let repeat = await ca_usuarios.findOne({
             where: {
                 correo: req.body.correo,
             },
-            transaction
         })
 
         if (repeat) {
             return res.status(401).json({ mensaje: 'Ya existe un usuario con el correo proporcionado.' })
         }
+
+        transaction = await db.sequelize.transaction();
 
         let newUsuario = await ca_usuarios.create({
             id_equipo: usr.equipo,
@@ -610,7 +586,7 @@ async function remove(req, res) {
 
         json.mensaje = "Usuario eliminado con exito."
 
-        res.status(200).json(json)
+        return res.status(200).json(json)
 
     } catch (error) {
         console.error(error)
@@ -627,21 +603,19 @@ async function confirmar(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        transaction = await db.sequelize.transaction()
-
         let user = await ca_usuarios.findOne({
             where: {
                 id: usr.id,
                 correo: usr.correo,
                 estatus: usr.estatus
             },
-            transaction
         })
 
         if (!user) {
-            await transaction.rollback()
             return res.status(400).json({ mensaje: 'Error!' })
         }
+
+        transaction = await db.sequelize.transaction();
 
         let update = await ca_usuarios.update(
             {

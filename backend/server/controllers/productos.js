@@ -60,13 +60,9 @@ async function findAll(req, res) {
 
 async function findCodigo(req, res) {
 
-    let transaction
-
     try {
 
         let usr = auth.decodeAuth(req)
-
-        transaction = await db.sequelize.transaction()
 
         let row = await ca_productos.findOne({
             where: {
@@ -82,8 +78,6 @@ async function findCodigo(req, res) {
             return res.status(400).json({ mensaje: "Producto no encontrado." })
         }
 
-        await transaction.commit()
-
         return res.status(200).json(row)
 
     } catch (error) {
@@ -96,7 +90,6 @@ async function findCodigo(req, res) {
 async function findById(req, res) {
 
     let json = {}
-    let transaction
 
     try {
 
@@ -108,8 +101,6 @@ async function findById(req, res) {
             return res.status(401).json(json)
         }
 
-        transaction = await db.sequelize.transaction()
-
         let row = await ca_productos.findOne({
             where: {
                 id_equipo: usr.equipo,
@@ -117,16 +108,12 @@ async function findById(req, res) {
                 cantidad: { [op.gt]: 0 },
                 estatus: true,
             },
-            transaction
         })
-
-        await transaction.commit()
 
         return res.status(200).json(row)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
@@ -165,11 +152,8 @@ async function create(req, res) {
             }
         }
 
-        transaction = await db.sequelize.transaction()
-
         let existeProducto = await ca_productos.findOne({
             where: clausula,
-            transaction
         })
 
         if (existeProducto) {
@@ -185,8 +169,9 @@ async function create(req, res) {
                 estatus: false,
             },
             raw: true,
-            transaction
         })
+
+        transaction = await db.sequelize.transaction();
 
         if (is_disabled) {
 
@@ -354,8 +339,6 @@ async function notificacionesInventario() {
         let productos
         var arrNotificacion = []
 
-        transaction = await db.sequelize.transaction()
-
         for (let i = 0; i < id_equipos.length; i++) {
             productos = await ca_productos.findAll({
                 attributes: ['descripcion', 'cantidad'],
@@ -366,7 +349,6 @@ async function notificacionesInventario() {
                     }
                 },
                 raw: true,
-                transaction
             })
             if (productos.length != 0) {
                 arrNotificacion.push(
@@ -381,6 +363,8 @@ async function notificacionesInventario() {
         }
 
         let updateNotificacion
+
+        transaction = await db.sequelize.transaction()
 
         for (let j = 0; j < arrNotificacion.length; j++) {
             updateNotificacion = await ca_notificaciones.create({
@@ -402,7 +386,7 @@ async function notificacionesInventario() {
 
         console.log('Notificaciones enviadas.')
 
-        return
+        return res.status(200)
 
     } catch (error) {
         await transaction.rollback()
@@ -419,8 +403,6 @@ async function logicalDelete(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        transaction = await db.sequelize.transaction()
-
         let producto = await ca_productos.findOne({
             attributes: ['estatus'],
             where: {
@@ -428,12 +410,13 @@ async function logicalDelete(req, res) {
                 id_equipo: usr.equipo
             },
             raw: true,
-            transaction
         })
 
         if (!producto) {
             return res.status(400).json({ mensaje: 'No fue posible encontrar el producto.' })
         }
+
+        transaction = await db.sequelize.transaction();
 
         let logicalProducto = await ca_productos.update(
             {
@@ -472,8 +455,6 @@ async function deleteProductos() {
 
     try {
 
-        transaction = await db.sequelize.transaction()
-
         let productos = await ca_productos.findAll({
             attributes: ['id'],
             where: {
@@ -481,8 +462,9 @@ async function deleteProductos() {
                 estatus: false
             },
             raw: true,
-            transaction
         })
+
+        transaction = await db.sequelize.transaction()
 
         if (productos) {
 
@@ -503,9 +485,11 @@ async function deleteProductos() {
         }
 
         console.log('Cron: Productos.')
-
-        await transaction.commit()
-
+        
+        await transaction.commit();
+        
+        return res.status(200)
+        
     } catch (error) {
         console.error(error)
         await transaction.rollback()

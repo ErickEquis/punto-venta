@@ -17,13 +17,9 @@ const config = require('../config/config')
 
 async function findAll(req, res) {
 
-    let transaction
-
     try {
 
         let usr = auth.decodeAuth(req)
-
-        transaction = await db.sequelize.transaction()
 
         let rows = await ca_ventas.findAll(
             {
@@ -33,7 +29,6 @@ async function findAll(req, res) {
                 },
                 order: [['id', 'DESC']],
                 raw: true,
-                transaction
             }
         )
 
@@ -47,21 +42,16 @@ async function findAll(req, res) {
             rows[i].fecha_venta = moment(rows[i].fecha_venta).locale('es').format("DD MMM hh:mm a")
         }
 
-        await transaction.commit()
-
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
 }
 
 async function findTotal(req, res) {
-
-    let transaction
 
     try {
 
@@ -70,8 +60,6 @@ async function findTotal(req, res) {
         if (usr.rol != config.api.rol.administrador) {
             return res.status(400).json({ mensaje: config.api.error_general })
         }
-
-        transaction = await db.sequelize.transaction()
 
         let total = await ca_ventas.sum(
             'total_venta',
@@ -85,25 +73,20 @@ async function findTotal(req, res) {
                                 moment().add(1, 'day').tz("America/Mexico_City").format("YYYY-MM-DD")
                             ]
                     }
-                }, transaction
+                },
             }
         )
-
-        await transaction.commit()
 
         return res.status(200).json(total)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
 }
 
 async function findMayorVendedores(req, res) {
-
-    let transaction
 
     try {
 
@@ -112,8 +95,6 @@ async function findMayorVendedores(req, res) {
         if (usr.rol != config.api.rol.administrador) {
             return res.status(400).mensaje({mensaje: config.api.error_general})
         }
-
-        transaction = await db.sequelize.transaction()
 
         let mayorVendedores = await ca_ventas.findAll(
             {
@@ -139,19 +120,15 @@ async function findMayorVendedores(req, res) {
                 group: ['id_usuario', 'usuario.id'],
                 order: [['total', 'DESC']],
                 limit: req.query.limit,
-                transaction
             }
         )
 
         let rows = mayorVendedores
 
-        await transaction.commit()
-
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
@@ -159,13 +136,9 @@ async function findMayorVendedores(req, res) {
 
 async function findById(req, res) {
 
-    let transaction
-
     try {
 
         let usr = auth.decodeAuth(req)
-
-        transaction = await db.sequelize.transaction()
 
         let row = await ca_ventas.findOne({
             where: {
@@ -173,7 +146,6 @@ async function findById(req, res) {
                 id_equipo: usr.equipo
             },
             raw: true,
-            transaction
         })
 
         if (!row) {
@@ -190,20 +162,16 @@ async function findById(req, res) {
                     id_equipo: usr.equipo
                 },
                 raw: true,
-                transaction
             })
 
             row.productos[i].stock = stock ? stock.cantidad : 0
 
         }
 
-        await transaction.commit()
-
         return res.status(200).json(row)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
@@ -224,15 +192,13 @@ async function create(req, res) {
             return res.json(json)
         }
 
-        transaction = await db.sequelize.transaction()
-
         for (let a = 0; a < req.body.productos.length; a++) {
             let cantidadProductos = await ca_productos.findOne(
                 {
                     where: {
                         id: req.body.productos[a].id,
                         id_equipo: usr.equipo
-                    }, transaction
+                    }
                 }
             )
 
@@ -248,6 +214,8 @@ async function create(req, res) {
                 });
             }
         }
+
+        transaction = await db.sequelize.transaction()
 
         let newVenta = await ca_ventas.create({
             id_usuario: usr.id,
@@ -446,8 +414,6 @@ async function remove(req, res) {
             return res.status(401).json({ mensaje: config.api.error_general })
         }
 
-        transaction = await db.sequelize.transaction()
-
         let producto = await ca_ventas.findOne({
             attributes: ['id', 'productos'],
             where: {
@@ -455,8 +421,9 @@ async function remove(req, res) {
                 id_equipo: usr.equipo,
             },
             raw: true,
-            transaction
         })
+
+        transaction = await db.sequelize.transaction();
 
         for (let i = 0; i < producto.length; i++) {
             let cantidad = await ca_productos.increment(
@@ -510,8 +477,6 @@ async function historialVentas(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        transaction = await db.sequelize.transaction()
-
         let rows = await ca_historial_ventas.findAll({
             where: {
                 id_modificado: req.params.id,
@@ -521,16 +486,12 @@ async function historialVentas(req, res) {
                 attributes: ['nombre']
             },
             order: [['fecha_modificacion', 'DESC']],
-            transaction
         })
-
-        await transaction.commit()
 
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 
