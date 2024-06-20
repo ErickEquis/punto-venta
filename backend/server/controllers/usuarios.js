@@ -116,13 +116,11 @@ async function restorePwd(req, res) {
 
         let usr = auth.decodeAuth(req)
 
-        transaction = await db.sequelize.transaction()
-
         let user = await ca_usuarios.findOne({
             where: {
                 nombre: usr.nombre,
                 correo: usr.correo
-            }, transaction
+            }
         })
 
         if (!user) {
@@ -131,6 +129,8 @@ async function restorePwd(req, res) {
         if (usr.nombre != user.nombre || usr.correo != user.correo) {
             return res.status(400).json({ mensaje: "Usuario no encontrado." })
         }
+
+        transaction = await db.sequelize.transaction();
 
         let updatePwd = await ca_usuarios.update(
             {
@@ -152,7 +152,7 @@ async function restorePwd(req, res) {
             });
         }
 
-        await transaction.commit()
+        await transaction.commit();
 
         return res.status(200).json({ mensaje: "Contraseña restaurada." })
 
