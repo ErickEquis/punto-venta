@@ -15,8 +15,6 @@ const moment = require('moment')
 
 async function findAll(req, res) {
 
-    let transaction
-
     try {
 
         let usr = auth.decodeAuth(req)
@@ -46,22 +44,16 @@ async function findAll(req, res) {
         clausula.id_equipo = usr.equipo
         clausula.estatus = true
 
-        transaction = await db.sequelize.transaction()
-
         let rows = await ca_productos.findAll({
             where: clausula,
             order: [['descripcion', 'ASC']],
             raw: true,
-            transaction
         });
-
-        await transaction.commit()
 
         return res.status(200).json(rows)
 
     } catch (error) {
         console.error(error)
-        await transaction.rollback()
         return res.status(500).json({ msg: error })
     }
 }
