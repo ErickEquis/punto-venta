@@ -25,6 +25,7 @@ module.exports = {
       { id: -3, id_rol: 11, id_equipo: -1, nombre: "Gorda", contrasenia: "de88e3e4ab202d87754078cbb2df6063", correo: "gorda@correo.com", estatus: true },
       { id: -4, id_rol: 10, id_equipo: -2, nombre: "Erick", contrasenia: "de88e3e4ab202d87754078cbb2df6063", correo: "erick@correo.com", estatus: true },
       { id: -5, id_rol: 11, id_equipo: -2, nombre: "Jonas", contrasenia: "de88e3e4ab202d87754078cbb2df6063", correo: "jonas@correo.com", estatus: true },
+      { id: -6, id_rol: 11, id_equipo: -2, nombre: "Omar", contrasenia: "de88e3e4ab202d87754078cbb2df6063", correo: "omar@correo.com", estatus: true },
     ], {});
 
     await queryInterface.bulkInsert({ tableName: 'ca_productos', schema: schema }, [
