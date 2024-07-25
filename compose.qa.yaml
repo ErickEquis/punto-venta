@@ -54,4 +54,4 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
+      - ./data/qa/postgres/pgdata:/var/lib/postgresql/data/pgdata

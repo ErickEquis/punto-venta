@@ -22,6 +22,9 @@
 **/charts
 **/docker-compose*
 **/compose.y*ml
+**/compose.dev.yaml
+**/compose.qa.yaml
+**/compose.prod.yaml
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log

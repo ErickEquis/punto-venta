@@ -11,17 +11,19 @@
 services:
 
   frontend-prod:
+    container_name: frontend-prod
     build:
       context: ./frontend
       target: nginx-prod
     environment:
       NODE_ENV: production
     ports:
-      - 4215:4200
+      - 80:80
     expose:
-      - 4215
+      - 80
 
   backend-prod:
+    container_name: backend-prod
     build:
       context: ./backend
       target: production
@@ -54,4 +56,4 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./data/postgres/pgdata:/var/lib/postgresql/data/pgdata
+      - ./data/prod/postgres/pgdata:/var/lib/postgresql/data/pgdata

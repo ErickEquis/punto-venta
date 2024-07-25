@@ -88,6 +88,6 @@ RUN npm run build --prod
 FROM nginx:latest AS nginx-prod
 
 COPY --from=angular-production /usr/src/app/dist/frontend /usr/share/nginx/html
-COPY /etc/nginx/sites-available/default /etc/nginx/conf.d/default.conf
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
