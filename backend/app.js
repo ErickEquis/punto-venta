@@ -20,7 +20,9 @@ server.listen(port, () => {
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    origin: '*'
+}))
 
 require('./server/routes/catalogos')(app);
 
