@@ -21,7 +21,9 @@ server.listen(port, () => {
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors({
-    origin: '*'
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }))
 
 require('./server/routes/catalogos')(app);
