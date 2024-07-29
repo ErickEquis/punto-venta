@@ -89,6 +89,5 @@ FROM nginx:latest AS nginx-prod
 
 COPY --from=angular-production /usr/src/app/dist/frontend /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
-COPY /ssl .
 
 EXPOSE 80
