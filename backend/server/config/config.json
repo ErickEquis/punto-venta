@@ -4,7 +4,7 @@
     "password": "postgres",
     "database": "dbpv",
     "host": "dbpv-container",
-    "port": 5432,
+    "port": 5435,
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
@@ -16,7 +16,7 @@
     "password": "postgres",
     "database": "dbpv",
     "host": "dbpv-container-qa",
-    "port": 5432,
+    "port": 5435,
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
