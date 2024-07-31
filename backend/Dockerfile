@@ -68,6 +68,7 @@ ENV NODE_ENV production
 WORKDIR /usr/src/app
 
 RUN npm install pm2 -g
+RUN apk --no-cache add curl
 
 # Run the application as a non-root user.
 USER node
@@ -79,4 +80,4 @@ COPY --from=development /usr/src/app .
 EXPOSE 8880
 
 # Run the application.
-CMD pm2 start app.js & pm2 logs
+CMD pm2-runtime app.js
