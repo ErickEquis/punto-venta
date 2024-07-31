@@ -28,7 +28,7 @@
     "password": "postgres",
     "database": "dbpv",
     "host": "dbpv-container-prod",
-    "port": 5432,
+    "port": 5435,
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
