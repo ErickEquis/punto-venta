@@ -41,4 +41,12 @@ module.exports = (app) => {
     app.get(config.api.base_path + '/notificaciones', auth.ensureAuth, notifiacion.getNotificaciones)
     app.delete(config.api.base_path + '/notificaciones/:id', auth.ensureAuth, notifiacion.remove)
 
+    app.get(config.api.base_path + '/healthcheck', async (req, res) => {
+        try {
+            res.status(200).send("Healthcheck")
+        } catch (error) {
+            res.status(500)
+        }
+    })
+
 }
