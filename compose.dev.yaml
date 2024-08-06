@@ -20,6 +20,11 @@ services:
       - 4205:4200
     expose:
       - 4205
+    depends_on:
+      backend-dev:
+          condition: service_healthy
+    volumes:
+      - ./frontend:/usr/src/app
 
   backend-dev:
     build:
@@ -34,6 +39,13 @@ services:
     depends_on:
       postgres-dev:
           condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://backend-dev:8880/api/healthcheck" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./backend:/usr/src/app
 
   postgres-dev:
     container_name: dbpv-container
