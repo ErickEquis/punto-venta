@@ -3,8 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  endpoint: "http://localhost:8880/api/"
+  production: true,
+  // endpoint: "http://localhost:8880/api/"
+  endpoint: "https://erickdev.duckdns.org/api/"
 };
 
 /*
