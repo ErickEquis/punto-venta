@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Md5 } from 'md5-typescript';
@@ -30,10 +30,10 @@ export class RestorePwdPageComponent implements OnInit {
     localStorage.removeItem("identity_user")
     this.token = this.router.parseUrl(this.router.url).queryParamMap['params']['token']
     if (!this.token) window.location.assign('/auth/log-in');
-    this.formRestorePwd = new FormGroup({
-      correo: new FormControl('', [Validators.required, Validators.email]),
-      contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-      confContrasenia: new FormControl('', [Validators.required]),
+    this.formRestorePwd = new UntypedFormGroup({
+      correo: new UntypedFormControl('', [Validators.required, Validators.email]),
+      contrasenia: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+      confContrasenia: new UntypedFormControl('', [Validators.required]),
     }, { validators: this.authService.confirmarPwd })
   }
 

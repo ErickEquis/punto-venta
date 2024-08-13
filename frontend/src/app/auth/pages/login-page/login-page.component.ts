@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -22,9 +22,9 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit() {
     localStorage.removeItem("identity_user")
-    this.formSignIn = new FormGroup({
-      correo: new FormControl('', [Validators.required, Validators.email]),
-      contrasenia: new FormControl('', [Validators.required]),
+    this.formSignIn = new UntypedFormGroup({
+      correo: new UntypedFormControl('', [Validators.required, Validators.email]),
+      contrasenia: new UntypedFormControl('', [Validators.required]),
     })
   }
 

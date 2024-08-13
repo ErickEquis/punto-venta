@@ -4,7 +4,7 @@ import { ProductoService } from '../../services/producto.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-addproducts',
@@ -24,11 +24,11 @@ export class ModalAddproductsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.formAdd = new FormGroup({
-      descripcion: new FormControl(''),
-      precio: new FormControl(''),
-      cantidad: new FormControl(''),
-      codigo: new FormControl(''),
+    this.formAdd = new UntypedFormGroup({
+      descripcion: new UntypedFormControl(''),
+      precio: new UntypedFormControl(''),
+      cantidad: new UntypedFormControl(''),
+      codigo: new UntypedFormControl(''),
     })
   }
 

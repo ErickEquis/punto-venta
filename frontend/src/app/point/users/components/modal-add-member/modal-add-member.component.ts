@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -20,8 +20,8 @@ export class ModalAddMemberComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
   ) {
-    this.formAddMember = new FormGroup({
-      correo: new FormControl('', [Validators.required, Validators.email])
+    this.formAddMember = new UntypedFormGroup({
+      correo: new UntypedFormControl('', [Validators.required, Validators.email])
     })
   }
 

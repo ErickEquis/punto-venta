@@ -1,5 +1,5 @@
 import { Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { VentasService } from '../../services/ventas.service';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -20,9 +20,9 @@ export class ModalEditVentaComponent implements OnInit, OnChanges, DoCheck {
     private ventasService: VentasService,
     private toastr: ToastrService,
   ) {
-    this.formEditVenta = new FormGroup({
-      productos: new FormControl(''),
-      total_venta: new FormControl(''),
+    this.formEditVenta = new UntypedFormGroup({
+      productos: new UntypedFormControl(''),
+      total_venta: new UntypedFormControl(''),
     })
   }
 

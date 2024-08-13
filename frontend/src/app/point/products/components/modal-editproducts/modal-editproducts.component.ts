@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ProductoService } from '../../services/producto.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -27,11 +27,11 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.formEdit = new FormGroup({
-      descripcion: new FormControl(''),
-      precio: new FormControl(''),
-      cantidad: new FormControl(''),
-      codigo: new FormControl(''),
+    this.formEdit = new UntypedFormGroup({
+      descripcion: new UntypedFormControl(''),
+      precio: new UntypedFormControl(''),
+      cantidad: new UntypedFormControl(''),
+      codigo: new UntypedFormControl(''),
     })
   }
 

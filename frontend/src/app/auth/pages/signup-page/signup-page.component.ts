@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { Md5 } from 'md5-typescript';
@@ -25,12 +25,12 @@ export class SignupPageComponent implements OnInit {
 
   ngOnInit() {
     localStorage.removeItem("identity_user")
-    this.formSignUp = new FormGroup({
-      nombre: new FormControl('', [Validators.required]),
-      correo: new FormControl('', [Validators.required, Validators.email]),
-      contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-      confContrasenia: new FormControl('', [Validators.required]),
-      nombre_equipo: new FormControl(''),
+    this.formSignUp = new UntypedFormGroup({
+      nombre: new UntypedFormControl('', [Validators.required]),
+      correo: new UntypedFormControl('', [Validators.required, Validators.email]),
+      contrasenia: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+      confContrasenia: new UntypedFormControl('', [Validators.required]),
+      nombre_equipo: new UntypedFormControl(''),
     },
       { validators: this.authService.confirmarPwd }
     )
