@@ -3,6 +3,7 @@
 #
 nginx.conf
 /ssl
+.angular
 
 # compiled output
 /dist
