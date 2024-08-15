@@ -1,22 +1,16 @@
 # syntax=docker/dockerfile:1
 
 # Base
-ARG NODE_VERSION=18
+ARG NODE_VERSION=20.16.0
 ARG NGINX_VERSION=1.27.0
 ARG ANGULAR_VERSION=17.3.8
 
-FROM node:${NODE_VERSION}-alpine AS base
+FROM node:${NODE_VERSION} AS base
 WORKDIR /usr/src/app
 EXPOSE 4205
 
-
 # Develop
 FROM base AS development
-
-RUN --mount=type=bind,source=package.json,target=package.json \
-  --mount=type=bind,source=package-lock.json,target=package-lock.json \
-  --mount=type=cache,target=/root/.npm \
-  npm ci --include=dev
 
 COPY . .
 
@@ -56,18 +50,13 @@ FROM base AS angular-production
 
 COPY --from=development /usr/src/app .
 
-RUN --mount=type=bind,source=package.json,target=package.json \
-  --mount=type=bind,source=package-lock.json,target=package-lock.json \
-  --mount=type=cache,target=/root/.npm \
-  npm ci --omit=dev
-
 RUN npm install -g @angular/cli@${ANGULAR_VERSION}
 RUN npm run build
 
 # nginx production
 FROM nginx:${NGINX_VERSION} AS nginx-prod
 
-COPY --from=angular-production /usr/src/app/dist/frontend /usr/share/nginx/html
+COPY --from=angular-production /usr/src/app/dist/frontend/browser /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 81
