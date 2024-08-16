@@ -56,7 +56,7 @@ RUN npm run build
 # nginx production
 FROM nginx:${NGINX_VERSION} AS nginx-prod
 
-COPY --from=angular-production /usr/src/app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=angular-production /usr/src/app/dist/frontend/ /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 81
