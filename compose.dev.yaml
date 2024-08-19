@@ -24,7 +24,7 @@ services:
       backend-dev:
           condition: service_healthy
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend/src:/usr/src/app/src
 
   backend-dev:
     build:
@@ -45,7 +45,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend/server:/usr/src/app/server
 
   postgres-dev:
     container_name: dbpv-container

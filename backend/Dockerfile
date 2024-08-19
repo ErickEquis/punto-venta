@@ -11,14 +11,15 @@ EXPOSE 8880
 # Develop
 FROM base AS development
 
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --include=dev
+USER root
 
-USER node
+# RUN --mount=type=bind,source=package.json,target=package.json \
+# --mount=type=cache,target=/root/.npm \
+# npm i --include=dev
 
 COPY . .
+
+RUN npm i
 
 CMD npm start
 
@@ -50,9 +51,8 @@ FROM base AS production
 ENV NODE_ENV production
 
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+    npm i --omit=dev
 
 RUN npm install pm2 -g
 

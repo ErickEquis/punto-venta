@@ -14,7 +14,7 @@ EXPOSE 4205
 FROM base AS development
 
 # Copia solo los archivos necesarios para la instalación de dependencias primero
-COPY package*.json ./
+COPY package*.json .
 
 # Instala dependencias asegurando que npm utiliza glibc
 RUN npm i --platform=linux --arch=x64
@@ -51,7 +51,6 @@ FROM base AS angular-production
 COPY --from=development /usr/src/app .
 
 # Construye la aplicación en modo producción
-RUN npm install @angular/cli@${ANGULAR_VERSION}
 RUN npx ng build --configuration=production
 
 # nginx production
