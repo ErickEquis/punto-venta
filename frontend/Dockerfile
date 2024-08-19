@@ -1,62 +1,65 @@
 # syntax=docker/dockerfile:1
 
-# Base
-ARG NODE_VERSION=20.16.0
+# Base image con amd64 y glibc
+ARG NODE_VERSION=20
 ARG NGINX_VERSION=1.27.0
 ARG ANGULAR_VERSION=17.3.8
 
-FROM node:${NODE_VERSION} AS base
+# Usa una imagen de Node.js que sea compatible con amd64 y glibc
+FROM --platform=linux/amd64 node:${NODE_VERSION}-bullseye-slim AS base
 WORKDIR /usr/src/app
 EXPOSE 4205
 
 # Develop
 FROM base AS development
 
+# Copia solo los archivos necesarios para la instalación de dependencias primero
+COPY package*.json ./
+
+# Instala dependencias asegurando que npm utiliza glibc
+RUN npm i --platform=linux --arch=x64
+
+# Copia el resto del código
 COPY . .
 
-RUN npm install
-
-RUN npm install -g @angular/cli@${ANGULAR_VERSION}
-
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Usa la versión local de Angular CLI
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
 
 # ----------
 # QA
-FROM node:${NODE_VERSION}-alpine AS test
+FROM base AS test
 
-# Use production node environment by default.
+# Usa el entorno de producción por defecto
 ENV NODE_ENV production
 
 WORKDIR /usr/src/app
 
 # Run the application as a non-root user.
-USER root
+USER node
 
-# Copy the rest of the source files into the image.
+# Copia la aplicación desde el entorno de desarrollo
 COPY --from=development /usr/src/app .
 
-# Expose the port that the application listens on.
-EXPOSE 4215
-
-# Run the application.
-RUN npm install -g @angular/cli@${ANGULAR_VERSION}
-
-# RUN npm install
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Usa la versión local de Angular CLI
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
 
 # ----------
 # Production
 FROM base AS angular-production
 
+# Copia la aplicación desde el entorno de desarrollo
 COPY --from=development /usr/src/app .
 
-RUN npm install -g @angular/cli@${ANGULAR_VERSION}
-RUN npm run build
+# Construye la aplicación en modo producción
+RUN npm install @angular/cli@${ANGULAR_VERSION}
+RUN npx ng build --configuration=production
 
 # nginx production
-FROM nginx:${NGINX_VERSION} AS nginx-prod
+FROM --platform=linux/amd64 nginx:${NGINX_VERSION} AS nginx-prod
 
+# Copia los archivos compilados al servidor nginx
 COPY --from=angular-production /usr/src/app/dist/frontend/ /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expone el puerto que nginx usará
 EXPOSE 81
