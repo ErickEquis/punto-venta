@@ -14,8 +14,8 @@ services:
       - 81:80
     expose:
       - 81
-    volumes: 
-      -/opt/point-cache/cache:/opt/cache:rw
+    volumes:
+      - /opt/point-cache/cache:/opt/cache:rw
 
   backend-prod:
     container_name: backend-prod
