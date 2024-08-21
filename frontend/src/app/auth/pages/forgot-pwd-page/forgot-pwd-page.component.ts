@@ -32,13 +32,13 @@ export class ForgotPwdPageComponent implements OnInit {
 
   forgotPwd() {
     this.authService.forgotPwd(this.formForgotPwd.value)
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.toastr.success('', response.mensaje);
           this.router.navigate(["/auth/log-in"])
         },
-        error => { this.toastr.error('', error.error.mensaje); }
-      )
+        error: error => { this.toastr.error('', error.error.mensaje); }
+      })
   }
 
 }

@@ -6,7 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-cuenta',
-  templateUrl: './confirmar-cuenta.component.html',
+  template: `
+    <h3>
+      Confirmacion de cuenta.
+    </h3>
+    <p class="opacity-75">
+      !Bienvenido¡
+    </p>
+  `,
   styleUrls: ['./confirmar-cuenta.component.css']
 })
 export class ConfirmarCuentaComponent implements OnInit {
@@ -21,7 +28,7 @@ export class ConfirmarCuentaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    localStorage.removeItem("identity_user")
+    // localStorage.removeItem("identity_user")
     this.token = this.router.parseUrl(this.router.url).queryParamMap['params']['token'];
     this.token ? this.confirmarCuenta() : window.location.assign('/auth/log-in');
   }
@@ -30,16 +37,16 @@ export class ConfirmarCuentaComponent implements OnInit {
     this.options.params = new HttpParams()
       .set('token', this.token)
     this.authService.confirmarCuenta(this.options)
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.toastr.success('', response.mensaje);
           this.router.navigate(["/auth/log-in"])
         },
-        error => {
+        error: error => {
           this.toastr.error('', error.error.mensaje);
           this.router.navigate(["/auth/log-in"])
         }
-      )
+      })
   }
 
 }

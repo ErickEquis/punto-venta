@@ -47,7 +47,7 @@ export class LoginPageComponent implements OnInit {
         localStorage.setItem('identity_user', JSON.stringify(res))
         window.location.assign('/point/home')
       },
-      error: (error) => {this.toastr.error('', error.error.mensaje);}
+      error: (error) => { this.toastr.error('', error.error.mensaje); }
     })
   }
 

@@ -55,12 +55,14 @@ export class RestorePwdPageComponent implements OnInit {
     this.formRestorePwd.value.contrasenia = Md5.init(this.formRestorePwd.value.contrasenia)
     this.formRestorePwd.value.confContrasenia = null
     this.authService.restorePwd(this.formRestorePwd.value, this.options)
-      .subscribe(response => {
-        this.toastr.success('', response.mensaje);
-        this.router.navigate(["/auth/log-in"])
-      },
-        error => { this.toastr.error('', error.error.mensaje); }
-      )
+      .subscribe({
+        next:
+          response => {
+            this.toastr.success('', response.mensaje);
+            this.router.navigate(["/auth/log-in"])
+          },
+        error: error => { this.toastr.error('', error.error.mensaje); }
+      })
   }
 
 }

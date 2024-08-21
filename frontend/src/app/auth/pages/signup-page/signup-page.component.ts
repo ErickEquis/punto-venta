@@ -53,13 +53,14 @@ export class SignupPageComponent implements OnInit {
     this.formSignUp.value.contrasenia = Md5.init(this.formSignUp.value.contrasenia)
     this.formSignUp.value.confContrasenia = null
     this.authService.signUp(this.formSignUp.value)
-      .subscribe(
-        (response) => {
-          this.toastr.success('', response.mensaje);
-          this.router.navigate(["/auth/log-in"])
-        },
-        error => { this.toastr.error('', error.error.mensaje); }
-      )
+      .subscribe({
+        next:
+          (response) => {
+            this.toastr.success('', response.mensaje);
+            this.router.navigate(["/auth/log-in"])
+          },
+        error: error => { this.toastr.error('', error.error.mensaje); }
+      })
   }
 
 }

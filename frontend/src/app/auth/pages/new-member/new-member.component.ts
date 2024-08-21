@@ -27,7 +27,7 @@ export class NewMemberComponent implements OnInit {
       correo: new UntypedFormControl('', [Validators.required, Validators.email]),
       contrasenia: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
       confContrasenia: new UntypedFormControl(''),
-    }, {validators: authService.confirmarPwd})
+    }, { validators: authService.confirmarPwd })
   }
 
   ngOnInit() {
@@ -51,17 +51,17 @@ export class NewMemberComponent implements OnInit {
 
   createUser() {
     this.options.params = new HttpParams()
-    .set('token', this.token)
+      .set('token', this.token)
     this.formMember.value.contrasenia = Md5.init(this.formMember.value.contrasenia)
     this.formMember.value.confContrasenia = null
     this.authService.signUpMember(this.formMember.value, this.options)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.toastr.success('', response.mensaje);
           this.router.navigate(["/auth/log-in"])
         },
-          error => { this.toastr.error('', error.error.mensaje); }
-      )
+        error: error => { this.toastr.error('', error.error.mensaje); }
+      })
   }
 
 }
