@@ -31,6 +31,14 @@
           "configurations": {
             "production": {
               "aot": true,
+              "outputHashing": "all",
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "commonChunk": true,
+              "namedChunks": false,
+              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -48,13 +56,7 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ],
-              "outputHashing": "all",
-              "optimization": true,
-              "sourceMap": false,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "commonChunk": true
+              ]
             },
             "development": {
               "fileReplacements": [
