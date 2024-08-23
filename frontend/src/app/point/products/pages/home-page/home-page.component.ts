@@ -110,10 +110,11 @@ export class HomePageComponent implements OnInit, DoCheck {
         .set('venta', 'true')
         .set('descripcion', this.productoBuscado)
       this.productoService.getProdutos(this.options)
-        .subscribe((data: Productos[]) => {
-          this.listProductos = data
-        },
-          (error) => {
+        .subscribe({
+          next: (data: Productos[]) => {
+            this.listProductos = data
+          },
+          error: (error) => {
             if (error.status == 403) {
               setTimeout(() => {
                 this.authService.signOut()
@@ -121,7 +122,7 @@ export class HomePageComponent implements OnInit, DoCheck {
             }
             this.toastr.error('', error.error.mensaje);
           }
-        )
+        })
     }
     this.listProductos = []
   }
@@ -129,10 +130,11 @@ export class HomePageComponent implements OnInit, DoCheck {
   getProductoId(item: any): void {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.getProductoId(item.id, this.options)
-      .subscribe((dato: any) => {
-        this.itemById = dato
-      },
-        (error) => {
+      .subscribe({
+        next: (dato: any) => {
+          this.itemById = dato
+        },
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -140,7 +142,7 @@ export class HomePageComponent implements OnInit, DoCheck {
           }
           this.toastr.error('', error.error.mensaje);
         }
-      )
+      })
   }
 
   selectProducto(item: any) {
@@ -164,10 +166,11 @@ export class HomePageComponent implements OnInit, DoCheck {
     this.bodyVenta.total_venta = this.total
 
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.createVenta(this.bodyVenta, this.options).subscribe(
-      (response) => this.toastr.success('', response.mensaje),
-      (error) => this.toastr.error('', error.error.mensaje)
-    )
+    this.ventasService.createVenta(this.bodyVenta, this.options)
+      .subscribe({
+        next: (response) => this.toastr.success('', response.mensaje),
+        error: (error) => this.toastr.error('', error.error.mensaje)
+      })
 
     this.ventaProductos = []
   }
@@ -181,13 +184,13 @@ export class HomePageComponent implements OnInit, DoCheck {
     if ($event) {
       this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
       this.productoService.getProductoCode($event, this.options)
-        .subscribe(
-          (producto) => {
+        .subscribe({
+          next: (producto) => {
             this.itemById = producto
             this.agregarProducto()
           },
-          (error) => this.toastr.error('', error.error.mensaje)
-        )
+          error: (error) => this.toastr.error('', error.error.mensaje)
+        })
     }
   }
 

@@ -86,15 +86,16 @@ export class ModalEditVentaComponent implements OnInit, OnChanges, DoCheck {
   editVenta() {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.formEditVenta.setValue({ productos: this.venta.productos, total_venta: this.total });
-    this.ventasService.editVenta(this.formEditVenta.value, this.venta.id, options).subscribe(
-      (response) => {
-        this.reloadVentas()
-        this.toastr.success(response.mensaje, 'Éxito!');
-      },
-      (error) => {
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+    this.ventasService.editVenta(this.formEditVenta.value, this.venta.id, options)
+      .subscribe({
+        next: (response) => {
+          this.reloadVentas()
+          this.toastr.success(response.mensaje, 'Éxito!');
+        },
+        error: (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      })
   }
 
 }

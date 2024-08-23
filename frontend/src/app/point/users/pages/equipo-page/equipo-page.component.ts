@@ -44,10 +44,11 @@ export class EquipoPageComponent implements OnInit {
   getUsers() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.userService.getUsers(this.options)
-      .subscribe((data: Users[]) => {
-        this.listUsers = data
-      },
-        (error) => {
+      .subscribe({
+        next: (data: Users[]) => {
+          this.listUsers = data
+        },
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -55,18 +56,18 @@ export class EquipoPageComponent implements OnInit {
           }
           this.toastr.error(error.error.mensaje, 'Error!');
         }
-      )
+      })
   }
 
   deleteUser(id: number) {
     this.options.token = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.userService.deleteUser(id, this.options)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.toastr.success(response.mensaje, '')
           this.getUsers()
         },
-        (error) => {
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -74,7 +75,7 @@ export class EquipoPageComponent implements OnInit {
           }
           this.toastr.error(error.error.mensaje, 'Error!');
         }
-      )
+      })
   }
 
 }

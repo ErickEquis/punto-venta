@@ -71,12 +71,12 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.formEdit.value.descripcion = this.formEdit.value.descripcion.toLowerCase()
     this.productoService.editProducto(this.productoEditId, this.formEdit.value, options)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.toastr.success('', response.mensaje);
           this.reloadInventario()
         },
-        (error) => {
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -84,7 +84,7 @@ export class ModalEditproductsComponent implements OnInit, OnChanges {
           }
           this.toastr.error('', error.error.mensaje);
         }
-      )
+      })
   }
 
   setEditValues(producto?: any): void {

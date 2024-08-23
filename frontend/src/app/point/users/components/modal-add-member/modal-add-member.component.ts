@@ -42,16 +42,17 @@ export class ModalAddMemberComponent implements OnInit {
 
   addMember() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.authService.addMember(this.formAddMember.value, this.options).subscribe(
-      (response) => {
-        this.toastr.success('', response.mensaje)
-        this.resetForm()
-      },
-      (error) => {
-        this.toastr.error('', error.error.mensaje)
-        this.resetForm()
-      }
-    )
+    this.authService.addMember(this.formAddMember.value, this.options)
+      .subscribe({
+        next: (response) => {
+          this.toastr.success('', response.mensaje)
+          this.resetForm()
+        },
+        error: (error) => {
+          this.toastr.error('', error.error.mensaje)
+          this.resetForm()
+        }
+      })
   }
 
   resetForm() {

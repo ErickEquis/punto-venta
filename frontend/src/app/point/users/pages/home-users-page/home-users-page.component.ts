@@ -42,8 +42,10 @@ export class HomeUsersPageComponent implements OnInit {
   ventas() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.ventasService.getTotalVentas(this.options)
-      .subscribe((total) => {
-        this.total_ventas = total ? total : 0
+      .subscribe({
+        next: (total) => {
+          this.total_ventas = total ? total : 0
+        }
       })
   }
 
@@ -51,8 +53,10 @@ export class HomeUsersPageComponent implements OnInit {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.options.params = new HttpParams().set('limit', '1')
     this.ventasService.mayorVendedores(this.options)
-      .subscribe((res?) => {
-        this.vendedor = res[0]
+      .subscribe({
+        next: (res?) => {
+          this.vendedor = res[0]
+        }
       })
   }
 

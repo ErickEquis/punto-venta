@@ -59,10 +59,11 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   getProdutos() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.getProdutos(this.options)
-      .subscribe((data: Productos[]) => {
-        this.listProductos = data
-      },
-        (error) => {
+      .subscribe({
+        next: (data: Productos[]) => {
+          this.listProductos = data
+        },
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -70,7 +71,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
           }
           this.toastr.error('', error.error.mensaje);
         }
-      )
+      })
   }
 
   filtrarProductos() {
@@ -80,12 +81,12 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   deleteProducto(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.productoService.logicalDeleteProducto(id, this.options)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.toastr.success('', response.mensaje);
           this.getProdutos()
         },
-        (error) => {
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -93,7 +94,7 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
           }
           this.toastr.error('', error.error.mensaje);
         }
-      )
+      })
   }
 
   eliminar(id: number) {

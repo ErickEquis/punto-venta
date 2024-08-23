@@ -33,7 +33,7 @@
               "aot": true,
               "outputHashing": "all",
               "optimization": true,
-              "sourceMap": false,
+              "sourceMap": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "commonChunk": true,

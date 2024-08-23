@@ -51,13 +51,13 @@ export class ModalAddproductsComponent implements OnInit {
     let options = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.formAdd.value.descripcion = this.formAdd.value.descripcion.toLowerCase()
     this.productoService.createProducto(this.formAdd.value, options)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.toastr.success('', response.mensaje);
           this.reloadInventario()
           this.formAdd.reset()
         },
-        (error) => {
+        error: (error) => {
           if (error.status == 403) {
             setTimeout(() => {
               this.authService.signOut()
@@ -66,7 +66,7 @@ export class ModalAddproductsComponent implements OnInit {
           this.toastr.error('', error.error.mensaje);
           this.formAdd.reset()
         }
-      )
+      })
   }
 
   camaraEstatus() {
@@ -75,7 +75,7 @@ export class ModalAddproductsComponent implements OnInit {
 
   scan($event: any) {
     this.camara = false
-    $event ? this.formAdd.patchValue({codigo: $event}) : ''
+    $event ? this.formAdd.patchValue({ codigo: $event }) : ''
   }
 
   cleanForm() {

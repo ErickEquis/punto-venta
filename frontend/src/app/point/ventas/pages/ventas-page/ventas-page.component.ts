@@ -47,30 +47,33 @@ export class VentasPageComponent implements OnInit, DoCheck {
   getVentas() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.ventasService.getVentas(this.options)
-      .subscribe(
-        (data) => { this.listVentas = data }
-      )
+      .subscribe({
+        next: (data) => { this.listVentas = data }
+      })
   }
 
   getVenta(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.ventasService.getVentaId(id, this.options)
-      .subscribe((venta) => {
-        this.editVenta = venta
+      .subscribe({
+        next: (venta) => {
+          this.editVenta = venta
+        }
       })
   }
 
   deleteVenta(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.deleteVenta(id, this.options).subscribe(
-      (response) => {
-        this.getVentas()
-        this.toastr.success(response.mensaje, 'Éxito!');
-      },
-      (error) => {
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+    this.ventasService.deleteVenta(id, this.options)
+      .subscribe({
+        next: (response) => {
+          this.getVentas()
+          this.toastr.success(response.mensaje, 'Éxito!');
+        },
+        error: (error) => {
+          this.toastr.error(error.error.mensaje, 'Error!');
+        }
+      })
   }
 
   reload() {
@@ -79,11 +82,12 @@ export class VentasPageComponent implements OnInit, DoCheck {
 
   historialVentas(id: number) {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.historialVentas(id, this.options).subscribe(
-      (res) => {
-        this.historial = res;
-      }
-    )
+    this.ventasService.historialVentas(id, this.options)
+      .subscribe({
+        next: (res) => {
+          this.historial = res;
+        }
+      })
     this.hiddenData();
   }
 
