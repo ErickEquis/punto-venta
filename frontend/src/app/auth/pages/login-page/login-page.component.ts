@@ -45,7 +45,7 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.formSignIn.value).subscribe({
       next: (res) => {
         localStorage.setItem('identity_user', JSON.stringify(res))
-        window.location.assign('/point/home')
+        window.location.assign('/point/product/home')
       },
       error: (error) => { this.toastr.error('', error.error.mensaje); }
     })
