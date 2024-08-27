@@ -50,8 +50,8 @@ services:
       - 5434
     healthcheck:
       test: [ "CMD", "pg_isready" ]
-      interval: 10s
+      interval: 60s
       timeout: 5s
-      retries: 5
+      retries: 2
     volumes:
       - ./data/qa/postgres/pgdata:/var/lib/postgresql/data/pgdata

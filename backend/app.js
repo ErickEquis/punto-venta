@@ -2,6 +2,7 @@ const express = require("express")
 const http = require('http')
 const cors = require('cors')
 const cron = require('node-cron');
+const fs = require('fs');
 const { notificacionesInventario, deleteProductos } = require('./server/controllers/productos')
 
 const app = express()
@@ -22,7 +23,12 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors())
 
-require('./server/routes/catalogos')(app);
+fs
+    .readdirSync('./server/routes')
+    .forEach((file) => {
+        file.replace('.js', '')
+        require(`./server/routes/${file}`)(app);
+    })
 
 cron.schedule('0 1 * * *', async () => {
     try {
