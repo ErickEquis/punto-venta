@@ -9,12 +9,12 @@ module.exports = {
     const schema = config.plataformas.dbpv.schema;
 
     // Update de slug
-    let array_ids = [0, 10, 11]
-    for (let i = 0; i < array_ids.length; i++) {
-      await queryInterface.bulkUpdate({ tableName: 'ca_roles', schema: schema },
-        { permisos: '{"equipo": {"icon": "groups", "slug": "/point/user/equipo"}, "ventas": {"icon": "payments", "slug": "/point/user/ventas"}, "notificaciones": {"icon": "notifications", "slug": "/point/user/notificaciones"}}' }, { id: array_ids[i] }
-      )
-    }
+    // let array_ids = [0, 10, 11]
+    // for (let i = 0; i < array_ids.length; i++) {
+    //   await queryInterface.bulkUpdate({ tableName: 'ca_roles', schema: schema },
+    //     { permisos: '{"equipo": {"icon": "groups", "slug": "/point/user/equipo"}, "ventas": {"icon": "payments", "slug": "/point/user/ventas"}, "notificaciones": {"icon": "notifications", "slug": "/point/user/notificaciones"}}' }, { id: array_ids[i] }
+    //   )
+    // }
 
   },
 

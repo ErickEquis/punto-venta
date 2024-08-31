@@ -2,7 +2,12 @@ const usuario = require('../controllers/usuarios.js')
 const auth = require('../services/auth.js')
 const config = require('../config/config')
 
+const mongo = require('../controllers/mongo.js')
+
 module.exports = (app) => {
+
+    app.post(config.api.base_path + '/mongo', mongo.create)
+
     app.post(config.api.base_path + '/auth', usuario.create)
     app.patch(config.api.base_path + '/auth', usuario.crearSesion)
     app.put(config.api.base_path + '/auth/forgot-pwd', usuario.forgotPwd)
