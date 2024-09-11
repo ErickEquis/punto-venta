@@ -1,20 +1,20 @@
 'use strict'
 
-const db = require('../models/sql/index')
-const op = db.Sequelize.Op
 const config = require('../config/config')
-const auth = require('../services/auth')
-const mail = require('../services/mail')
 
-const ca_usuarios = require('../models/sql/').ca_usuarios
-const ca_roles = require('../models/sql/').ca_roles
-const ca_equipos = require('../models/sql/').ca_equipos
+const db = require('../models/index')
+const op = db.Sequelize.Op
+
+const ca_usuarios = require('../models/').ca_usuarios
+const ca_roles = require('../models/').ca_roles
+const ca_equipos = require('../models/').ca_equipos
 
 const rules = require('../rules/usuarios')
 
 const moment = require('moment')
-const moment_tz = moment().tz(config.api.timezone)
-const moment_iso8601 = moment().tz(config.api.timezone, moment.ISO_8601).toISOString(true)
+
+const auth = require('../services/auth')
+const mail = require('../services/mail')
 
 async function crearSesion(req, res) {
 
@@ -54,7 +54,7 @@ async function crearSesion(req, res) {
         transaction = await db.sequelize.transaction()
 
         let updateAcceso = await ca_usuarios.update(
-            { ultimo_acceso: moment_tz },
+            { ultimo_acceso: moment.tz("America/Mexico_City") },
             {
                 where: {
                     correo: req.body.correo,
@@ -88,7 +88,7 @@ async function crearSesion(req, res) {
             "id": user.id,
             "rol": user.id_rol,
             "equipo": user.id_equipo,
-            "exp": moment_tz.add(1, "day").unix(),
+            "exp": moment().add(1, "day").unix(),
         }
 
         let response = {
@@ -180,7 +180,7 @@ async function forgotPwd(req, res) {
         let payload = {
             "nombre": user.nombre,
             "correo": user.correo,
-            "exp": moment_tz.add(30, "minutes").unix()
+            "exp": moment().add(30, "minutes").unix()
         }
 
         let token = auth.encodeAuth(payload)
@@ -243,7 +243,7 @@ async function newMemberToken(req, res) {
         let payload = {
             "equipo": usr.equipo,
             "is_admin": false,
-            "exp": moment_tz.add(30, "minutes").unix()
+            "exp": moment().add(30, "minutes").unix()
         }
 
         let token = auth.encodeAuth(payload)
@@ -383,7 +383,7 @@ async function create(req, res) {
             "id": newUsuario["dataValues"].id,
             "correo": newUsuario["dataValues"].correo,
             "estatus": newUsuario["dataValues"].estatus,
-            "exp": moment_tz.add(1, "hour").unix(),
+            "exp": moment().add(1, "hour").unix(),
         }
 
         let token = auth.encodeAuth(payload)

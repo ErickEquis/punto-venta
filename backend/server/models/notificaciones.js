@@ -1,29 +1,20 @@
 'use strict'
 
-const config = require('../../config/config');
-const ca_roles = require('./roles')
+const config = require('../config/config');
 const ca_equipos = require('./equipos')
+const ca_categoria_notificaciones = require('./categoria_notificaciones')
 
 module.exports = (sequelize, DataTypes, Deferrable) => {
     const schema = config.plataformas.dbpv.schema;
 
-    let ca_usuarios = sequelize.define(
-        'ca_usuarios',
+    let ca_notificaciones = sequelize.define(
+        'ca_notificaciones',
         {
             id: {
                 type: DataTypes.BIGINT,
                 primaryKey: true,
                 autoIncrement: true,
                 allowNull: false,
-            },
-            id_rol: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: ca_roles,
-                    key: 'id',
-                    deferrable: Deferrable.INITIALLY_IMMEDIATE
-                }
             },
             id_equipo: {
                 type: DataTypes.BIGINT,
@@ -34,21 +25,26 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
             },
-            nombre: {
+            id_categoria: {
+                type: DataTypes.BIGINT,
+                allowNull: false,
+                references: {
+                    model: ca_categoria_notificaciones,
+                    key: 'id',
+                    deferrable: Deferrable.INITIALLY_IMMEDIATE
+                }
+            },
+            descripcion: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            contrasenia: {
-                type: DataTypes.STRING,
+            data: {
+                type: DataTypes.JSONB,
                 allowNull: false,
             },
-            correo: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            ultimo_acceso: {
+            fecha: {
                 type: DataTypes.DATE,
-                allowNull: true,
+                allowNull: false
             },
             estatus: {
                 type: DataTypes.BOOLEAN,
@@ -63,16 +59,17 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
         }
     );
 
-    ca_usuarios.associate = (models) => {
-        ca_usuarios.belongsTo(models.ca_roles, {
-            through: models.ca_roles,
-            foreignKey: 'id_rol',
-        });
-        ca_usuarios.belongsTo(models.ca_equipos, {
+    ca_notificaciones.associate = (models) => {
+        ca_notificaciones.belongsTo(models.ca_equipos, {
             through: models.ca_equipos,
             foreignKey: 'id_equipo',
         });
+        ca_notificaciones.belongsTo(models.ca_categoria_notificaciones, {
+            through: models.ca_categoria_notificaciones,
+            foreignKey: 'id_categoria',
+            as: 'categoria'
+        });
     };
 
-    return ca_usuarios;
+    return ca_notificaciones;
 };

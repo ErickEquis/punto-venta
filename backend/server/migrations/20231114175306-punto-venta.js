@@ -251,8 +251,8 @@ module.exports = {
           key: 'id',
         },
       },
-      id_productos_mdb: {
-        type: DataTypes.BIGINT,
+      productos: {
+        type: DataTypes.JSONB,
         allowNull: false,
       },
       total_venta: {
