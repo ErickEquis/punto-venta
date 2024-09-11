@@ -27,10 +27,8 @@ fs
     );
   })
   .forEach(file => {
-    if (!(file.includes('mongo'))) {
-      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes, Sequelize.Deferrable);
-      db[model.name] = model;
-    }
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes, Sequelize.Deferrable);
+    db[model.name] = model;
   });
 
 Object.keys(db).forEach(modelName => {
