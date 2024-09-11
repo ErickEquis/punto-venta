@@ -5,13 +5,23 @@ import { LayoutPointPageComponent } from './layout/layout-point-page/layout-poin
 
 const routes: Routes = [
   {
-    path: 'product', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule), component: LayoutPointPageComponent,
+    path: '',
+    children: [{
+      path: 'product', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule), component: LayoutPointPageComponent,
+    }
+    ],
   },
   {
-    path: 'user', loadChildren: () => import('./users/users.module').then(m => m.UsersModule), component: LayoutPointPageComponent,
+    path: '',
+    children: [{
+      path: 'user', loadChildren: () => import('./users/users.module').then(m => m.UsersModule), component: LayoutPointPageComponent,
+    }]
   },
   {
-    path: "**", redirectTo: 'point', pathMatch: 'full'
+    path: '',
+    children: [{
+      path: "**", redirectTo: 'point', pathMatch: 'full'
+    }]
   },
 ];
 
