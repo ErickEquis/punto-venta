@@ -1,6 +1,6 @@
 'use strict'
 
-const config = require('../config/config.json');
+const config = require('../../config/config.json');
 
 module.exports = (sequelize, DataTypes) => {
     const schema = config.plataformas.dbpv.schema;

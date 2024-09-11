@@ -16,6 +16,13 @@ module.exports = {
     //   )
     // }
 
+    // Cambio de nombre de columna y de atributos
+    await queryInterface.renameColumn({ tableName: 'ca_ventas', schema: schema }, 'productos', 'id_productos_mdb')
+    await queryInterface.changeColumn({ tableName: 'ca_ventas', schema: schema }, 'id_productos_mdb', {
+      type: 'BIGINT USING CAST("id_productos_mdb" as STRING)',
+      allowNull: false,
+    })
+
   },
 
   async down(queryInterface, Sequelize) {

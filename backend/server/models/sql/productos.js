@@ -1,6 +1,6 @@
 'use strict'
 
-const config = require('../config/config');
+const config = require('../../config/config');
 
 const ca_equipos = require('./equipos')
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const config = require('../config/config');
+const config = require('../../config/config');
 const ca_usuarios = require('./usuarios')
 const ca_equipos = require('./equipos')
 const ca_historial_ventas = require('./historial_ventas')
@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes, Deferrable) => {
                     deferrable: Deferrable.INITIALLY_IMMEDIATE
                 }
             },
-            productos: {
-                type: DataTypes.JSONB,
+            id_productos_mdb: {
+                type: DataTypes.BIGINT,
                 allowNull: false,
             },
             total_venta: {

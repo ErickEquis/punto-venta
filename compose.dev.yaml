@@ -22,7 +22,7 @@ services:
       - 4205
     depends_on:
       backend-dev:
-          condition: service_healthy
+        condition: service_healthy
     volumes:
       - ./frontend/src:/usr/src/app/src
 
@@ -37,9 +37,10 @@ services:
     expose:
       - 8880
     depends_on:
-      # mongodb-dev:
+      mongo:
+        condition: service_healthy
       postgres-dev:
-          condition: service_healthy
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://backend-dev:8880/api/healthcheck" ]
       interval: 60s
@@ -47,6 +48,7 @@ services:
       retries: 2
     volumes:
       - ./backend/server:/usr/src/app/server
+      - ./backend/bin:/usr/src/app/bin
     # command: '/bin/bash -c "sleep 5; mongosh mongodb://user:pass@mongodb --eval \"show dbs;\""'
 
   postgres-dev:
@@ -66,7 +68,7 @@ services:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 2
     volumes:
       - ./data/dev/postgres/pgdata:/var/lib/postgresql/data/pgdata
 
@@ -76,16 +78,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: "dbpv"
     ports:
       - 27017:27017
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 2
+    volumes:
+      - ./data/dev/mongodb:/data/db

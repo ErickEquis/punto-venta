@@ -43,6 +43,7 @@
   "token_secret": "@pUn70-v3N74!",
   "api": {
     "base_path": "/api",
+    "timezone": "America/Mexico_City",
     "rol": {
       "root": 1,
       "administrador": 10,

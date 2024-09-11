@@ -60,4 +60,5 @@ USER node
 
 COPY --from=development /usr/src/app .
 
-CMD pm2-runtime app.js
+# CMD pm2-runtime bin/www.js 
+CMD pm2-runtime ecosystem.config.js 

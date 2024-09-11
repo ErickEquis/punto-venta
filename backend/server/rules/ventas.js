@@ -9,6 +9,21 @@ function create(body) {
         return json
     }
 
+    for (let i = 0; i < body.productos.length; i++) {
+        if (
+            typeof body.productos[i]["cantidad"] != "number" ||
+            typeof body.productos[i]["descripcion"] != "string" ||
+            typeof body.productos[i]["id"] != "string" ||
+            typeof body.productos[i]["precio"] != "number" ||
+            typeof body.productos[i]["stock"] != "number"
+        ) {
+            json.codigo = 1
+            json.mensaje = "Lo sentimos no fue posible registrar la venta"
+            return json
+        }
+
+    }
+
     if (!body.total_venta || body.total_venta < 0) {
         json.codigo = 1
         json.mensaje = "Error en el total de venta"

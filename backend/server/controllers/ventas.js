@@ -1,19 +1,22 @@
 'use strict'
 
-const db = require('../models/index')
+const db = require('../models/sql/index')
 const op = db.Sequelize.Op
+const auth = require('../services/auth')
+const config = require('../config/config')
 
-const ca_ventas = require('../models/').ca_ventas
-const ca_historial_ventas = require('../models/').ca_historial_ventas
-const ca_productos = require('../models/').ca_productos
-const ca_usuarios = require('../models/').ca_usuarios
+const ca_ventas = require('../models/sql/').ca_ventas
+const ca_historial_ventas = require('../models/sql/').ca_historial_ventas
+const ca_productos = require('../models/sql/').ca_productos
+const ca_usuarios = require('../models/sql/').ca_usuarios
+
+const ventas = require('../models/nosql/ventas')
 
 const rules = require('../rules/ventas')
 
 const moment = require('moment')
-
-const auth = require('../services/auth')
-const config = require('../config/config')
+const moment_tz = moment().tz(config.api.timezone)
+const moment_iso8601 = moment().tz(config.api.timezone, moment.ISO_8601).toISOString(true)
 
 async function findAll(req, res) {
 
@@ -42,6 +45,12 @@ async function findAll(req, res) {
             rows[i].fecha_venta = moment(rows[i].fecha_venta).locale('es').format("DD MMM hh:mm a")
         }
 
+        let ventas_mongo = await ventas.find().exec();
+        ventas_mongo.forEach(venta => {
+            console.log('-----------------')
+            console.log(venta)
+        });
+
         return res.status(200).json(rows)
 
     } catch (error) {
@@ -69,8 +78,8 @@ async function findTotal(req, res) {
                     fecha_venta: {
                         [op.between]:
                             [
-                                moment().tz("America/Mexico_City").format("YYYY-MM-DD"),
-                                moment().add(1, 'day').tz("America/Mexico_City").format("YYYY-MM-DD")
+                                moment_tz.format("YYYY-MM-DD"),
+                                moment_tz.add(1, 'day').format("YYYY-MM-DD")
                             ]
                     }
                 },
@@ -93,7 +102,7 @@ async function findMayorVendedores(req, res) {
         let usr = auth.decodeAuth(req)
 
         if (usr.rol != config.api.rol.administrador) {
-            return res.status(400).mensaje({mensaje: config.api.error_general})
+            return res.status(400).mensaje({ mensaje: config.api.error_general })
         }
 
         let mayorVendedores = await ca_ventas.findAll(
@@ -107,8 +116,8 @@ async function findMayorVendedores(req, res) {
                     fecha_venta: {
                         [op.between]:
                             [
-                                moment().tz("America/Mexico_City").format("YYYY-MM-DD"),
-                                moment().add(1, 'day').tz("America/Mexico_City").format("YYYY-MM-DD")
+                                moment_tz.format("YYYY-MM-DD"),
+                                moment_tz.add(1, 'day').format("YYYY-MM-DD")
                             ]
                     }
                 },
@@ -215,22 +224,7 @@ async function create(req, res) {
             }
         }
 
-        transaction = await db.sequelize.transaction()
-
-        let newVenta = await ca_ventas.create({
-            id_usuario: usr.id,
-            id_equipo: usr.equipo,
-            productos: req.body.productos,
-            total_venta: req.body.total_venta,
-            fecha_venta: moment()
-        }, { transaction })
-
-        if (!newVenta) {
-            await transaction.rollback();
-            return res.status(400).send({
-                mensaje: 'Lo sentimos, no fue posible registrar la venta.',
-            });
-        }
+        transaction = await db.sequelize.transaction();
 
         for (let i = 0; i < req.body.productos.length; i++) {
             let cantidad = await ca_productos.increment(
@@ -251,9 +245,37 @@ async function create(req, res) {
                     mensaje: `Lo sentimos, el inventario no es suficiente para ${req.body.productos[i].descripcion}.`,
                 });
             }
-            if (cantidad[0][0][0].cantidad < 10) {
-                
-            }
+            // if (cantidad[0][0][0].cantidad < 10) {
+
+            // }
+        }
+
+        let venta = await ventas.create({
+            _id: {
+                // 'entityId'
+                $inc: { seq: 1 },
+            },
+            productos: req.body.productos,
+            total_venta: req.body.total_venta,
+            id_usuario: usr.id,
+            timestamp: moment_iso8601
+        });
+
+        console.log(venta['_id'])
+
+        let newVenta = await ca_ventas.create({
+            id_usuario: usr.id,
+            id_equipo: usr.equipo,
+            id_productos_mdb: 1,
+            total_venta: req.body.total_venta,
+            fecha_venta: moment_tz
+        }, { transaction });
+
+        if (!newVenta) {
+            await transaction.rollback();
+            return res.status(400).send({
+                mensaje: 'Lo sentimos, no fue posible registrar la venta.',
+            });
         }
 
         await transaction.commit();
@@ -261,9 +283,9 @@ async function create(req, res) {
         return res.status(200).json({ mensaje: "Venta registrada." })
 
     } catch (error) {
-        console.error(error)
-        await transaction.rollback()
-        return res.status(500).json({ msg: error })
+        console.error(error);
+        await transaction.rollback();
+        return res.status(500).json({ msg: error });
     }
 
 }
@@ -337,7 +359,7 @@ async function update(req, res) {
             productos_modificados: venta.productos,
             total_venta: req.body.total_venta,
             total_venta_modificado: venta.total_venta,
-            fecha_modificacion: moment(),
+            fecha_modificacion: moment_tz,
             fecha_venta_modificada: venta.fecha_venta
         }, { transaction })
 

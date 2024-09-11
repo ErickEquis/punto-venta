@@ -1,17 +1,18 @@
 'use strict'
 
-const db = require('../models/index')
+const db = require('../models/sql/index')
 const op = db.Sequelize.Op
 const config = require('../config/config')
+const auth = require('../services/auth')
 
-const ca_productos = require('../models/').ca_productos
-const ca_notificaciones = require('../models/').ca_notificaciones
+const ca_productos = require('../models/sql/').ca_productos
+const ca_notificaciones = require('../models/sql/').ca_notificaciones
 
 const rules = require('../rules/productos')
 
-const auth = require('../services/auth')
-
 const moment = require('moment')
+const moment_tz = moment().tz(config.api.timezone)
+const moment_iso8601 = moment().tz(config.api.timezone, moment.ISO_8601).toISOString(true)
 
 async function findAll(req, res) {
 
@@ -372,7 +373,7 @@ async function notificacionesInventario() {
                 id_categoria: arrNotificacion[j].id_categoria,
                 data: arrNotificacion[j].data,
                 descripcion: arrNotificacion[j].descripcion,
-                fecha: moment().tz("America/Mexico_City")
+                fecha: moment_tz
             }, { transaction })
 
             if (!updateNotificacion) {
@@ -421,7 +422,7 @@ async function logicalDelete(req, res) {
         let logicalProducto = await ca_productos.update(
             {
                 estatus: !producto.estatus,
-                logical_delete: moment().tz("America/Mexico_City")
+                logical_delete: moment_tz
             },
             {
                 where: {
@@ -458,7 +459,7 @@ async function deleteProductos() {
         let productos = await ca_productos.findAll({
             attributes: ['id'],
             where: {
-                logical_delete: moment().add(-7, 'days').tz("America/Mexico_City").format("YYYY-MM-DD"),
+                logical_delete: moment_tz.add(-7, 'days').format("YYYY-MM-DD"),
                 estatus: false
             },
             raw: true,
@@ -488,12 +489,9 @@ async function deleteProductos() {
         
         await transaction.commit();
         
-        return res.status(200)
-        
     } catch (error) {
         console.error(error)
         await transaction.rollback()
-        return res.status(500).json({ msg: error })
     }
 
 }
