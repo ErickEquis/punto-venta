@@ -2,7 +2,6 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { PointService } from 'src/app/point/services/point.service';
 import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 
 @Component({

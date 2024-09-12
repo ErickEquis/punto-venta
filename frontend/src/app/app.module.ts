@@ -7,9 +7,6 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './auth/auth.module';
-import { PointModule } from './point/point.module';
-
 
 @NgModule({
   declarations: [
@@ -19,8 +16,6 @@ import { PointModule } from './point/point.module';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    PointModule,
-    AuthModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
