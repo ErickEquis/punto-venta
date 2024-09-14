@@ -32,8 +32,12 @@
             "production": {
               "aot": true,
               "outputHashing": "all",
-              "optimization": true,
-              "sourceMap": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "sourceMap": false,
               "extractLicenses": true,
               "vendorChunk": false,
               "commonChunk": true,
