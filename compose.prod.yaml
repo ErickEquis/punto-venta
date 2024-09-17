@@ -11,7 +11,7 @@ services:
       backend-prod:
         condition: service_healthy
     ports:
-      - 81:80
+      - 81:443
     expose:
       - 81
     volumes:
