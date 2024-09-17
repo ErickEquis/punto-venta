@@ -14,7 +14,14 @@ import { ModalEditproductoVentaComponent } from './components/modal-editproducto
 import { ModalScanBarcodeComponent } from './components/modal-scan-barcode/modal-scan-barcode.component';
 
 @NgModule({
-  declarations: [HomePageComponent, InventarioPageComponent, ModalEditproductsComponent, ModalAddproductsComponent, ModalEditproductoVentaComponent, ModalScanBarcodeComponent],
+  declarations: [
+    HomePageComponent,
+    InventarioPageComponent,
+    ModalEditproductsComponent,
+    ModalAddproductsComponent,
+    ModalEditproductoVentaComponent,
+    ModalScanBarcodeComponent
+  ],
   exports: [],
   imports: [
     CommonModule,

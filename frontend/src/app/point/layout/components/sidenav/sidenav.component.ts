@@ -40,17 +40,18 @@ export class SidenavComponent implements OnInit {
 
   countNotificaciones() {
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : null
-    this.notificacionesService.countNotificaciones(this.options).subscribe(
-      (count) => { this.count = count },
-      (error) => {
-        if (error.status == 403) {
-          setTimeout(() => {
-            this.authService.signOut()
-          }, 1500);
+    this.notificacionesService.countNotificaciones(this.options)
+      .subscribe({
+        next: (count) => { this.count = count },
+        error: (error) => {
+          if (error.status == 403) {
+            setTimeout(() => {
+              this.authService.signOut()
+            }, 1500);
+          }
+          this.toastr.error(error.error.mensaje, 'Error!');
         }
-        this.toastr.error(error.error.mensaje, 'Error!');
-      }
-    )
+      })
   }
 
 }
