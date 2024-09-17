@@ -59,6 +59,7 @@ FROM --platform=linux/amd64 nginx:${NGINX_VERSION} AS nginx-prod
 # Copia los archivos compilados al servidor nginx
 COPY --from=angular-production /usr/src/app/dist/frontend/ /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx_global.conf /etc/nginx/nginx.conf
 
 # Expone el puerto que nginx usará
 EXPOSE 81
