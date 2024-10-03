@@ -1,6 +1,2 @@
 /data
-
-compose.prod.yaml
-compose.qa.yaml
-
 openssl.cnf
