@@ -17,7 +17,6 @@ services:
       - 81
     volumes:
       - /opt/point-cache/cache:/opt/cache:rw
-      - /etc/letsencrypt:/etc/letsencrypt
 
   backend-prod:
     container_name: backend-prod
