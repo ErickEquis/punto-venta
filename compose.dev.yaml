@@ -11,6 +11,7 @@
 services:
 
   frontend-dev:
+    restart: always
     build:
       context: ./frontend
       target: development
@@ -27,6 +28,7 @@ services:
       - ./frontend/src:/usr/src/app/src
 
   backend-dev:
+    restart: always
     build:
       context: ./backend
       target: development

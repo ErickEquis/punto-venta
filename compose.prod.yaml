@@ -3,6 +3,7 @@ services:
 
   frontend-prod:
     container_name: frontend-prod
+    restart: always
     build:
       context: ./frontend
       target: nginx-prod
@@ -13,13 +14,17 @@ services:
         condition: service_healthy
     ports:
       - 80:80
+      - 443:443
     expose:
       - 80
+      - 443
     volumes:
       - /opt/point-cache/cache:/opt/cache:rw
+      - /etc/letsencrypt:/etc/letsencrypt
 
   backend-prod:
     container_name: backend-prod
+    restart: always
     build:
       context: ./backend
       target: production
@@ -40,7 +45,7 @@ services:
 
   postgres-prod:
     container_name: dbpv-container-prod
-    image: postgres:latest
+    image: postgres:16.4
     restart: always
     environment:
       POSTGRES_USER: postgres
