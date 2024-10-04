@@ -61,4 +61,4 @@ COPY --from=angular-production /usr/src/app/dist/frontend/ /usr/share/nginx/html
 COPY /nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expone el puerto que nginx usará
-EXPOSE 81
+EXPOSE 80

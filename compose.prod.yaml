@@ -12,9 +12,9 @@ services:
       backend-prod:
         condition: service_healthy
     ports:
-      - 81:80
+      - 80:80
     expose:
-      - 81
+      - 80
     volumes:
       - /opt/point-cache/cache:/opt/cache:rw
 
