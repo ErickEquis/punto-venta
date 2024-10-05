@@ -12,6 +12,7 @@ services:
 
   frontend-dev:
     restart: always
+    platform: linux/amd64
     build:
       context: ./frontend
       target: development
