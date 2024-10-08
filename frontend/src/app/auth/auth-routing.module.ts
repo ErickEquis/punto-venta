@@ -8,10 +8,9 @@ import { ForgotPwdPageComponent } from './pages/forgot-pwd-page/forgot-pwd-page.
 import { NewMemberComponent } from './pages/new-member/new-member.component';
 import { ConfirmarCuentaComponent } from './pages/confirmar-cuenta/confirmar-cuenta.component';
 
-
 const routes: Routes = [
   {
-    path: '', component: LayoutAuthPageComponent,
+    path: '',
     children: [
       {
         path: "log-in", component: LoginPageComponent

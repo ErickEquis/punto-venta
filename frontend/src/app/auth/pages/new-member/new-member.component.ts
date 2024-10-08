@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Md5 } from 'md5-typescript';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
+import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-new-member',
   templateUrl: './new-member.component.html',
-  styleUrls: ['./new-member.component.css']
+  styleUrls: ['./new-member.component.css'],
+  standalone: true,
+  imports: [ReactiveFormsModule, ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective],
 })
 export class NewMemberComponent implements OnInit {
 
@@ -22,11 +26,11 @@ export class NewMemberComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
   ) {
-    this.formMember = new UntypedFormGroup({
-      nombre: new UntypedFormControl('', [Validators.required]),
-      correo: new UntypedFormControl('', [Validators.required, Validators.email]),
-      contrasenia: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
-      confContrasenia: new UntypedFormControl(''),
+    this.formMember = new FormGroup({
+      nombre: new FormControl('', [Validators.required]),
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      contrasenia: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]),
+      confContrasenia: new FormControl(''),
     }, { validators: authService.confirmarPwd })
   }
 

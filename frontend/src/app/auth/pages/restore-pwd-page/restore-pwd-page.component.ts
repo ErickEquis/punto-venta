@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { Md5 } from 'md5-typescript';
 
@@ -12,7 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-restore-pwd-page',
   templateUrl: './restore-pwd-page.component.html',
-  styleUrls: ['./restore-pwd-page.component.css']
+  styleUrls: ['./restore-pwd-page.component.css'],
+  standalone: true,
+  imports: [RouterLink, ReactiveFormsModule, ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective]
 })
 export class RestorePwdPageComponent implements OnInit {
 

@@ -1,33 +1,37 @@
-<h3 class="mb-3">
-  Ingresa una nueva contraseña
-</h3>
-
-<form [formGroup]="formRestorePwd" (ngSubmit)="restorePwd()">
-  <input type="email" placeholder="Correo" class="form-control mb-3" formControlName="correo">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
-    Ingresa tu correo electronico
-  </div>
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(correo.touched && correo.value && correo.errors?.email)">
-    Correo electronico no valido
-  </div>
-
-  <input type="password" placeholder="Nueva contraseña" class="form-control mb-3" formControlName="contrasenia">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
-    Ingresa tu contraseña
-  </div>
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(contrasenia.errors?.minlength || contrasenia.errors?.maxlength)">
-    La contraseña debe tener de 8 a 12 caracteres
-  </div>
-
-  <input type="password" placeholder="Confirmar contraseña" class="form-control mb-3" formControlName="confContrasenia">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(formRestorePwd.errors?.PasswordNoMatch && confContrasenia.value)">
-    La contraseña no coincide
-  </div>
-
-  <button type="submit" class="btn btn-primary w-100" [disabled]="!formRestorePwd.valid">Ingresar</button>
-</form>
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm [formGroup]="formRestorePwd" (ngSubmit)="restorePwd()">
+              <h1>Point</h1>
+              <p class="text-body-secondary">Ingresa una nueva contraseña</p>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <i class="bi-at"></i>
+                </span>
+                <input autoComplete="correo" cFormControl placeholder="Correo" type="email" formControlName="correo"/>
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <i class="bi-lock"></i>
+                </span>
+                <input autoComplete="password" cFormControl placeholder="Contraseña" type="password" formControlName="contrasenia"/>
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <i class="bi-lock"></i>
+                </span>
+                <input autoComplete="password" cFormControl placeholder="Confirmar contraseña" type="password" formControlName="confContrasenia"/>
+              </c-input-group>
+              <div class="d-grid">
+                <button cButton color="success" type="submit" [disabled]="!formRestorePwd.valid">Restaurar contraseña</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

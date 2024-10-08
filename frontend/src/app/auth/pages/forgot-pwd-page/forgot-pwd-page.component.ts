@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
 
 @Component({
   selector: 'app-forgot-pwd-page',
   templateUrl: './forgot-pwd-page.component.html',
-  styleUrls: ['./forgot-pwd-page.component.css']
+  styleUrls: ['./forgot-pwd-page.component.css'],
+  standalone: true,
+  imports: [RouterLink, ReactiveFormsModule, ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective]
 })
+
 export class ForgotPwdPageComponent implements OnInit {
 
   formForgotPwd: any

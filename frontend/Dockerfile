@@ -17,7 +17,7 @@ FROM base AS development
 COPY package*.json .
 
 # Instala dependencias asegurando que npm utiliza glibc
-RUN npm i --platform=linux --arch=x64
+RUN npm i
 
 # Copia el resto del código
 COPY . .

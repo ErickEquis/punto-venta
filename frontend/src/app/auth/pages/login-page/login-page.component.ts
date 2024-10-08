@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../services/auth.service';
 import { Md5 } from 'md5-typescript';
 
+import { NgStyle } from '@angular/common';
+import { FormFeedbackComponent, CarouselComponent, CarouselItemComponent, CarouselInnerComponent, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  styleUrls: ['./login-page.component.css'],
+  imports: [FormFeedbackComponent, ReactiveFormsModule, CarouselComponent, CarouselItemComponent, CarouselInnerComponent, RouterModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective, NgStyle],
+  standalone: true,
 })
 export class LoginPageComponent implements OnInit {
 

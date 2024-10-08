@@ -16,16 +16,16 @@ import { ConfirmarCuentaComponent } from './pages/confirmar-cuenta/confirmar-cue
 
 @NgModule({
   declarations: [
-    LoginPageComponent,
-    SignupPageComponent,
     LayoutAuthPageComponent,
     CarouselComponent,
-    RestorePwdPageComponent,
-    ForgotPwdPageComponent,
-    NewMemberComponent,
-    ConfirmarCuentaComponent
   ],
   imports: [
+    RestorePwdPageComponent,
+    NewMemberComponent,
+    ConfirmarCuentaComponent,
+    ForgotPwdPageComponent,
+    SignupPageComponent,
+    LoginPageComponent,
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule

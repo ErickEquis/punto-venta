@@ -3,18 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
 
 @Component({
   selector: 'app-confirmar-cuenta',
-  template: `
-    <h3>
-      Confirmacion de cuenta.
-    </h3>
-    <p class="opacity-75">
-      !Bienvenido¡
-    </p>
-  `,
-  styleUrls: ['./confirmar-cuenta.component.css']
+  templateUrl: './confirmar-cuenta.component.html',
+  styleUrls: ['./confirmar-cuenta.component.css'],
+  standalone: true,
+  imports: [ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective]
 })
 export class ConfirmarCuentaComponent implements OnInit {
 
