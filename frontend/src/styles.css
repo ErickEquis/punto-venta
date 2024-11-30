@@ -1,6 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
-/* * {
-  padding: none;
-  margin: none;
-  box-sizing: border-box;
-} */
+:root {
+  /* Light theme */
+  --point-bg-primary: #F6F6F6;
+  --point-primary-color: #4A8BDF;
+  --point-secondary-color: #D1A7F7;
+  --point-primary-text: #333333;
+  --point-secondary-text: #757575;
+  --point-success-color: #4CAF50;
+  --point-warning-color: #FF9800;
+  --point-danger-color: #F44336;
+
+  --point-rgb-bg-primary: rgb(246, 246, 246);
+  --point-rgb-primary-color: 74, 139, 223;
+  --point-rgb-secondary-color: rgb(209, 167, 247);
+  --point-rgb-primary-text: rgb(51, 51, 51);
+  --point-rgb-secondary-text: rgb(117, 117, 117);
+  --point-rgb-success-color: rgb(76, 175, 80);
+  --point-rgb-warning-color: rgb(255, 152, 0);
+  --point-rgb-danger-color: rgb(244, 67, 54);
+
+  /* Boostrap */
+  --bs-body-bg: var(--point-bg-primary);
+  --bs-primary-rgb: var(--point-rgb-primary-color);
+  --bs-body-color: var(--point-primary-text);
+}
