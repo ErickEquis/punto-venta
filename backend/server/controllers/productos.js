@@ -33,6 +33,12 @@ async function findAll(req, res) {
                             [op.iLike]: '%' + req.query.descripcion + '%',
                         },
                     ),
+                    db.Sequelize.where(
+                        db.Sequelize.fn('LOWER', db.Sequelize.fn('translate', db.Sequelize.col('codigo'), 'áéíóúäëïöü', 'aeiouaeiou')),
+                        {
+                            [op.iLike]: '%' + req.query.descripcion + '%',
+                        },
+                    ),
                 ],
             }
         }

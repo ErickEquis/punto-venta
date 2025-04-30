@@ -3,8 +3,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "dbpv-container",
-    "port": 5432,
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
@@ -15,8 +14,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "dbpv-container-qa",
-    "port": 5432,
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false
@@ -27,8 +25,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "dbpv",
-    "host": "dbpv-container-prod",
-    "port": 5432,
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
       "useUTC": false

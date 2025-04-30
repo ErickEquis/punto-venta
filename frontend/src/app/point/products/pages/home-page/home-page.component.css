@@ -16,3 +16,10 @@
     display: none;
   }
 }
+
+.input-cantidad {
+  width: 3rem;
+  text-align: center;
+  background: none;
+  border: none;
+}

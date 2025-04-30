@@ -133,6 +133,7 @@ export class HomePageComponent implements OnInit, DoCheck {
       .subscribe({
         next: (dato: any) => {
           this.itemById = dato
+          this.agregarProducto()
         },
         error: (error) => {
           if (error.status == 403) {
@@ -192,6 +193,10 @@ export class HomePageComponent implements OnInit, DoCheck {
           error: (error) => this.toastr.error('', error.error.mensaje)
         })
     }
+  }
+
+  borrarCuenta() {
+    this.ventaProductos = [];
   }
 
 }
