@@ -23,3 +23,13 @@
   background: none;
   border: none;
 }
+
+.max-stock {
+  border: 2px solid red;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: inner-spin-button;
+  opacity: 1;
+  margin: 0;
+}

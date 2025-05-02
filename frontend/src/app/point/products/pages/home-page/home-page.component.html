@@ -26,9 +26,13 @@
           <td>
             <input
               type="number"
+              min="1"
+              [max]="producto.stock"
               [value]="producto.cantidad"
               class="input-cantidad"
               [(ngModel)]="producto.cantidad"
+              [ngClass]="{ 'max-stock': producto.cantidad >= producto.stock }"
+              (change)="actualizarCantidad(i)"
             >
           </td>
           <td>{{ producto.cantidad * producto.precio | currency }}</td>

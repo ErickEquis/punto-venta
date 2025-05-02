@@ -20,3 +20,7 @@
     margin: auto .6em;
   }
 }
+
+.active {
+  background-color: #007bff5c;
+}

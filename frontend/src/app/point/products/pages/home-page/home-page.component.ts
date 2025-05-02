@@ -62,7 +62,7 @@ export class HomePageComponent implements OnInit, DoCheck {
     let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
     let i = this.ventaProductos.indexOf(p);
     this.ventaProductos[i].cantidad += n;
-    this.edit(this.ventaProductos[i])
+    // this.edit(this.ventaProductos[i])
     if (this.ventaProductos[i].cantidad == 0) {
       this.eliminar(p)
     }
@@ -112,7 +112,15 @@ export class HomePageComponent implements OnInit, DoCheck {
       this.productoService.getProdutos(this.options)
         .subscribe({
           next: (data: Productos[]) => {
+            if (/^\d{8,14}$/.test(this.productoBuscado)) {
+              if(data.length > 0) {
+                this.selectProducto(data[0])
+              } else {
+                this.toastr.error('', 'No se encontró el producto');
+              }
+            } else {
             this.listProductos = data
+            }
           },
           error: (error) => {
             if (error.status == 403) {
@@ -197,6 +205,16 @@ export class HomePageComponent implements OnInit, DoCheck {
 
   borrarCuenta() {
     this.ventaProductos = [];
+  }
+
+  actualizarCantidad(index) {
+    if (this.ventaProductos[index].cantidad >= this.ventaProductos[index].stock) {
+      this.ventaProductos[index].cantidad = this.ventaProductos[index].stock
+    }
+  }
+
+  isBarCode(value: string) {
+    console.log({value})
   }
 
 }
