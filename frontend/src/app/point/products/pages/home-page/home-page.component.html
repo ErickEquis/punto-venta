@@ -1,4 +1,17 @@
-<div class="container-lg h-100">
+<div class="row col-2 mx-1">
+  <div role="button" class="text-center my-1 d-flex justify-content-center flex-column position-relative border border-dark" style="height: 6rem;">
+    <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Close"></button>
+    <span>Cliente 1</span>
+    <span>$130.50</span>
+  </div>
+
+  <div role="button" class="text-center my-1 d-flex justify-content-center flex-column border border-dark" style="height: 6rem;">
+    <span>Agregar cuenta</span>
+    <span>$130.50</span>
+  </div>
+</div>
+
+<div class="container-lg h-100" style="display: none;" [id]="'1'">
 
   <app-modal-editproducto-venta class="d-md-none" [producto]="producto"
     (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>

@@ -217,4 +217,9 @@ export class HomePageComponent implements OnInit, DoCheck {
     console.log({value})
   }
 
+  abrirCuenta() {
+    document.getElementById('1').style.display = 'block'
+    document.getElementById('cuenta').style.display = 'none'
+  }
+
 }
