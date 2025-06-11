@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError } from 'rxjs';
@@ -12,214 +12,46 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  styleUrls: ['./home-page.component.css'],
+  host: {
+    'class': 'vh-100 row',
+  }
 })
-export class HomePageComponent implements OnInit, DoCheck {
+export class HomePageComponent {
 
-  identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
-  listProductos: Productos[] = []
-  ventaProductos: any[] = []
-  productoBuscado: string = ''
-  itemById: Productos[]
-  item: any = {}
-  producto: any
-  modal: string = ''
-  total: number = 0
-  bodyVenta: any = {}
-  isDisabledVender: boolean
-  isDisabledAgregar: boolean
-  camara: boolean = false
-  options: any = {}
+  clienteVisible: number = 1;
+  totalVenta: number = 0;
+  clientes: any = [{id: 1, totalVenta: 0}];
 
-  constructor(
-    private productoService: ProductoService,
-    private toastr: ToastrService,
-    private authService: AuthService,
-    private ventasService: VentasService,
-  ) { }
+  constructor() {}
 
-  ngOnInit() {
-    this.authService.checkSignIn(this.identityUser);
-    (window.innerWidth < 576) ? this.modal = 'modal' : this.modal = '';
-    document.querySelectorAll('.show').forEach((l) => l.classList.remove('modal-backdrop', 'fade', 'show'));
+  abrirCuenta(i: number) {
+    this.clienteVisible = this.clientes[i].id;
   }
-
-  ngDoCheck(): void {
-    (!this.itemById) ? this.isDisabledAgregar = true : this.isDisabledAgregar = null
-    this.getTotal();
-    (this.total == 0) ? this.isDisabledVender = true : this.isDisabledVender = null
-  }
-
-  getHeaders(token: string) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': token
-    })
-    return headers
-  }
-
-  cantidadVenta(n: number, producto: any) {
-    let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
-    let i = this.ventaProductos.indexOf(p);
-    this.ventaProductos[i].cantidad += n;
-    // this.edit(this.ventaProductos[i])
-    if (this.ventaProductos[i].cantidad == 0) {
-      this.eliminar(p)
-    }
-  }
-
-  edit(item: any) {
-    if (item.cantidad <= 1) {
-      document.getElementById(String(`${item.id}remove`)).setAttribute('disabled', 'true')
-    } else {
-      document.getElementById(String(`${item.id}remove`)).removeAttribute('disabled')
-    }
-
-    if (item.cantidad == item.stock) {
-      document.getElementById(String(`${item.id}add`)).setAttribute('disabled', 'true')
-    } else {
-      document.getElementById(String(`${item.id}add`)).removeAttribute('disabled')
-    }
-  }
-
-  eliminar(producto: any) {
-    let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion)
-    let i = this.ventaProductos.indexOf(p)
-    this.ventaProductos.splice(i, 1)
-  }
-
-  agregarProducto() {
-    this.item = {
-      id: this.itemById['id'],
-      descripcion: this.itemById['descripcion'],
-      precio: this.itemById['precio'],
-      cantidad: 1,
-      stock: this.itemById['cantidad'],
-    }
-    let p = this.ventaProductos.find(data => (data.descripcion === this.itemById['descripcion']))
-    p ? this.cantidadVenta(1, p) : this.ventaProductos.push(this.item);
-    this.productoBuscado = ''
-    this.itemById = null
-    this.listProductos = []
-  }
-
-  getProductos() {
-    if (this.productoBuscado != '') {
-      this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-      this.options.params = new HttpParams()
-        .set('venta', 'true')
-        .set('descripcion', this.productoBuscado)
-      this.productoService.getProdutos(this.options)
-        .subscribe({
-          next: (data: Productos[]) => {
-            if (/^\d{8,14}$/.test(this.productoBuscado)) {
-              if(data.length > 0) {
-                this.selectProducto(data[0])
-              } else {
-                this.toastr.error('', 'No se encontró el producto');
-              }
-            } else {
-            this.listProductos = data
-            }
-          },
-          error: (error) => {
-            if (error.status == 403) {
-              setTimeout(() => {
-                this.authService.signOut()
-              }, 1500);
-            }
-            this.toastr.error('', error.error.mensaje);
-          }
-        })
-    }
-    this.listProductos = []
-  }
-
-  getProductoId(item: any): void {
-    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.productoService.getProductoId(item.id, this.options)
-      .subscribe({
-        next: (dato: any) => {
-          this.itemById = dato
-          this.agregarProducto()
-        },
-        error: (error) => {
-          if (error.status == 403) {
-            setTimeout(() => {
-              this.authService.signOut()
-            }, 1500);
-          }
-          this.toastr.error('', error.error.mensaje);
+  borrarCliente(i: number) {
+    this.clientes.splice(i, 1);
+    if (this.clientes.length < 1) {
+      this.clientes = [
+        {
+          id: 1,
+          totalVenta: 0,
         }
-      })
-  }
-
-  selectProducto(item: any) {
-    this.productoBuscado = item.descripcion
-    this.getProductoId(item)
-  }
-
-  editProducto(producto: any) {
-    this.producto = producto
-  }
-
-  getTotal() {
-    this.total = 0
-    this.ventaProductos.forEach((producto) => {
-      this.total += (producto.precio * producto.cantidad)
-    })
-  }
-
-  venta() {
-    this.bodyVenta.productos = this.ventaProductos
-    this.bodyVenta.total_venta = this.total
-
-    this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-    this.ventasService.createVenta(this.bodyVenta, this.options)
-      .subscribe({
-        next: (response) => this.toastr.success('', response.mensaje),
-        error: (error) => this.toastr.error('', error.error.mensaje)
-      })
-
-    this.ventaProductos = []
-  }
-
-  camaraEstatus() {
-    this.camara = true
-  }
-
-  scan($event?: any) {
-    this.camara = false
-    if ($event) {
-      this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
-      this.productoService.getProductoCode($event, this.options)
-        .subscribe({
-          next: (producto) => {
-            this.itemById = producto
-            this.agregarProducto()
-          },
-          error: (error) => this.toastr.error('', error.error.mensaje)
-        })
+      ];
+      this.clienteVisible = this.clientes[0].id;
+    } else {
+      this.clienteVisible = this.clientes[0].id;
     }
   }
-
-  borrarCuenta() {
-    this.ventaProductos = [];
+  nuevaCuenta() {
+    const nuevaCuentaId = this.clientes[this.clientes.length - 1].id + 1;
+    this.clientes.push({
+          id: nuevaCuentaId,
+          totalVenta: 0,
+        });
+    this.clienteVisible = this.clientes[this.clientes.length - 1].id;
   }
 
-  actualizarCantidad(index) {
-    if (this.ventaProductos[index].cantidad >= this.ventaProductos[index].stock) {
-      this.ventaProductos[index].cantidad = this.ventaProductos[index].stock
-    }
+  updateTotalVenta({totalVenta, clienteIndex}) {
+    this.clientes[clienteIndex].totalVenta = totalVenta;
   }
-
-  isBarCode(value: string) {
-    console.log({value})
-  }
-
-  abrirCuenta() {
-    document.getElementById('1').style.display = 'block'
-    document.getElementById('cuenta').style.display = 'none'
-  }
-
 }

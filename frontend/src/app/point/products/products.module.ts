@@ -12,6 +12,7 @@ import { ModalEditproductsComponent } from './components/modal-editproducts/moda
 import { ModalAddproductsComponent } from './components/modal-addproducts/modal-addproducts.component';
 import { ModalEditproductoVentaComponent } from './components/modal-editproducto-venta/modal-editproducto-venta.component';
 import { ModalScanBarcodeComponent } from './components/modal-scan-barcode/modal-scan-barcode.component';
+import { VentasComponent } from "./components/ventas/ventas.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ModalScanBarcodeComponent } from './components/modal-scan-barcode/modal
     ModalEditproductsComponent,
     ModalAddproductsComponent,
     ModalEditproductoVentaComponent,
-    ModalScanBarcodeComponent
+    ModalScanBarcodeComponent,
+    VentasComponent
   ],
   exports: [],
   imports: [
@@ -28,7 +30,7 @@ import { ModalScanBarcodeComponent } from './components/modal-scan-barcode/modal
     ProductsRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    ZXingScannerModule,
-  ]
+    ZXingScannerModule
+]
 })
 export class ProductsModule { }
