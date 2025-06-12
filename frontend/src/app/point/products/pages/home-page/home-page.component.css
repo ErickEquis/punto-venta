@@ -33,3 +33,12 @@ input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
   margin: 0;
 }
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
