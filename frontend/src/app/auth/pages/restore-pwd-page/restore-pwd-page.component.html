@@ -3,7 +3,9 @@
 </h3>
 <form [formGroup]="formRestorePwd" (ngSubmit)="restorePwd()" class="auth-form">
   <div class="form-floating mb-2">
-    <input type="email" id="correo" placeholder="Correo" class="form-control" formControlName="correo">
+    <input type="email" id="correo" placeholder="Correo" class="form-control"
+      formControlName="correo"
+      [ngClass]="{'is-invalid': correo.invalid && (correo.dirty || correo.touched)}">
     <label for="correo">Correo</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
@@ -13,7 +15,9 @@
     Correo electronico no valido
   </div>
   <div class="form-floating mb-2">
-    <input type="password" id="contrasenia" placeholder="Nueva contraseña" class="form-control" formControlName="contrasenia">
+    <input type="password" id="contrasenia" placeholder="Nueva contraseña" class="form-control"
+      formControlName="contrasenia"
+      [ngClass]="{'is-invalid': contrasenia.invalid && (contrasenia.dirty || contrasenia.touched)}">
     <label for="contrasenia">Nueva contraseña</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
@@ -23,7 +27,9 @@
     La contraseña debe tener de 8 a 12 caracteres
   </div>
   <div class="form-floating mb-2">
-    <input type="password" id="confContrasenia" placeholder="Confirmar contraseña" class="form-control" formControlName="confContrasenia">
+    <input type="password" id="confContrasenia" placeholder="Confirmar contraseña" class="form-control"
+      formControlName="confContrasenia"
+      [ngClass]="{'is-invalid': confContrasenia.invalid && (confContrasenia.dirty || confContrasenia.touched)}">
     <label for="confContrasenia">Confirmar contraseña</label>
   </div>
   <div class="text-danger small text-center mb-3" *ngIf="(formRestorePwd.errors?.PasswordNoMatch && confContrasenia.value)">
