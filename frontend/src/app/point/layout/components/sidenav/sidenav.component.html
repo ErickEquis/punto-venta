@@ -1,30 +1,26 @@
-<div class="d-flex align-items-center justify-content-evenly py-1 bg-dark-subtle w-100 flex-md-column menu-responsive">
+<div class="d-md-none text-end">
+  <button class="btn btn-secondary m-2" (click)="toggleMenu()" aria-label="Mostrar u ocultar menú">
+    <span class="material-symbols-outlined">{{ isMenuCollapsed ? 'menu' : 'close' }}</span>
+  </button>
+</div>
+
+<nav aria-label="Menú principal"
+  class="d-flex align-items-center justify-content-evenly py-1 bg-dark-subtle w-100 flex-md-column menu-responsive"
+  [ngClass]="{'d-none': isMenuCollapsed && isMobile}">
 
   <div class="overflow-hidden text-nowrap" style="max-width: 3rem;">
     <span class="py-2">{{ identityUser.nombre }}</span>
   </div>
 
   <div class="d-flex flex-md-column justify-content-evenly align-self-start" style="width: inherit;">
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
-      <span class="material-symbols-outlined">home</span>
-      <span>Ventas</span>
-    </div>
-
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/inventario']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
-        <span class="material-symbols-outlined">store</span>
-        <span>Inventario</span>
-    </div>
-
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/user/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
-      <span class="material-symbols-outlined">
-        person
-      </span>
-      <span>Usuarios</span>
-      <!-- <span *ngIf="count"
+    <div *ngFor="let item of menuItems" role="button" routerLinkActive="active" [routerLink]="[item.route]" class="position-relative py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center" [attr.aria-label]="item.ariaLabel">
+      <span class="material-symbols-outlined">{{ item.icon }}</span>
+      <span>{{ item.label }}</span>
+      <span *ngIf="item.label === 'Usuarios' && count"
         class="position-absolute translate-middle badge bg-danger rounded-circle"
         style="top: 25%; left: 75%; height: 30%; width: 30%; font-size: .6rem;">
         {{ count }}
-      </span> -->
+      </span>
     </div>
   </div>
 
@@ -35,4 +31,4 @@
     <span>Salir</span>
   </div>
 
-</div>
+</nav>

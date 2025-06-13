@@ -22,5 +22,7 @@
 }
 
 .active {
-  background-color: #007bff5c;
+  background-color: #0d6efd;
+  color: #fff;
+  border-left: .25rem solid #0a58ca;
 }

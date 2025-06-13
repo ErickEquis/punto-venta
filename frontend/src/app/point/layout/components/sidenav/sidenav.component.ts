@@ -1,19 +1,49 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { NotificacionesService } from 'src/app/point/notificaciones/services/notificaciones.service';
+
+interface MenuItem {
+  label: string;
+  icon: string;
+  route: string;
+  ariaLabel: string;
+}
 
 @Component({
   selector: 'layout-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
+
 export class SidenavComponent implements OnInit {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
   options: any = {}
   count: number
+  menuItems: MenuItem[] = [
+    {
+      label: 'Ventas',
+      icon: 'home',
+      route: '/point/product/home',
+      ariaLabel: 'Ir a ventas'
+    },
+    {
+      label: 'Inventario',
+      icon: 'store',
+      route: '/point/product/inventario',
+      ariaLabel: 'Ir a inventario'
+    },
+    {
+      label: 'Usuarios',
+      icon: 'person',
+      route: '/point/user/home',
+      ariaLabel: 'Ir a usuarios'
+    }
+  ]
+  isMenuCollapsed = true
+  isMobile = window.innerWidth < 768
 
   constructor(
     private authService: AuthService,
@@ -24,6 +54,18 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit() {
     this.countNotificaciones();
+    this.isMobile = window.innerWidth < 768
+    if (!this.isMobile) {
+      this.isMenuCollapsed = false
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth < 768
+    if (!this.isMobile) {
+      this.isMenuCollapsed = false
+    }
   }
 
   getHeaders(token: string) {
@@ -36,6 +78,12 @@ export class SidenavComponent implements OnInit {
 
   logout() {
     this.authService.signOut()
+  }
+
+  toggleMenu() {
+    if (this.isMobile) {
+      this.isMenuCollapsed = !this.isMenuCollapsed
+    }
   }
 
   countNotificaciones() {
