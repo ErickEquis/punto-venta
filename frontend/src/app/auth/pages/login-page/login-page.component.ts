@@ -14,6 +14,7 @@ import { Md5 } from 'md5-typescript';
 export class LoginPageComponent implements OnInit {
 
   formSignIn: any
+  showPassword = false
 
   constructor(
     private authService: AuthService,
@@ -38,6 +39,10 @@ export class LoginPageComponent implements OnInit {
 
   get contrasenia() {
     return this.formSignIn.get('contrasenia')
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword
   }
 
   signIn() {
