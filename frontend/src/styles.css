@@ -23,3 +23,27 @@
   --bs-primary-rgb: var(--point-rgb-primary-color);
   --bs-body-color: var(--point-primary-text);
 }
+
+.tab {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.tab::-webkit-scrollbar {
+  width: .25rem;
+}
+
+.tab::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--bs-primary-rgb), 0.4);
+  border-radius: .5rem;
+}
+
+.responsive-button {
+  width: 40%;
+}
+
+@media (max-width: 767.98px) {
+  .responsive-button {
+    width: auto;
+  }
+}

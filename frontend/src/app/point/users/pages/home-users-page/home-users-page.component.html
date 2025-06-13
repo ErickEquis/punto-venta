@@ -1,6 +1,6 @@
 <div class="container-sm row m-auto p-1" style="max-height: 100%;">
 
-  <div class="row col-12 col-md-10 card bg-primary m-auto my-2">
+  <div class="row col-12 col-md-10 card bg-primary text-white m-auto my-2">
     <div>
       <div class="row d-flex justify-content-center align-items-center">
         <div class="col-10">
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="row col-12 col-md-10 card bg-primary p-0 m-auto my-2 d-flex justify-content-center"
+  <div class="row col-12 col-md-10 card bg-primary text-white p-0 m-auto my-2 d-flex justify-content-center"
     *ngIf="(identityUser.rol == 10)">
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -58,7 +58,7 @@
     <div class="card col-6 col-md-4 p-0 my-1" role="button" *ngFor="let permiso of identityUser.permisos" style="height: 9em;"
       [routerLink]=permiso.slug>
 
-      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
+      <div class="bg-primary text-white h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
         <span class="material-symbols-outlined">
           {{ permiso.icon }}
         </span>
