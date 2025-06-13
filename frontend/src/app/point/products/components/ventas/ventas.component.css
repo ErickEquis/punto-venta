@@ -1,0 +1,27 @@
+.ventas-container {
+  background-color: #fff;
+}
+
+.input-cantidad {
+  width: 3rem;
+  text-align: center;
+  background: none;
+  border: none;
+}
+
+.max-stock {
+  border: 2px solid red;
+}
+
+.tab {
+  overflow-y: auto;
+}
+
+.tab::-webkit-scrollbar {
+  width: .2rem;
+}
+
+.tab::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: .5rem;
+}

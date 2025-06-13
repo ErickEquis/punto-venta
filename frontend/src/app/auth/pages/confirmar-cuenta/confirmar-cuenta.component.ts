@@ -7,12 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-confirmar-cuenta',
   template: `
-    <h3>
-      Confirmacion de cuenta.
-    </h3>
-    <p class="opacity-75">
-      !Bienvenido¡
-    </p>
+    <div class="text-center p-4">
+      <h3 class="mb-2 fw-semibold">Confirmación de cuenta</h3>
+      <p class="opacity-75">¡Bienvenido!</p>
+    </div>
   `,
   styleUrls: ['./confirmar-cuenta.component.css']
 })

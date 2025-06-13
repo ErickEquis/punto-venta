@@ -1,17 +1,12 @@
-<div class="h-75 w-75 row d-flex justify-content-center align-items-center shadow-lg">
-  <div class="col-12 col-md-9 col-lg-6">
-    <div class="container">
-      <h1>
-        Point
-      </h1>
-      <p class="opacity-75">
-        Bienvenido de vuelta
-      </p>
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center auth-layout">
+  <div class="row shadow-lg auth-wrapper w-100">
+    <div class="col-12 col-lg-6 p-4 bg-white">
+      <h1 class="mb-0 text-primary fw-bold">Point</h1>
+      <p class="text-muted mb-4">Bienvenido de vuelta</p>
       <router-outlet></router-outlet>
     </div>
-  </div>
-
-  <div class="d-none d-lg-block col-md-6 bg-primary h-100">
-    <app-carousel class="w-100"></app-carousel>
+    <div class="d-none d-lg-block col-lg-6 p-0 auth-carousel">
+      <app-carousel class="w-100 h-100"></app-carousel>
+    </div>
   </div>
 </div>

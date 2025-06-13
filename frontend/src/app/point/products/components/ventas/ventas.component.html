@@ -1,7 +1,7 @@
-  <app-modal-editproducto-venta class="d-md-none" [producto]="producto"
-    (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
-  <div class="container-fluid tab pt-3 h-50 px-0 text-center">
-    <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
+  <app-modal-editproducto-venta class="d-md-none" [producto]="producto" (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
+  <div class="ventas-container card p-3">
+    <div class="table-responsive tab h-50 px-0 text-center">
+    <table class="table table-hover align-middle" style="border-radius: 1em; overflow: hidden;">
       <thead>
         <tr class="table-info">
           <th>Producto</th>
@@ -46,19 +46,18 @@
     <div class="alert alert-info my-5" *ngIf="!ventaProductos.length">
       <strong>!Vende!</strong> <br> Escanea tus productos.
     </div>
-  </div>
-
-  <div class="d-flex my-2 justify-content-end align-items-center container-fluid">
-    <div>
-      <span>Total </span>
-      <span>{{ total | currency }}</span>
     </div>
-  </div>
 
-  <div class="container-fluid">
-    <form (ngSubmit)='agregarProducto()'>
+    <div class="d-flex my-2 justify-content-end align-items-center">
+      <div>
+        <span>Total </span>
+        <span>{{ total | currency }}</span>
+      </div>
+    </div>
+
+    <form (ngSubmit)='agregarProducto()' class="mt-2">
       <div class="input-group">
-        <input name="productoInput" type="text" autocomplete="off" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
+        <input name="productoInput" type="text" autocomplete="off" class="form-control text-capitalize" placeholder="Buscar producto..."
           aria-label="Producto" [(ngModel)]="productoBuscado" (keyup)="getProductos()">
         <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal"
           data-bs-target="#scanBarcode" (click)="camaraEstatus()">
@@ -67,9 +66,8 @@
         <button class="btn btn-primary" [attr.disabled]="isDisabledVender" (click)="venta()" type="button">Vender</button>
       </div>
     </form>
-  </div>
 
-  <div class="tab container-fluid" style="height: 15%;">
+    <div class="tab table-responsive mt-3" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
         <tr *ngFor="let item of listProductos" class="table-dark" role="button" (click)="selectProducto(item)">
@@ -78,6 +76,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 
 <app-modal-scan-barcode [camara]="camara" (scanEvent)="scan($event)"></app-modal-scan-barcode>
