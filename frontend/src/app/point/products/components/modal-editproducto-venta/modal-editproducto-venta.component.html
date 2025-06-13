@@ -6,17 +6,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body d-flex justify-content-evenly">
-        <button type="button" class="btn btn-danger d-flex align-items-center" [attr.disabled]="isDisabledAdd" (click)="edit(1)">
+        <button type="button" class="btn btn-danger d-flex align-items-center" [attr.disabled]="isDisabledAdd" (click)="edit(1)" aria-label="Aumentar">
           <span class="material-symbols-outlined">
             add
           </span>
         </button>
-        <button type="button" class="btn btn-danger d-flex align-items-center" data-bs-dismiss="modal" (click)="edit(0)">
+        <button type="button" class="btn btn-danger d-flex align-items-center" data-bs-dismiss="modal" (click)="edit(0)" aria-label="Eliminar del carro">
           <span class="material-symbols-outlined">
             delete
           </span>
         </button>
-        <button type="button" class="btn btn-danger d-flex align-items-center" [attr.data-bs-dismiss]="modal" (click)="edit(-1)">
+        <button type="button" class="btn btn-danger d-flex align-items-center" [attr.data-bs-dismiss]="modal" (click)="edit(-1)" aria-label="Disminuir">
           <span class="material-symbols-outlined">
             remove
           </span>
