@@ -1,0 +1,64 @@
+<div class="container-sm row m-auto p-1" style="max-height: 100%;">
+
+  <div class="row col-12 col-md-10 card bg-primary m-auto my-2">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-10">
+        <h6>Bienvenido,</h6>
+        <h2>{{ identityUser?.nombre }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row col-12 col-md-10 card bg-primary m-auto my-2 p-2 text-center">
+    <div class="col-6 col-md-3">
+      <h6>Ventas hoy</h6>
+      <p>{{ totalVentas | currency }}</p>
+    </div>
+    <div class="col-6 col-md-3">
+      <h6>Productos</h6>
+      <p>{{ totalProductos }}</p>
+    </div>
+    <div class="col-6 col-md-3">
+      <h6>Usuarios</h6>
+      <p>{{ totalUsuarios }}</p>
+    </div>
+  </div>
+
+  <div class="row col-12 col-md-10 card bg-primary m-auto my-2">
+    <div class="card-header">Últimas Ventas</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between" *ngFor="let v of ventas">
+        <span>{{ v.fecha_venta }}</span>
+        <span>{{ v.total_venta | currency }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="p-0 mx-auto row d-flex col-12 col-md-10 margin">
+    <div class="card col-6 col-md-3 p-0 my-1" role="button" routerLink="/point/product/home">
+      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        <p style="font-size: .75rem;">Ventas</p>
+      </div>
+    </div>
+    <div class="card col-6 col-md-3 p-0 my-1" role="button" routerLink="/point/product/inventario">
+      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
+        <span class="material-symbols-outlined">store</span>
+        <p style="font-size: .75rem;">Inventario</p>
+      </div>
+    </div>
+    <div class="card col-6 col-md-3 p-0 my-1" role="button" routerLink="/point/user/equipo">
+      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
+        <span class="material-symbols-outlined">group</span>
+        <p style="font-size: .75rem;">Usuarios</p>
+      </div>
+    </div>
+    <div class="card col-6 col-md-3 p-0 my-1" role="button" routerLink="/point/user/ventas">
+      <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
+        <span class="material-symbols-outlined">history</span>
+        <p style="font-size: .75rem;">Historial</p>
+      </div>
+    </div>
+  </div>
+
+</div>
