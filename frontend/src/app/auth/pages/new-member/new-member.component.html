@@ -1,39 +1,40 @@
-<h3>
+<h3 class="mb-4 fw-semibold">
   Unete a tu equipo
 </h3>
-
-<form [formGroup]="formMember" (ngSubmit)="createUser()">
-  <input type="text" placeholder="Nombre" class="form-control mb-3" formControlName="nombre">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(nombre.touched && nombre.dirty && nombre.errors?.required)">
+<form [formGroup]="formMember" (ngSubmit)="createUser()" class="auth-form">
+  <div class="form-floating mb-2">
+    <input type="text" id="nombre" placeholder="Nombre" class="form-control" formControlName="nombre">
+    <label for="nombre">Nombre</label>
+  </div>
+  <div class="text-danger small text-center mb-2" *ngIf="(nombre.touched && nombre.dirty && nombre.errors?.required)">
     Ingresa tu nombre
   </div>
-
-  <input type="email" placeholder="Correo electronico" class="form-control mb-3" formControlName="correo">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
+  <div class="form-floating mb-2">
+    <input type="email" id="correo" placeholder="Correo electronico" class="form-control" formControlName="correo">
+    <label for="correo">Correo electronico</label>
+  </div>
+  <div class="text-danger small text-center mb-2" *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
     Ingresa tu correo
   </div>
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(correo.touched && correo.value && correo.errors?.email)">
+  <div class="text-danger small text-center mb-2" *ngIf="(correo.touched && correo.value && correo.errors?.email)">
     Correo no valido
   </div>
-
-  <input type="password" placeholder="Contraseña" class="form-control mb-3" formControlName="contrasenia">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
+  <div class="form-floating mb-2">
+    <input type="password" id="contrasenia" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
+    <label for="contrasenia">Contraseña</label>
+  </div>
+  <div class="text-danger small text-center mb-2" *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
     Ingresa tu contraseña
   </div>
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(contrasenia.errors?.minlength || contrasenia.errors?.maxlength)">
+  <div class="text-danger small text-center mb-2" *ngIf="(contrasenia.errors?.minlength || contrasenia.errors?.maxlength)">
     La contraseña debe tener de 8 a 12 caracteres
   </div>
-
-  <input type="password" placeholder="Confirmar contraseña" class="form-control mb-3" formControlName="confContrasenia">
-  <div class="d-flex justify-content-center alert alert-danger w-100 p-2 mb-3"
-    *ngIf="(formMember.errors?.PasswordNoMatch && confContrasenia.value)">
+  <div class="form-floating mb-2">
+    <input type="password" id="confContrasenia" placeholder="Confirmar contraseña" class="form-control" formControlName="confContrasenia">
+    <label for="confContrasenia">Confirmar contraseña</label>
+  </div>
+  <div class="text-danger small text-center mb-3" *ngIf="(formMember.errors?.PasswordNoMatch && confContrasenia.value)">
     La contraseña no coincide
   </div>
-
   <button type="submit" class="btn btn-primary w-100" [disabled]="!formMember.valid">Registrarse</button>
 </form>
