@@ -1,7 +1,7 @@
   <app-modal-editproducto-venta class="d-md-none" [producto]="producto"
     (editEvent)="eliminar(producto)"></app-modal-editproducto-venta>
-  <div class="container-fluid tab pt-3 h-50 px-0 text-center">
-    <table class="table table-hover table-striped align-middle" style="border-radius: 1em; overflow: hidden;">
+  <div class="container-fluid tab pt-3 h-50 px-0 text-center table-responsive">
+    <table class="table table-hover table-striped align-middle" style="border-radius: 1em;">
       <thead>
         <tr class="table-info">
           <th>Producto</th>
@@ -10,7 +10,7 @@
           <th>Total</th>
           <th class="d-xs-none">
             <ng-container *ngIf="ventaProductos.length > 0">
-              <button class="btn btn-danger btn-sm mx-1" (click)="borrarCuenta()">Borrar cuenta</button>
+              <button class="btn btn-danger btn-sm mx-1" (click)="borrarCuenta()" title="Vaciar venta" aria-label="Vaciar venta">Borrar cuenta</button>
             </ng-container>
           </th>
         </tr>
@@ -21,20 +21,32 @@
           <td class="overflow-x-hidden text-nowrap" style="max-width: 1em;">{{ producto.descripcion | titlecase }}</td>
           <td>{{ producto.precio | currency }}</td>
           <td>
-            <input
-              type="number"
-              min="1"
-              [max]="producto.stock"
-              [value]="producto.cantidad"
-              class="input-cantidad"
-              [(ngModel)]="producto.cantidad"
-              [ngClass]="{ 'max-stock': producto.cantidad >= producto.stock }"
-              (change)="actualizarCantidad(i)"
-            >
+            <div class="input-group input-group-sm justify-content-center cantidad-control" (click)="$event.stopPropagation()">
+              <button type="button" class="btn btn-outline-secondary" aria-label="Restar"
+                (click)="cambiarCantidad(i, -1); $event.stopPropagation()" [disabled]="producto.cantidad <= 1">
+                <span class="material-symbols-outlined" aria-hidden="true">remove</span>
+              </button>
+              <input
+                type="number"
+                min="1"
+                [max]="producto.stock"
+                [value]="producto.cantidad"
+                class="input-cantidad form-control text-center"
+                [(ngModel)]="producto.cantidad"
+                [ngClass]="{ 'max-stock': producto.cantidad >= producto.stock }"
+                (change)="actualizarCantidad(i)"
+                aria-label="Cantidad"
+              >
+              <button type="button" class="btn btn-outline-secondary" aria-label="Sumar"
+                (click)="cambiarCantidad(i, 1); $event.stopPropagation()" [disabled]="producto.cantidad >= producto.stock">
+                <span class="material-symbols-outlined" aria-hidden="true">add</span>
+              </button>
+            </div>
+            <small *ngIf="producto.cantidad >= producto.stock" class="text-danger">Stock máximo alcanzado</small>
           </td>
           <td>{{ producto.cantidad * producto.precio | currency }}</td>
           <td class="d-xs-none">
-            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
+            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)" title="Eliminar producto" aria-label="Eliminar producto">
               <span class="material-symbols-outlined">
                 delete
               </span>
@@ -60,16 +72,16 @@
       <div class="input-group">
         <input name="productoInput" type="text" autocomplete="off" class="form-control input-group text-capitalize" placeholder="Buscar producto..."
           aria-label="Producto" [(ngModel)]="productoBuscado" (keyup)="getProductos()">
-        <button class="btn btn-primary btn-outline-secondary" type="button" data-bs-toggle="modal"
-          data-bs-target="#scanBarcode" (click)="camaraEstatus()">
+        <button class="btn btn-primary btn-outline-secondary me-2" type="button" data-bs-toggle="modal"
+          data-bs-target="#scanBarcode" (click)="camaraEstatus()" title="Escanear código de barras" aria-label="Escanear código">
           <span style="color: white;" class="material-symbols-outlined">barcode_scanner</span>
         </button>
-        <button class="btn btn-primary" [attr.disabled]="isDisabledVender" (click)="venta()" type="button">Vender</button>
+        <button class="btn btn-primary" [disabled]="isDisabledVender" (click)="venta()" type="button" title="Completar venta" aria-label="Vender">Vender</button>
       </div>
     </form>
   </div>
 
-  <div class="tab container-fluid" style="height: 15%;">
+  <div class="tab container-fluid table-responsive" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
         <tr *ngFor="let item of listProductos" class="table-dark" role="button" (click)="selectProducto(item)">
