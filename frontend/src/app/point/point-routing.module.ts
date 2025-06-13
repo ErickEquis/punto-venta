@@ -7,6 +7,12 @@ const routes: Routes = [
   {
     path: '',
     children: [{
+      path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), component: LayoutPointPageComponent,
+    }],
+  },
+  {
+    path: '',
+    children: [{
       path: 'product', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule), component: LayoutPointPageComponent,
     }],
   },
@@ -19,7 +25,7 @@ const routes: Routes = [
   {
     path: '',
     children: [{
-      path: "**", redirectTo: 'point', pathMatch: 'full'
+      path: "**", redirectTo: 'dashboard/home', pathMatch: 'full'
     }]
   },
 ];
