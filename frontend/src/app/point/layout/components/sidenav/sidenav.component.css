@@ -4,7 +4,7 @@
 
 .material-symbols-outlined {
   font-size: 2rem;
-  margin: auto .5em;
+  margin-right: .5rem;
 }
 
 @media (max-width: 767.9px) {
@@ -17,7 +17,7 @@
   }
   .material-symbols-outlined {
     font-size: 1.75rem;
-    margin: auto .6em;
+    margin-right: .6rem;
   }
 }
 
