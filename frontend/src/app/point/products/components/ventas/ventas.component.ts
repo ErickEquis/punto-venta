@@ -70,6 +70,16 @@ export class VentasComponent {
       }
     }
 
+    cambiarCantidad(index: number, delta: number) {
+      if (!this.ventaProductos[index]) return;
+      this.ventaProductos[index].cantidad += delta;
+      if (this.ventaProductos[index].cantidad <= 0) {
+        this.eliminar(this.ventaProductos[index]);
+        return;
+      }
+      this.actualizarCantidad(index);
+    }
+
     edit(item: any) {
       if (item.cantidad <= 1) {
         document.getElementById(String(`${item.id}remove`)).setAttribute('disabled', 'true')

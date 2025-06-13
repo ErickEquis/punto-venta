@@ -29,6 +29,8 @@ export class HomePageComponent {
     this.clienteVisible = this.clientes[i].id;
   }
   borrarCliente(i: number) {
+    const confirmDelete = confirm('¿Eliminar cuenta de cliente?');
+    if (!confirmDelete) return;
     this.clientes.splice(i, 1);
     if (this.clientes.length < 1) {
       this.clientes = [

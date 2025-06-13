@@ -9,9 +9,10 @@
     >
       <button
         type="button"
-        class="btn-close position-absolute top-0 end-0 z-index-10"
-        aria-label="Close"
+        class="btn-close btn-sm position-absolute top-0 end-0 z-index-10 m-1"
+        aria-label="Cerrar cuenta"
         (click)="borrarCliente(i); $event.stopPropagation()"
+        title="Eliminar cuenta"
       ></button>
       <span>Cliente {{ cliente.id }}</span>
       <span>{{ cliente.totalVenta | currency }}</span>
@@ -23,6 +24,8 @@
     class="text-center my-1 d-flex justify-content-center flex-column border border-dark card"
     style="height: 6rem;"
     (click)="nuevaCuenta()"
+    aria-label="Agregar cuenta"
+    title="Agregar cuenta"
   >
     <span>Agregar cuenta</span>
     <span class="material-symbols-outlined" style="font-size: 2rem;">
