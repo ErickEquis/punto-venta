@@ -1,5 +1,6 @@
+
 .tab {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .tab::-webkit-scrollbar {
