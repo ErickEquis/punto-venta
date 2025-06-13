@@ -5,17 +5,17 @@
   </div>
 
   <div class="d-flex flex-md-column justify-content-evenly align-self-start" style="width: inherit;">
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
+    <a routerLinkActive="active" [routerLink]="['/point/product/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
       <span class="material-symbols-outlined">home</span>
       <span>Ventas</span>
-    </div>
+    </a>
 
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/inventario']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
+    <a routerLinkActive="active" [routerLink]="['/point/product/inventario']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
         <span class="material-symbols-outlined">store</span>
         <span>Inventario</span>
-    </div>
+    </a>
 
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/user/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
+    <a routerLinkActive="active" [routerLink]="['/point/user/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
       <span class="material-symbols-outlined">
         person
       </span>
@@ -25,14 +25,14 @@
         style="top: 25%; left: 75%; height: 30%; width: 30%; font-size: .6rem;">
         {{ count }}
       </span> -->
-    </div>
+    </a>
   </div>
 
-  <div role="button" href="/auth/log-in" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center" (click)="logout()">
+  <a href="/auth/log-in" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center" (click)="logout()">
     <span class="material-symbols-outlined">
       logout
     </span>
     <span>Salir</span>
-  </div>
+  </a>
 
 </div>

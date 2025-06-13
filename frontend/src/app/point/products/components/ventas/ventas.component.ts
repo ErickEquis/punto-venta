@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Productos } from '../../interfaces/productos';
+import { ProductosVenta } from '../../interfaces/productosVenta';
 import { ProductoService } from '../../services/producto.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -17,7 +18,7 @@ export class VentasComponent {
 
     identityUser?: any = JSON.parse(localStorage.getItem('identity_user'))
     listProductos: Productos[] = []
-    ventaProductos: any[] = []
+    ventaProductos: ProductosVenta[] = []
     productoBuscado: string = ''
     itemById: Productos[]
     item: any = {}
@@ -70,19 +71,6 @@ export class VentasComponent {
       }
     }
 
-    edit(item: any) {
-      if (item.cantidad <= 1) {
-        document.getElementById(String(`${item.id}remove`)).setAttribute('disabled', 'true')
-      } else {
-        document.getElementById(String(`${item.id}remove`)).removeAttribute('disabled')
-      }
-
-      if (item.cantidad == item.stock) {
-        document.getElementById(String(`${item.id}add`)).setAttribute('disabled', 'true')
-      } else {
-        document.getElementById(String(`${item.id}add`)).removeAttribute('disabled')
-      }
-    }
 
     eliminar(producto: any) {
       let p = this.ventaProductos.find(p => p.descripcion == producto.descripcion);
@@ -212,8 +200,10 @@ export class VentasComponent {
     }
 
     borrarCuenta() {
-      this.ventaProductos = [];
-      this.getTotal();
+      if (confirm('¿Borrar cuenta?')) {
+        this.ventaProductos = [];
+        this.getTotal();
+      }
     }
 
     actualizarCantidad(index) {

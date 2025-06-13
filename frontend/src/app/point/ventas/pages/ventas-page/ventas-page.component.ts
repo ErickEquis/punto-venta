@@ -3,6 +3,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { VentasService } from 'src/app/point/ventas/services/ventas.service';
+import { Venta } from '../../interfaces/venta';
 
 @Component({
   selector: 'app-ventas-page',
@@ -12,8 +13,8 @@ import { VentasService } from 'src/app/point/ventas/services/ventas.service';
 export class VentasPageComponent implements OnInit, DoCheck {
 
   identityUser = JSON.parse(localStorage.getItem('identity_user'))
-  listVentas: any
-  editVenta: any
+  listVentas: Venta[]
+  editVenta: Venta
   options: any = {}
   refresh: boolean = false
   historial: any[]
@@ -63,6 +64,7 @@ export class VentasPageComponent implements OnInit, DoCheck {
   }
 
   deleteVenta(id: number) {
+    if (!confirm('¿Eliminar venta?')) { return; }
     this.options.headers = this.identityUser ? this.getHeaders(this.identityUser.token) : throwError
     this.ventasService.deleteVenta(id, this.options)
       .subscribe({

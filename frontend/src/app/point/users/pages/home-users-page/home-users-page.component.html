@@ -55,8 +55,7 @@
 
   <div class="p-0 mx-auto row d-flex col-12 col-md-10 margin">
 
-    <div class="card col-6 col-md-4 p-0 my-1" role="button" *ngFor="let permiso of identityUser.permisos" style="height: 9em;"
-      [routerLink]=permiso.slug>
+    <a class="card col-6 col-md-4 p-0 my-1" *ngFor="let permiso of identityUser.permisos" style="height: 9em;" [routerLink]=permiso.slug>
 
       <div class="bg-primary h-100 text-center p-0 m-0 d-flex flex-column justify-content-center">
         <span class="material-symbols-outlined">
@@ -65,7 +64,7 @@
         <p style="font-size: .75rem;"> {{ permiso.acceso | titlecase }} </p>
       </div>
 
-    </div>
+    </a>
 
   </div>
 

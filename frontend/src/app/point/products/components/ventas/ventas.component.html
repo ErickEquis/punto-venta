@@ -34,7 +34,7 @@
           </td>
           <td>{{ producto.cantidad * producto.precio | currency }}</td>
           <td class="d-xs-none">
-            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)">
+            <button type="button" class="btn btn-danger btn-sm mx-1" (click)="eliminar(producto)" [disabled]="producto.cantidad <= 1">
               <span class="material-symbols-outlined">
                 delete
               </span>
@@ -72,7 +72,7 @@
   <div class="tab container-fluid" style="height: 15%;">
     <table class="table table-hover tab" style="border-radius: 1em;">
       <tbody>
-        <tr *ngFor="let item of listProductos" class="table-dark" role="button" (click)="selectProducto(item)">
+        <tr *ngFor="let item of listProductos" class="table-dark" (click)="selectProducto(item)" tabindex="0">
           <td>{{ item.descripcion | titlecase }}</td>
           <td>{{ item.precio | currency }}</td>
         </tr>

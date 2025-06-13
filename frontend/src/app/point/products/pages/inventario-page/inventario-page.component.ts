@@ -98,7 +98,9 @@ export class InventarioPageComponent implements OnInit, OnChanges, DoCheck, OnDe
   }
 
   eliminar(id: number) {
-    this.deleteProducto(id)
+    if (confirm('¿Eliminar producto?')) {
+      this.deleteProducto(id)
+    }
   }
 
   setEditProducto(producto?: any): void {
