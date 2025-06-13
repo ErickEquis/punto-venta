@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 import { Md5 } from 'md5-typescript';
@@ -18,6 +19,7 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.formSignIn.value).subscribe({
       next: (res) => {
         localStorage.setItem('identity_user', JSON.stringify(res))
-        window.location.assign('/point/product/home')
+        this.router.navigate(['/point/product/home'])
       },
       error: (error) => { this.toastr.error('', error.error.mensaje); }
     })

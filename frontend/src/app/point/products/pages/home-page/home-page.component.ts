@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { Productos } from '../../interfaces/productos';
+import { Cuenta } from '../../interfaces/cuenta';
 import { ProductoService } from '../../services/producto.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { VentasService } from 'src/app/point/ventas/services/ventas.service';
@@ -21,7 +22,7 @@ export class HomePageComponent {
 
   clienteVisible: number = 1;
   totalVenta: number = 0;
-  clientes: any = [{id: 1, totalVenta: 0}];
+  clientes: Cuenta[] = [{ id: 1, totalVenta: 0 }];
 
   constructor() {}
 
@@ -29,6 +30,7 @@ export class HomePageComponent {
     this.clienteVisible = this.clientes[i].id;
   }
   borrarCliente(i: number) {
+    if (!confirm('¿Desea eliminar la cuenta?')) { return; }
     this.clientes.splice(i, 1);
     if (this.clientes.length < 1) {
       this.clientes = [
