@@ -3,7 +3,9 @@
 </h3>
 <form [formGroup]="formForgotPwd" (ngSubmit)="forgotPwd()" class="auth-form">
   <div class="form-floating mb-2">
-    <input type="email" id="correo" placeholder="Correo" class="form-control" formControlName="correo">
+    <input type="email" id="correo" placeholder="Correo" class="form-control"
+      formControlName="correo"
+      [ngClass]="{'is-invalid': correo.invalid && (correo.dirty || correo.touched)}">
     <label for="correo">Correo</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">

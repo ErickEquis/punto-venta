@@ -3,14 +3,18 @@
 </h3>
 <form [formGroup]="formSignUp" (ngSubmit)="createUser()" class="auth-form">
   <div class="form-floating mb-2">
-    <input type="text" id="nombre" placeholder="Nombre" class="form-control" formControlName="nombre">
+    <input type="text" id="nombre" placeholder="Nombre" class="form-control"
+      formControlName="nombre"
+      [ngClass]="{'is-invalid': nombre.invalid && (nombre.dirty || nombre.touched)}">
     <label for="nombre">Nombre</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(nombre.touched && nombre.dirty && nombre.errors?.required)">
     Ingresa tu nombre
   </div>
   <div class="form-floating mb-2">
-    <input type="email" id="correo" placeholder="Correo electronico" class="form-control" formControlName="correo">
+    <input type="email" id="correo" placeholder="Correo electronico" class="form-control"
+      formControlName="correo"
+      [ngClass]="{'is-invalid': correo.invalid && (correo.dirty || correo.touched)}">
     <label for="correo">Correo electronico</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(correo.touched && correo.dirty && correo.errors?.required)">
@@ -20,11 +24,15 @@
     Correo no valido
   </div>
   <div class="form-floating mb-2">
-    <input type="text" id="nombre_equipo" placeholder="Nombre de tu equipo" class="form-control" formControlName="nombre_equipo">
+    <input type="text" id="nombre_equipo" placeholder="Nombre de tu equipo" class="form-control"
+      formControlName="nombre_equipo"
+      [ngClass]="{'is-invalid': nombre_equipo.invalid && (nombre_equipo.dirty || nombre_equipo.touched)}">
     <label for="nombre_equipo">Nombre de tu equipo</label>
   </div>
   <div class="form-floating mb-2">
-    <input type="password" id="contrasenia" placeholder="Contraseña" class="form-control" formControlName="contrasenia">
+    <input type="password" id="contrasenia" placeholder="Contraseña" class="form-control"
+      formControlName="contrasenia"
+      [ngClass]="{'is-invalid': contrasenia.invalid && (contrasenia.dirty || contrasenia.touched)}">
     <label for="contrasenia">Contraseña</label>
   </div>
   <div class="text-danger small text-center mb-2" *ngIf="(contrasenia.touched && contrasenia.dirty && contrasenia.errors?.required)">
@@ -34,7 +42,9 @@
     La contraseña debe tener de 8 a 12 caracteres
   </div>
   <div class="form-floating mb-2">
-    <input type="password" id="confContrasenia" placeholder="Confirmar contraseña" class="form-control" formControlName="confContrasenia">
+    <input type="password" id="confContrasenia" placeholder="Confirmar contraseña" class="form-control"
+      formControlName="confContrasenia"
+      [ngClass]="{'is-invalid': confContrasenia.invalid && (confContrasenia.dirty || confContrasenia.touched)}">
     <label for="confContrasenia">Confirmar contraseña</label>
   </div>
   <div class="text-danger small text-center mb-3" *ngIf="(formSignUp.errors?.PasswordNoMatch && confContrasenia.value)">
