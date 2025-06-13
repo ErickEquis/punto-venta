@@ -1,0 +1,12 @@
+.tab {
+  overflow-y: auto;
+}
+
+.tab::-webkit-scrollbar {
+  width: 0.35rem;
+}
+
+.tab::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}

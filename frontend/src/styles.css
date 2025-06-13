@@ -1,22 +1,22 @@
 :root {
   /* Light theme */
-  --point-bg-primary: #F6F6F6;
-  --point-primary-color: #4A8BDF;
-  --point-secondary-color: #D1A7F7;
-  --point-primary-text: #333333;
-  --point-secondary-text: #757575;
-  --point-success-color: #4CAF50;
-  --point-warning-color: #FF9800;
-  --point-danger-color: #F44336;
+  --point-bg-primary: #f5f7fa;
+  --point-primary-color: #2c7be5;
+  --point-secondary-color: #9ad5e6;
+  --point-primary-text: #212529;
+  --point-secondary-text: #6c757d;
+  --point-success-color: #198754;
+  --point-warning-color: #ffc107;
+  --point-danger-color: #dc3545;
 
-  --point-rgb-bg-primary: rgb(246, 246, 246);
-  --point-rgb-primary-color: 74, 139, 223;
-  --point-rgb-secondary-color: rgb(209, 167, 247);
-  --point-rgb-primary-text: rgb(51, 51, 51);
-  --point-rgb-secondary-text: rgb(117, 117, 117);
-  --point-rgb-success-color: rgb(76, 175, 80);
-  --point-rgb-warning-color: rgb(255, 152, 0);
-  --point-rgb-danger-color: rgb(244, 67, 54);
+  --point-rgb-bg-primary: rgb(245, 247, 250);
+  --point-rgb-primary-color: 44, 123, 229;
+  --point-rgb-secondary-color: rgb(154, 213, 230);
+  --point-rgb-primary-text: rgb(33, 37, 41);
+  --point-rgb-secondary-text: rgb(108, 117, 125);
+  --point-rgb-success-color: rgb(25, 135, 84);
+  --point-rgb-warning-color: rgb(255, 193, 7);
+  --point-rgb-danger-color: rgb(220, 53, 69);
 
   /* Boostrap */
   --bs-body-bg: var(--point-bg-primary);

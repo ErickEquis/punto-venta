@@ -1,38 +1,23 @@
-<div class="d-flex align-items-center justify-content-evenly py-1 bg-dark-subtle w-100 flex-md-column menu-responsive">
-
-  <div class="overflow-hidden text-nowrap" style="max-width: 3rem;">
-    <span class="py-2">{{ identityUser.nombre }}</span>
+<nav class="point-sidenav-content d-flex flex-md-column align-items-center justify-content-between">
+  <div class="user-info text-nowrap mb-md-4">
+    {{ identityUser.nombre }}
   </div>
-
-  <div class="d-flex flex-md-column justify-content-evenly align-self-start" style="width: inherit;">
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
+  <div class="d-flex flex-md-column flex-fill w-100">
+    <a role="button" routerLinkActive="active" [routerLink]="['/point/product/home']" class="nav-item d-flex align-items-center">
       <span class="material-symbols-outlined">home</span>
       <span>Ventas</span>
-    </div>
-
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/product/inventario']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
-        <span class="material-symbols-outlined">store</span>
-        <span>Inventario</span>
-    </div>
-
-    <div role="button" routerLinkActive="active" [routerLink]="['/point/user/home']" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center">
-      <span class="material-symbols-outlined">
-        person
-      </span>
+    </a>
+    <a role="button" routerLinkActive="active" [routerLink]="['/point/product/inventario']" class="nav-item d-flex align-items-center">
+      <span class="material-symbols-outlined">store</span>
+      <span>Inventario</span>
+    </a>
+    <a role="button" routerLinkActive="active" [routerLink]="['/point/user/home']" class="nav-item d-flex align-items-center">
+      <span class="material-symbols-outlined">person</span>
       <span>Usuarios</span>
-      <!-- <span *ngIf="count"
-        class="position-absolute translate-middle badge bg-danger rounded-circle"
-        style="top: 25%; left: 75%; height: 30%; width: 30%; font-size: .6rem;">
-        {{ count }}
-      </span> -->
-    </div>
+    </a>
   </div>
-
-  <div role="button" href="/auth/log-in" class="py-2 list-group-item mx-md-0 d-flex justify-content-center align-items-center" (click)="logout()">
-    <span class="material-symbols-outlined">
-      logout
-    </span>
+  <a role="button" class="nav-item d-flex align-items-center mt-md-auto" (click)="logout()">
+    <span class="material-symbols-outlined">logout</span>
     <span>Salir</span>
-  </div>
-
-</div>
+  </a>
+</nav>
