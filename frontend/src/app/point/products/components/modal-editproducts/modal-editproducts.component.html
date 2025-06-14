@@ -2,9 +2,9 @@
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-primary text-white">
         <h5 class="modal-title fs-5" id="exampleModalLabel">Editar producto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clean()"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="clean()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="formEdit" (ngSubmit)="editProducto()">
@@ -27,9 +27,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn mx-1" data-bs-dismiss="modal"
+            <button type="submit" class="btn btn-primary mx-1" data-bs-dismiss="modal"
               [disabled]="(!descripcion || !precio || !cantidad)">Editar</button>
-            <button type="button" class="btn btn-danger btn" data-bs-dismiss="modal" (click)="clean()">Cancelar</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" (click)="clean()">Cancelar</button>
           </div>
         </form>
       </div>

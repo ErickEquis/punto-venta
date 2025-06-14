@@ -21,3 +21,11 @@
   }
 }
 
+.inventory-container {
+  background-color: #fff;
+}
+
+.inventory-container .input-group {
+  max-width: 400px;
+}
+
