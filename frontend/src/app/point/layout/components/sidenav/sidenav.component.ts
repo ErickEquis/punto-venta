@@ -44,6 +44,7 @@ export class SidenavComponent implements OnInit {
   ]
   isMenuCollapsed = true
   isMobile = window.innerWidth < 768
+  isLightTheme = true
 
   constructor(
     private authService: AuthService,
@@ -58,6 +59,9 @@ export class SidenavComponent implements OnInit {
     if (!this.isMobile) {
       this.isMenuCollapsed = false
     }
+    const theme = localStorage.getItem('bs-theme') || 'light'
+    this.isLightTheme = theme === 'light'
+    document.documentElement.setAttribute('data-bs-theme', this.isLightTheme ? 'light' : 'dark')
   }
 
   @HostListener('window:resize', ['$event'])
@@ -84,6 +88,13 @@ export class SidenavComponent implements OnInit {
     if (this.isMobile) {
       this.isMenuCollapsed = !this.isMenuCollapsed
     }
+  }
+
+  toggleTheme() {
+    this.isLightTheme = !this.isLightTheme
+    const theme = this.isLightTheme ? 'light' : 'dark'
+    document.documentElement.setAttribute('data-bs-theme', theme)
+    localStorage.setItem('bs-theme', theme)
   }
 
   countNotificaciones() {
