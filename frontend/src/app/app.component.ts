@@ -8,10 +8,25 @@ import { AuthService } from './auth/services/auth.service';
 })
 
 export class AppComponent {
+  currentTheme = 'light';
 
   constructor() { }
 
   ngOnInit() {
+    const saved = localStorage.getItem('theme');
+    this.currentTheme = saved ? saved : 'light';
+    this.setTheme(this.currentTheme);
+  }
+
+  toggleTheme() {
+    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.setTheme(newTheme);
+  }
+
+  private setTheme(theme: string) {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    localStorage.setItem('theme', theme);
+    this.currentTheme = theme;
   }
 
 }
