@@ -1,2 +1,5 @@
 
+<button class="btn btn-secondary theme-toggle" (click)="toggleTheme()" aria-label="Cambiar tema">
+  {{ currentTheme === 'light' ? 'Modo oscuro' : 'Modo claro' }}
+</button>
 <router-outlet></router-outlet>

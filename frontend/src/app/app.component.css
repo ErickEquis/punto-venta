@@ -7,3 +7,10 @@
 nav {
   border-bottom: solid hsl(0, 0%, 100%, 0.1);
 }
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}

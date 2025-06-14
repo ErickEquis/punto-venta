@@ -1,24 +1,50 @@
-:root {
+:root[data-bs-theme='light'] {
   /* Light theme */
-  --point-bg-primary: #F6F6F6;
-  --point-primary-color: #4A8BDF;
-  --point-secondary-color: #D1A7F7;
+  --point-bg-primary: #FFFFFF;
+  --point-primary-color: #307AFF;
+  --point-secondary-color: #666666;
   --point-primary-text: #333333;
-  --point-secondary-text: #757575;
-  --point-success-color: #4CAF50;
-  --point-warning-color: #FF9800;
-  --point-danger-color: #F44336;
+  --point-secondary-text: #666666;
+  --point-success-color: #27AE60;
+  --point-warning-color: #F39C12;
+  --point-danger-color: #E74C3C;
 
-  --point-rgb-bg-primary: rgb(246, 246, 246);
-  --point-rgb-primary-color: 74, 139, 223;
-  --point-rgb-secondary-color: rgb(209, 167, 247);
-  --point-rgb-primary-text: rgb(51, 51, 51);
-  --point-rgb-secondary-text: rgb(117, 117, 117);
-  --point-rgb-success-color: rgb(76, 175, 80);
-  --point-rgb-warning-color: rgb(255, 152, 0);
-  --point-rgb-danger-color: rgb(244, 67, 54);
+  --point-rgb-bg-primary: 255, 255, 255;
+  --point-rgb-primary-color: 48, 122, 255;
+  --point-rgb-secondary-color: 102, 102, 102;
+  --point-rgb-primary-text: 51, 51, 51;
+  --point-rgb-secondary-text: 102, 102, 102;
+  --point-rgb-success-color: 39, 174, 96;
+  --point-rgb-warning-color: 243, 156, 18;
+  --point-rgb-danger-color: 231, 76, 60;
 
-  /* Boostrap */
+  /* Bootstrap */
+  --bs-body-bg: var(--point-bg-primary);
+  --bs-primary-rgb: var(--point-rgb-primary-color);
+  --bs-body-color: var(--point-primary-text);
+}
+
+:root[data-bs-theme='dark'] {
+  /* Dark theme */
+  --point-bg-primary: #1A1A1A;
+  --point-primary-color: #5690FF;
+  --point-secondary-color: #B3B3B3;
+  --point-primary-text: #E0E0E0;
+  --point-secondary-text: #B3B3B3;
+  --point-success-color: #2ECC71;
+  --point-warning-color: #FFC107;
+  --point-danger-color: #FF5252;
+
+  --point-rgb-bg-primary: 26, 26, 26;
+  --point-rgb-primary-color: 86, 144, 255;
+  --point-rgb-secondary-color: 179, 179, 179;
+  --point-rgb-primary-text: 224, 224, 224;
+  --point-rgb-secondary-text: 179, 179, 179;
+  --point-rgb-success-color: 46, 204, 113;
+  --point-rgb-warning-color: 255, 193, 7;
+  --point-rgb-danger-color: 255, 82, 82;
+
+  /* Bootstrap */
   --bs-body-bg: var(--point-bg-primary);
   --bs-primary-rgb: var(--point-rgb-primary-color);
   --bs-body-color: var(--point-primary-text);
