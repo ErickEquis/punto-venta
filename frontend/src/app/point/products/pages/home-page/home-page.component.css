@@ -11,11 +11,6 @@
   border-radius: .5rem;
 }
 
-@media (max-width: 576px) {
-  .d-xs-none {
-    display: none;
-  }
-}
 
 .input-cantidad {
   width: 3rem;

@@ -11,12 +11,12 @@
   border-radius: .5rem;
 }
 
-.resposive-button{
+.responsive-button{
   width: 40%;
 }
 
 @media (max-width: 767.98px) {
-  .resposive-button{
+  .responsive-button{
     width: auto;
   }
 }
