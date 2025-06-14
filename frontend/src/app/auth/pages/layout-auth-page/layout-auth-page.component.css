@@ -14,8 +14,3 @@
   color: #fff;
 }
 
-@media (max-width: 576px) {
-  .d-xs-none {
-    display: none;
-  }
-}

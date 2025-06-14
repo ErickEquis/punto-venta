@@ -19,20 +19,20 @@
             {{ venta.fecha_venta }}
           </td>
           <td>
-            <div class="d-flex row p-0 m-0 resposive-button">
-              <button type="button" class="btn btn-primary btn-sm mx-sm-1 resposive-button" data-bs-toggle="modal"
+            <div class="d-flex row p-0 m-0 responsive-button">
+              <button type="button" class="btn btn-primary btn-sm mx-sm-1 responsive-button" data-bs-toggle="modal"
                 data-bs-target="#editVenta" (click)="getVenta(venta.id)">
                 <span class="material-symbols-outlined">
                   edit
                 </span>
               </button>
-              <button type="submit" class="btn btn-danger btn-sm mx-sm-1 resposive-button"
+              <button type="submit" class="btn btn-danger btn-sm mx-sm-1 responsive-button"
                 (click)="deleteVenta(venta.id)">
                 <span class="material-symbols-outlined">
                   delete
                 </span>
               </button>
-              <button class="btn btn-sm mx-sm-1 resposive-button w-auto" *ngIf="venta?.id_modificado"
+              <button class="btn btn-sm mx-sm-1 responsive-button w-auto" *ngIf="venta?.id_modificado"
                 data-bs-toggle="collapse" [attr.data-bs-target]="'#id' + i" aria-expanded="false"
                 [attr.aria-controls]="'#id' + i" (click)="historialVentas(venta.id)">
                 <span class="material-symbols-outlined">
